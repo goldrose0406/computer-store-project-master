@@ -1,9 +1,10 @@
 import './App.css';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
     <div className="App">
-      <h1>Chào mừng đến với cửa hàng máy tính của tôi!</h1>
+      <HomePage />
     </div>
   );
 }
