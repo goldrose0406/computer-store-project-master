@@ -114,7 +114,7 @@ function HomePage() {
       <section className="products-section">
         <div className="section-header">
           <h2>Sản phẩm nổi bật</h2>
-          <a href="#" className="view-all">Xem tất cả →</a>
+          <button className="view-all">Xem tất cả →</button>
         </div>
         
         <div className="products-grid">

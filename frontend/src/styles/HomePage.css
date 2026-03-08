@@ -23,10 +23,14 @@
 
 .view-all {
   color: #667eea;
+  background: none;
+  border: none;
   text-decoration: none;
   font-weight: 600;
   font-size: 14px;
   transition: color 0.3s;
+  cursor: pointer;
+  padding: 0;
 }
 
 .view-all:hover {

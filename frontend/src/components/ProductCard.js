@@ -3,11 +3,9 @@ import '../styles/ProductCard.css';
 
 function ProductCard({ product }) {
   const {
-    id,
     name,
     price,
     originalPrice,
-    rating,
     reviews,
     image,
     discount,
