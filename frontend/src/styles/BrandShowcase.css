@@ -28,13 +28,13 @@
 
 .featured-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  borderRadius: 12px;
-  padding: 30px;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
   text-align: center;
   color: white;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .featured-card:hover {
@@ -42,9 +42,14 @@
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
-.featured-image {
-  font-size: 60px;
-  margin-bottom: 15px;
+.featured-image{
+  width: 100%;
+}
+
+.featured-image img{
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .featured-card h3 {
