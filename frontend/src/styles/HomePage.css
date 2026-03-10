@@ -13,6 +13,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .section-header h2 {
@@ -21,7 +23,8 @@
   margin: 0;
 }
 
-.view-all {
+.view-all,
+.clear-filter {
   color: #667eea;
   background: none;
   border: none;
@@ -30,7 +33,19 @@
   font-size: 14px;
   transition: color 0.3s;
   cursor: pointer;
-  padding: 0;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.clear-filter {
+  background: rgba(255, 107, 107, 0.1);
+  color: #FF6B6B;
+  font-size: 13px;
+}
+
+.clear-filter:hover {
+  background: rgba(255, 107, 107, 0.2);
+  color: #e85555;
 }
 
 .view-all:hover {
@@ -41,6 +56,17 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 25px;
+}
+
+.no-products {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.no-products p {
+  font-size: 18px;
+  margin: 0;
 }
 
 @media (max-width: 1024px) {

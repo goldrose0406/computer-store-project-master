@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/CategoryFilter.css';
 
-function CategoryFilter() {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
+function CategoryFilter({ onCategoryClick, selectedCategory }) {
   const categories = [
-    { id: 1, name: 'Văn phòng', icon: '📁' },
-    { id: 2, name: 'Gaming', icon: '🎮' },
-    { id: 3, name: 'Mỏng nhẹ', icon: '💨' },
-    { id: 4, name: 'Đồ họa - Kỹ thuật', icon: '🎨' },
-    { id: 5, name: 'Sinh viên', icon: '🎓' },
-    { id: 6, name: 'Cầm ứng', icon: '📱' },
-    { id: 7, name: 'Laptop AI', icon: '🤖' }
+    { id: 1, name: 'Văn phòng', image: '/images/vanphong.jpg' },
+    { id: 2, name: 'Mỏng nhẹ', image: '/images/mongnhe.jpg' },
+    { id: 3, name: 'Gaming', image: '/images/gaming.jpg' },
+    { id: 4, name: 'Sinh viên', image: '/images/sinhvien.jpg' },
+    { id: 5, name: 'Đồ họa', image: '/images/dohoa.jpg' },
+    { id: 6, name: 'Laptop AI', image: '/images/AI.jpg' }
   ];
 
   return (
@@ -21,10 +18,19 @@ function CategoryFilter() {
         {categories.map(cat => (
           <div 
             key={cat.id} 
-            className={`category-card ${selectedCategory === cat.id ? 'active' : ''}`}
-            onClick={() => setSelectedCategory(cat.id)}
+            className={`category-card ${selectedCategory === cat.name ? 'active' : ''}`}
+            onClick={() => onCategoryClick && onCategoryClick(cat.name)}
+            style={{ cursor: 'pointer' }}
           >
-            <div className="category-icon">{cat.icon}</div>
+            <div className="category-image">
+              <img 
+                src={cat.image} 
+                alt={cat.name}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            </div>
             <p>{cat.name}</p>
           </div>
         ))}

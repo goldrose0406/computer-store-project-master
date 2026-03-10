@@ -1,11 +1,30 @@
 import React from "react";
 import "../styles/BrandShowcase.css";
 
-function BrandShowcase() {
+function BrandShowcase({ onBrandClick, selectedBrand }) {
+
+  const brandNames = {
+    1: 'Apple',
+    2: 'ASUS',
+    3: 'Lenovo',
+    4: 'MSI',
+    5: 'Acer',
+    6: 'HP',
+    7: 'DELL',
+    8: 'LG',
+    9: 'GIGABYTE'
+  };
 
   const brands = [
-    "MacBook","ASUS","Lenovo","MSI","Acer",
-    "HP","DELL","LG","GIGABYTE","Masterbox","SAMSUNG"
+    { id: 1, image: "/images/logobrand/macbook.jpg" },
+    { id: 2, image: "/images/logobrand/Asus.jpg" },
+    { id: 3, image: "/images/logobrand/Lenovo.jpg" },
+    { id: 4, image: "/images/logobrand/MSI.jpg" },
+    { id: 5, image: "/images/logobrand/acer.jpg" },
+    { id: 6, image: "/images/logobrand/HP.jpg" },
+    { id: 7, image: "/images/logobrand/Dell.jpg" },
+    { id: 8, image: "/images/logobrand/LG.jpg" },
+    { id: 9, image: "/images/logobrand/Gigabyte.jpg" }
   ];
 
   const featuredProducts = [
@@ -52,9 +71,25 @@ function BrandShowcase() {
         <h3>Máy tính laptop</h3>
 
         <div className="brands-grid">
-          {brands.map((brand,index) => (
-            <div key={index} className="brand-card">
-              {brand}
+          {brands.map((brand) => (
+            <div 
+              key={brand.id} 
+              className={`brand-card ${selectedBrand === brandNames[brand.id] ? 'active' : ''}`}
+              onClick={() => onBrandClick && onBrandClick(brandNames[brand.id])}
+              style={{ cursor: 'pointer' }}
+            >
+              {brand.image ? (
+                <img 
+                  src={brand.image} 
+                  alt={brandNames[brand.id]}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              <div className="brand-fallback">
+              </div>
             </div>
           ))}
         </div>

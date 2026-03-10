@@ -10,10 +10,14 @@ function ProductCard({ product }) {
     image,
     discount,
     isNew,
-    brand
+    brand,
+    specs
   } = product;
 
   const discountPercent = originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
+
+  // Check if image is a URL or emoji
+  const isImageUrl = image && image.startsWith('/');
 
   return (
     <div className="product-card">
@@ -21,12 +25,26 @@ function ProductCard({ product }) {
       {discount && <div className="discount-badge">-{discountPercent}%</div>}
       
       <div className="product-image">
-        <div className="image-placeholder">{image}</div>
+        {isImageUrl ? (
+          <img 
+            src={image} 
+            alt={name}
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.parentElement.querySelector('.image-fallback').style.display = 'flex';
+            }}
+          />
+        ) : null}
+        {!isImageUrl && <div className="image-placeholder">{image}</div>}
+        <div className="image-fallback" style={{ display: isImageUrl ? 'none' : 'none' }}>
+          {image}
+        </div>
       </div>
       
       <div className="product-info">
         <p className="brand">{brand}</p>
         <h3 className="product-name">{name}</h3>
+        {specs && <p className="specs">{specs}</p>}
         
         <div className="rating">
           <span className="stars">⭐⭐⭐⭐⭐</span>
