@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import BrandShowcase from '../components/BrandShowcase';
 import CategoryFilter from '../components/CategoryFilter';
 import ProductCard from '../components/ProductCard';
+import Footer from '../components/Footer';
 import '../styles/HomePage.css';
 
 function HomePage() {
@@ -216,6 +217,7 @@ function HomePage() {
           </div>
         )}
       </section>
+      <Footer />
     </div>
   );
 }

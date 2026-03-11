@@ -4,7 +4,8 @@ import '../styles/Header.css';
 function Header() {
   return (
     <header className="header">
-      <div className="header-top">
+      {/* Main Header */}
+      <div className="header-main">
         <div className="store-name">Laptop Store</div>
         <div className="header-info">
           <span>🏠 Trang chủ</span>
