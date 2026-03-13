@@ -1,0 +1,26 @@
+/* ProductList Styles */
+.product-list-page {
+  background: #fff;
+}
+
+.product-list-page h1 {
+  color: #333;
+}
+
+.product-list-page p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-list-page {
+    padding: 20px 16px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-list-page {
+    padding: 16px 12px !important;
+  }
+}
