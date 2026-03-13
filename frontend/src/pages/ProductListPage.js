@@ -5,12 +5,13 @@ import BrandShowcase from '../components/BrandShowcase';
 import CategoryFilter from '../components/CategoryFilter';
 import ProductCard from '../components/ProductCard';
 import Footer from '../components/Footer';
-import '../styles/HomePage.css';
+import '../styles/ProductListPage.css';
 
-function HomePage() {
+function ProductListPage() {
   const navigate = useNavigate();
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [sortBy, setSortBy] = useState('newest');
 
   const [products] = useState([
     {
@@ -170,11 +171,22 @@ function HomePage() {
   ]);
 
   // Filter products based on selected brand and category
-  const filteredProducts = products.filter(product => {
+  let filteredProducts = products.filter(product => {
     const brandMatch = !selectedBrand || product.brand === selectedBrand;
     const categoryMatch = !selectedCategory || (product.category && product.category.includes(selectedCategory));
     return brandMatch && categoryMatch;
   });
+
+  // Sort products
+  if (sortBy === 'price-asc') {
+    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+  } else if (sortBy === 'price-desc') {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+  } else if (sortBy === 'newest') {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.isNew - a.isNew);
+  } else if (sortBy === 'popular') {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.reviews - a.reviews);
+  }
 
   const handleBrandClick = (brand) => {
     setSelectedBrand(selectedBrand === brand ? null : brand);
@@ -185,48 +197,65 @@ function HomePage() {
   };
 
   return (
-    <div className="home-page">
+    <div className="product-list-page">
       <Header />
-      <BrandShowcase onBrandClick={handleBrandClick} selectedBrand={selectedBrand} />
-      <CategoryFilter onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
       
-      <section className="products-section">
-        <div className="section-header">
-          <h2>Sản phẩm nổi bật</h2>
-          {(selectedBrand || selectedCategory) && (
-            <button 
-              className="clear-filter"
-              onClick={() => {
-                setSelectedBrand(null);
-                setSelectedCategory(null);
-              }}
-            >
-              Xóa bộ lọc ✕
-            </button>
-          )}
-          <button 
-            className="view-all"
-            onClick={() => navigate('/products')}
-          >
-            Xem tất cả →
-          </button>
+      <div className="list-container">
+        <div className="sidebar">
+          <BrandShowcase onBrandClick={handleBrandClick} selectedBrand={selectedBrand} />
+          <CategoryFilter onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
         </div>
 
-        {filteredProducts.length === 0 ? (
-          <div className="no-products">
-            <p>Không tìm thấy sản phẩm phù hợp</p>
+        <div className="main-content">
+          <div className="list-header">
+            <div className="list-info">
+              <h1>🛍️ Tất cả sản phẩm</h1>
+              <p>Tìm thấy <strong>{filteredProducts.length}</strong> sản phẩm</p>
+            </div>
+
+            <div className="sort-section">
+              <button 
+                className="back-home-btn"
+                onClick={() => navigate('/')}
+              >
+                ← Trang chủ
+              </button>
+
+              <label htmlFor="sort">Sắp xếp:</label>
+              <select 
+                id="sort"
+                value={sortBy} 
+                onChange={(e) => setSortBy(e.target.value)}
+                className="sort-select"
+              >
+                <option value="newest">Mới nhất</option>
+                <option value="popular">Phổ biến nhất</option>
+                <option value="price-asc">Giá: Thấp → Cao</option>
+                <option value="price-desc">Giá: Cao → Thấp</option>
+              </select>
+            </div>
           </div>
-        ) : (
-          <div className="products-grid">
-            {filteredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
-      </section>
+
+          {filteredProducts.length === 0 ? (
+            <div className="no-products">
+              <p>Không tìm thấy sản phẩm phù hợp</p>
+              <button className="back-btn" onClick={() => navigate('/')}>
+                ← Quay lại trang chủ
+              </button>
+            </div>
+          ) : (
+            <div className="products-grid">
+              {filteredProducts.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
 }
 
-export default HomePage;
+export default ProductListPage;

@@ -11,7 +11,7 @@ function Header() {
       <div className="header-top">
         {/* Logo */}
         <div className="header-logo">
-          <img src="/assets/images/logo/logo.jpg" alt="HPC Store Logo" className="logo-img" />
+          <img src="/logolaptopweb.jpg" alt="HPC Store Logo" className="logo-img" />
           <span className="store-domain">HPC Store</span>
         </div>
 
