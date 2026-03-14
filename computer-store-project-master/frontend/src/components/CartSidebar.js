@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 const CartSidebar = () => {
+  const navigate = useNavigate();
   const { cartItems, removeFromCart, updateQuantity, totalPrice, isCartOpen, setIsCartOpen } = useContext(CartContext);
 
   const formatPrice = (price) => {
@@ -245,6 +247,10 @@ const CartSidebar = () => {
               <span style={{ color: '#7c3aed' }}>{formatPrice(totalPrice)}</span>
             </div>
             <button
+              onClick={() => {
+                navigate('/checkout');
+                setIsCartOpen(false);
+              }}
               style={{
                 width: '100%',
                 padding: '12px',

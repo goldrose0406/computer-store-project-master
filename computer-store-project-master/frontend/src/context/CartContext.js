@@ -55,6 +55,12 @@ export const CartProvider = ({ children }) => {
     setIsCartOpen((prev) => !prev);
   }, []);
 
+  // Xóa toàn bộ giỏ hàng
+  const clearCart = useCallback(() => {
+    setCartItems([]);
+    setIsCartOpen(false);
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -67,6 +73,7 @@ export const CartProvider = ({ children }) => {
         isCartOpen,
         setIsCartOpen,
         toggleCart,
+        clearCart,
       }}
     >
       {children}

@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
-import { Input, Badge, Button, Space } from 'antd';
-import { ShoppingCartOutlined, FacebookOutlined, InstagramOutlined, YoutubeOutlined, LinkedinOutlined, TikTokOutlined } from '@ant-design/icons';
+import { Input, Badge, Button, Space, Dropdown, Avatar } from 'antd';
+import { ShoppingCartOutlined, FacebookOutlined, InstagramOutlined, YoutubeOutlined, LinkedinOutlined, TikTokOutlined, UserOutlined, LogoutOutlined, DashboardOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { totalItems, toggleCart } = useContext(CartContext);
+  const { user, logout, isAdmin } = useAuth();
 
   const menuItems = [
     'SẢN PHẨM',
@@ -18,6 +20,31 @@ const Navbar = () => {
     'KHUYẾN MÃI',
     'TIN TỨC',
     'LIÊN HỆ'
+  ];
+
+  // User dropdown menu
+  const userMenuItems = [
+    {
+      key: 'myorders',
+      icon: <ShoppingOutlined />,
+      label: 'Đơn Hàng Của Tôi',
+      onClick: () => navigate('/my-orders')
+    },
+    ...(isAdmin ? [{
+      key: 'admin',
+      icon: <DashboardOutlined />,
+      label: 'Admin Dashboard',
+      onClick: () => navigate('/admin')
+    }] : []),
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Đăng Xuất',
+      onClick: () => {
+        logout();
+        navigate('/');
+      }
+    }
   ];
 
   return (
@@ -84,8 +111,9 @@ const Navbar = () => {
             <TikTokOutlined style={{ fontSize: '16px', cursor: 'pointer', opacity: 0.7, color: '#fff' }} />
           </div>
 
-          {/* Cart & Price */}
+          {/* Cart, User & Auth Buttons */}
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            {/* Cart */}
             <Badge count={totalItems} showZero>
               <Button 
                 type="text" 
@@ -94,8 +122,45 @@ const Navbar = () => {
                 onClick={toggleCart}
               />
             </Badge>
-            <div style={{ fontWeight: 'bold', color: '#ec4899', fontSize: '13px', minWidth: '100px' }}>
-            </div>
+
+            {/* User Section */}
+            {user ? (
+              // Logged In - User Dropdown
+              <Dropdown
+                menu={{
+                  items: userMenuItems
+                }}
+                trigger={['click']}
+              >
+                <Button
+                  type="text"
+                  style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <Avatar size={24} icon={<UserOutlined />} style={{ background: '#7c3aed' }} />
+                  <span style={{ fontSize: '12px' }}>{user.name}</span>
+                </Button>
+              </Dropdown>
+            ) : (
+              // Not Logged In - Auth Buttons
+              <Space size="small">
+                <Button
+                  type="default"
+                  size="small"
+                  style={{ background: 'linear-gradient(135deg, #7c3aed, #ec4899)', border: 'none' }}
+                  onClick={() => navigate('/login')}
+                >
+                  Đăng Nhập
+                </Button>
+                <Button
+                  type="primary"
+                  size="small"
+                  style={{ background: 'linear-gradient(135deg, #7c3aed, #ec4899)', border: 'none' }}
+                  onClick={() => navigate('/register')}
+                >
+                  Đăng Ký
+                </Button>
+              </Space>
+            )}
           </div>
         </div>
       </div>

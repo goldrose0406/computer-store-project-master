@@ -1,0 +1,71 @@
+.my-orders-page {
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: calc(100vh - 200px);
+}
+
+.orders-card {
+  max-width: 1200px;
+  margin: 20px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.orders-card .ant-card-head {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.orders-card .ant-card-head .ant-card-head-title {
+  color: white;
+}
+
+.orders-header {
+  background: #f0f2f5;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.orders-header p {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.orders-table {
+  width: 100%;
+}
+
+.orders-table .ant-table-thead > tr > th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+.orders-table .ant-table-tbody > tr:hover > td {
+  background: #f5f5f5;
+}
+
+.orders-table .ant-tag {
+  margin: 0;
+  padding: 4px 12px;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .my-orders-page {
+    padding: 10px;
+  }
+
+  .orders-card {
+    margin: 10px auto;
+  }
+
+  .orders-header {
+    padding: 15px;
+  }
+
+  .orders-header p {
+    font-size: 14px;
+  }
+}

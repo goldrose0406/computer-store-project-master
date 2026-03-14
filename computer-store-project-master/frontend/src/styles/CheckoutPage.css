@@ -1,0 +1,51 @@
+.checkout-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.checkout-page .ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-page .ant-card-head {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-bottom: none;
+}
+
+.checkout-page .ant-card-head-title {
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.checkout-page .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.checkout-page .ant-input,
+.checkout-page .ant-input-number {
+  border-radius: 4px;
+}
+
+.checkout-page .ant-button-primary {
+  font-weight: 600;
+  height: 40px;
+  font-size: 16px;
+}
+
+.checkout-page .ant-button {
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .checkout-page {
+    padding: 10px;
+  }
+
+  .checkout-page .ant-card {
+    margin-bottom: 20px;
+  }
+}
