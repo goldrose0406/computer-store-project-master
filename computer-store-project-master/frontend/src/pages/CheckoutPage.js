@@ -4,6 +4,7 @@ import { PhoneOutlined, HomeOutlined, MailOutlined, UserOutlined } from '@ant-de
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { ordersService } from '../services/ordersService';
 import '../styles/CheckoutPage.css';
 
 const CheckoutPage = () => {
@@ -49,26 +50,17 @@ const CheckoutPage = () => {
         notes: values.notes || ''
       };
 
-      const response = await fetch('http://localhost:5000/api/orders/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(orderData)
-      });
+      const result = await ordersService.createOrder(orderData, token);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        message.error(data.message || 'Đặt hàng thất bại');
+      if (!result.success) {
+        message.error(result.message || 'Đặt hàng thất bại');
         setLoading(false);
         return;
       }
 
       // Tạo order data để gửi đến success page
       const successOrderData = {
-        orderId: data.orderId,
+        orderId: result.orderId,
         customerName: values.customerName,
         customerEmail: values.customerEmail,
         customerPhone: values.customerPhone,
@@ -79,7 +71,7 @@ const CheckoutPage = () => {
         notes: values.notes || ''
       };
 
-      message.success(`Đặt hàng thành công! Mã đơn: ${data.orderId}`);
+      message.success(`Đặt hàng thành công! Mã đơn: ${result.orderId}`);
       clearCart();
       
       // Redirect đến success page với dữ liệu order

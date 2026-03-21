@@ -1,39 +1,66 @@
-import React, { useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Button, Image, Rate, Tag, Divider, Form, InputNumber, Modal, message, Tabs } from 'antd';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Row, Col, Card, Button, Image, Tag, Divider, Form, InputNumber, Spin, message, Empty } from 'antd';
 import { ShoppingCartOutlined, HeartOutlined, HeartFilled, ArrowLeftOutlined } from '@ant-design/icons';
-import { mockProducts } from '../data/mockData';
+import { productsService } from '../services/productsService';
+import { CartContext } from '../context/CartContext';
 import '../styles/ProductDetail.css';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const product = location.state?.product || mockProducts.find(p => p.id === parseInt(id));
+  // Tải sản phẩm từ API
+  useEffect(() => {
+    const loadProduct = async () => {
+      setLoading(true);
+      const result = await productsService.getProductById(id);
+      if (result.success) {
+        setProduct(result.product);
+        // Load related products by brand
+        const relatedResult = await productsService.getAllProducts({ brand: result.product.brand });
+        if (relatedResult.success) {
+          setRelatedProducts(relatedResult.products.filter(p => p.id !== parseInt(id)));
+        }
+      } else {
+        message.error('Không tìm thấy sản phẩm');
+      }
+      setLoading(false);
+    };
+    loadProduct();
+  }, [id]);
+
+  if (loading) {
+    return <Spin style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }} />;
+  }
 
   if (!product) {
     return (
-      <div style={{ padding: '40px', textAlign: 'center' }}>
-        <h2>Không tìm thấy sản phẩm</h2>
-        <Button type="primary" onClick={() => navigate('/products')}>
-          Quay lại danh sách
-        </Button>
-      </div>
+      <Empty
+        description="Không tìm thấy sản phẩm"
+        style={{ padding: '40px', textAlign: 'center' }}
+      />
     );
   }
 
-  const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
-  const relatedProducts = mockProducts.filter(p => p.id !== product.id && p.brand === product.brand).slice(0, 4);
+  const discount = product.originalPrice && product.originalPrice > product.price
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0;
 
   const handleAddToCart = () => {
+    addToCart({ ...product, quantity });
     message.success(`Đã thêm ${quantity} chiếc ${product.name} vào giỏ hàng`);
   };
 
   const handleBuyNow = () => {
-    message.info('Tiến hành thanh toán...');
+    addToCart({ ...product, quantity });
+    navigate('/checkout');
   };
 
   return (
@@ -80,13 +107,8 @@ const ProductDetailPage = () => {
               {product.name}
             </h1>
 
-            {/* Rating */}
-            <div style={{ marginBottom: '24px' }}>
-              <Rate value={product.rating} disabled allowHalf style={{ marginRight: '12px' }} />
-              <span style={{ color: '#666' }}>
-                ({product.reviews} đánh giá)
-              </span>
-            </div>
+            {/* Category */}
+            <Tag style={{ marginBottom: '16px' }}>{product.category}</Tag>
 
             {/* Price */}
             <div style={{ background: '#f5f5f5', padding: '16px', borderRadius: '8px', marginBottom: '24px' }}>
@@ -94,35 +116,47 @@ const ProductDetailPage = () => {
               <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#ff4d4f', marginBottom: '8px' }}>
                 {product.price.toLocaleString('vi-VN')} ₫
               </div>
-              <div style={{ fontSize: '14px', color: '#999', textDecoration: 'line-through' }}>
-                {product.originalPrice.toLocaleString('vi-VN')} ₫
-              </div>
+              {product.originalPrice > product.price && (
+                <div style={{ fontSize: '14px', color: '#999', textDecoration: 'line-through' }}>
+                  {product.originalPrice.toLocaleString('vi-VN')} ₫
+                </div>
+              )}
             </div>
 
             {/* Description */}
-            <p style={{ fontSize: '16px', color: '#333', marginBottom: '24px' }}>
-              {product.description}
-            </p>
+            {product.description && (
+              <>
+                <p style={{ fontSize: '16px', color: '#333', marginBottom: '24px' }}>
+                  {product.description}
+                </p>
+                <Divider />
+              </>
+            )}
 
             {/* Specifications */}
-            <Divider>Thông số kỹ thuật</Divider>
-            <div style={{ marginBottom: '24px' }}>
-              {Object.entries(product.specs || {}).map(([key, value]) => (
-                <div key={key} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
-                  <span style={{ fontWeight: 'bold', color: '#666' }}>
-                    {key === 'cpu' && '🖥️ CPU:'}
-                    {key === 'ram' && '💾 RAM:'}
-                    {key === 'storage' && '🗄️ Lưu trữ:'}
-                    {key === 'display' && '📺 Màn hình:'}
-                    {key === 'battery' && '🔋 Pin:'}
-                  </span>
-                  <span>{value}</span>
+            {product.specs && (
+              <>
+                <h3 style={{ marginBottom: '16px' }}>Thông số kỹ thuật</h3>
+                <div style={{ marginBottom: '24px' }}>
+                  {Object.entries(JSON.parse(product.specs || '{}')).map(([key, value]) => (
+                    <div key={key} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
+                      <span style={{ fontWeight: 'bold', color: '#666' }}>
+                        {key === 'cpu' && '🖥️ CPU:'}
+                        {key === 'ram' && '💾 RAM:'}
+                        {key === 'storage' && '🗄️ Lưu trữ:'}
+                        {key === 'display' && '📺 Màn hình:'}
+                        {key === 'battery' && '🔋 Pin:'}
+                        {!(key === 'cpu' || key === 'ram' || key === 'storage' || key === 'display' || key === 'battery') && `${key}:`}
+                      </span>
+                      <span>{value}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+                <Divider />
+              </>
+            )}
 
             {/* Quantity & Actions */}
-            <Divider />
             <Form layout="vertical" style={{ marginBottom: '24px' }}>
               <Form.Item label="Số lượng" style={{ marginBottom: '16px' }}>
                 <InputNumber
@@ -149,26 +183,23 @@ const ProductDetailPage = () => {
               <Button
                 type="default"
                 size="large"
-                icon={isFavorite ? <HeartFilled style={{ color: '#ff4d4f' }} /> : <HeartOutlined />}
                 onClick={() => setIsFavorite(!isFavorite)}
-              />
+                icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+              >
+                {isFavorite ? 'Yêu thích' : 'Thêm yêu thích'}
+              </Button>
             </div>
+
+            {/* Buy Now */}
             <Button
-              type="default"
+              type="primary"
+              danger
               size="large"
-              block
-              style={{ marginTop: '12px' }}
+              style={{ marginTop: '12px', width: '100%' }}
               onClick={handleBuyNow}
             >
               Mua ngay
             </Button>
-
-            {/* Additional Info */}
-            <div style={{ marginTop: '24px', padding: '16px', background: '#f0f5ff', borderRadius: '8px' }}>
-              <div style={{ marginBottom: '8px' }}>✅ Hàng chính hãng 100%</div>
-              <div style={{ marginBottom: '8px' }}>✅ Bảo hành 24 tháng</div>
-              <div>✅ Giao hàng miễn phí</div>
-            </div>
           </Card>
         </Col>
       </Row>

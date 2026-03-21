@@ -1,56 +1,71 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Card, Empty, Button, Spin, message, Tag, Tooltip } from 'antd';
-import { ShoppingOutlined, EyeOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { Table, Card, Empty, Button, Spin, message, Tag, Modal, Descriptions } from 'antd';
+import { ShoppingOutlined, EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { ordersService } from '../services/ordersService';
 import '../styles/MyOrders.css';
 
 const MyOrdersPage = () => {
   const navigate = useNavigate();
-  const { user, token } = useAuth();
+  const { user, token, loading: authLoading } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     // Nếu chưa login, redirect đến login
-    if (!user) {
+    if (!authLoading && !user) {
       message.warning('Vui lòng đăng nhập để xem đơn hàng!');
       navigate('/login', { replace: true });
       return;
     }
 
     // Fetch danh sách đơn hàng
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('http://localhost:5000/api/orders/my-orders', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
+    if (user && token) {
+      fetchOrders();
+    }
+  }, [user, token, authLoading, navigate]);
 
-        const data = await response.json();
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const result = await ordersService.getMyOrders(token);
 
-        if (!response.ok) {
-          message.error(data.message || 'Lỗi khi lấy danh sách đơn hàng');
-          return;
-        }
-
-        setOrders(data.orders || []);
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-        message.error('Lỗi: ' + error.message);
-      } finally {
-        setLoading(false);
+      if (!result.success) {
+        message.error(result.message || 'Lỗi khi lấy danh sách đơn hàng');
+        return;
       }
-    };
 
-    fetchOrders();
-  }, [user, token, navigate]);
+      setOrders(result.orders || []);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      message.error('Lỗi: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Status mapping
+  const handleViewDetails = async (orderId) => {
+    try {
+      setLoading(true);
+      const result = await ordersService.getOrderDetails(orderId, token);
+
+      if (!result.success) {
+        message.error(result.message || 'Lỗi khi lấy chi tiết đơn hàng');
+        return;
+      }
+
+      setSelectedOrder(result.order);
+      setIsModalVisible(true);
+    } catch (error) {
+      message.error('Lỗi: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusColor = (status) => {
     const colors = {
       'pending': 'orange',
@@ -59,178 +74,197 @@ const MyOrdersPage = () => {
       'delivered': 'green',
       'cancelled': 'red'
     };
-    return colors[status] || 'default';
-  };
-
-  const getStatusLabel = (status) => {
     const labels = {
-      'pending': '⏳ Chờ xử lý',
-      'processing': '📦 Đang xử lý',
-      'shipped': '🚚 Đã gửi',
-      'delivered': '✅ Đã giao',
-      'cancelled': '❌ Đã hủy'
+      'pending': 'Chờ xử lý',
+      'processing': 'Đang xử lý',
+      'shipped': 'Đã gửi',
+      'delivered': 'Đã giao',
+      'cancelled': 'Đã hủy'
     };
-    return labels[status] || status;
+    return { color: colors[status] || 'default', label: labels[status] || status };
   };
 
   const columns = [
     {
-      title: 'Mã đơn hàng',
+      title: 'Mã đơn',
       dataIndex: 'id',
       key: 'id',
-      width: 100,
-      render: (id) => <strong>#{id}</strong>
+      render: (id) => <strong>#{id}</strong>,
+      width: 100
     },
     {
-      title: 'Tên khách hàng',
+      title: 'Tên khách',
       dataIndex: 'customerName',
-      key: 'customerName',
-      width: 150
+      key: 'customerName'
     },
     {
       title: 'Email',
       dataIndex: 'customerEmail',
-      key: 'customerEmail',
-      width: 180,
-      ellipsis: {
-        showTitle: false
-      },
-      render: (email) => (
-        <Tooltip title={email}>
-          {email}
-        </Tooltip>
-      )
-    },
-    {
-      title: 'Số lượng',
-      dataIndex: 'totalItems',
-      key: 'totalItems',
-      width: 80,
-      align: 'center',
-      render: (totalItems) => <strong>{totalItems} sản phẩm</strong>
+      key: 'customerEmail'
     },
     {
       title: 'Tổng tiền',
       dataIndex: 'totalPrice',
       key: 'totalPrice',
-      width: 130,
-      render: (totalPrice) => (
-        <span style={{ color: '#ff4d4f', fontWeight: 'bold' }}>
-          {totalPrice.toLocaleString('vi-VN')} ₫
-        </span>
-      )
+      render: (price) => <span style={{ color: '#ff4d4f', fontWeight: 'bold' }}>
+        {price.toLocaleString('vi-VN')} ₫
+      </span>
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'totalItems',
+      key: 'totalItems',
+      render: (items) => `${items} sản phẩm`
     },
     {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
-      width: 120,
-      render: (status) => (
-        <Tag color={getStatusColor(status)}>
-          {getStatusLabel(status)}
-        </Tag>
-      )
+      render: (status) => {
+        const { color, label } = getStatusColor(status);
+        return <Tag color={color}>{label}</Tag>;
+      }
     },
     {
-      title: 'Ngày đặt',
+      title: 'Ngày tạo',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 150,
-      render: (createdAt) => {
-        const date = new Date(createdAt);
-        return date.toLocaleString('vi-VN');
-      }
+      render: (date) => new Date(date).toLocaleDateString('vi-VN')
     },
     {
       title: 'Hành động',
       key: 'action',
-      width: 100,
-      align: 'center',
       render: (_, record) => (
-        <Tooltip title="Xem chi tiết">
-          <Button
-            type="primary"
-            size="small"
-            icon={<EyeOutlined />}
-            onClick={() => handleViewDetails(record.id)}
-            style={{ background: '#667eea' }}
-          >
-            Chi tiết
-          </Button>
-        </Tooltip>
+        <Button
+          type="primary"
+          size="small"
+          icon={<EyeOutlined />}
+          onClick={() => handleViewDetails(record.id)}
+        >
+          Xem chi tiết
+        </Button>
       )
     }
   ];
 
-  const handleViewDetails = (orderId) => {
-    message.info(`Xem chi tiết đơn hàng #${orderId}`);
-    // TODO: Có thể thêm route chi tiết đơn hàng
-  };
+  if (authLoading || loading) {
+    return <Spin style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }} />;
+  }
 
   if (!user) {
-    return null;
+    return (
+      <Empty
+        description="Vui lòng đăng nhập để xem đơn hàng"
+        style={{ padding: '40px' }}
+      />
+    );
   }
 
   return (
-    <div className="my-orders-page">
-      <Card
-        title={
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <ShoppingOutlined style={{ fontSize: '24px', color: '#667eea' }} />
-            <span>Danh Sách Đơn Hàng Của Tôi</span>
-          </div>
-        }
-        className="orders-card"
-      >
-        {/* Header Info */}
-        <div className="orders-header">
-          <p>
-            Xin chào <strong>{user.name}</strong>, email: <strong>{user.email}</strong>
-          </p>
-          <p>Tổng cộng: <strong style={{ color: '#667eea', fontSize: '18px' }}>{orders.length}</strong> đơn hàng</p>
-        </div>
+    <div style={{ padding: '40px 20px', maxWidth: '1400px', margin: '0 auto' }}>
+      {/* Header */}
+      <div style={{ marginBottom: '32px' }}>
+        <h1 style={{ fontSize: '28px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <ShoppingOutlined /> Đơn hàng của tôi
+        </h1>
+        <p style={{ color: '#666' }}>Xem và quản lý các đơn hàng của bạn</p>
+      </div>
 
-        {/* Table */}
-        <Spin spinning={loading}>
-          {orders.length === 0 ? (
-            <Empty
-              description="Chưa có đơn hàng nào"
-              style={{ marginTop: '40px', marginBottom: '40px' }}
-            >
-              <Button
-                type="primary"
-                onClick={() => navigate('/products')}
-                style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none' }}
-              >
-                Tiếp tục mua sắm
-              </Button>
-            </Empty>
-          ) : (
-            <Table
-              columns={columns}
-              dataSource={orders}
-              rowKey="id"
-              pagination={{
-                pageSize: 10,
-                total: orders.length,
-                showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} đơn hàng`
-              }}
-              size="middle"
-              className="orders-table"
-            />
-          )}
-        </Spin>
-
-        {/* Back Button */}
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <Button
-            onClick={() => navigate('/')}
-            icon={<ArrowLeftOutlined />}
-          >
-            Quay Về Trang Chủ
-          </Button>
-        </div>
+      {/* Orders Table */}
+      <Card>
+        {orders.length > 0 ? (
+          <Table
+            columns={columns}
+            dataSource={orders}
+            rowKey="id"
+            responsive
+            pagination={{ pageSize: 10 }}
+          />
+        ) : (
+          <Empty description="Bạn chưa có đơn hàng nào" />
+        )}
       </Card>
+
+      {/* Order Details Modal */}
+      <Modal
+        title={`Chi tiết đơn hàng #${selectedOrder?.id}`}
+        visible={isModalVisible}
+        onCancel={() => {
+          setIsModalVisible(false);
+          setSelectedOrder(null);
+        }}
+        width={800}
+        footer={null}
+      >
+        {selectedOrder && (
+          <>
+            {/* Basic Info */}
+            <Descriptions column={2} bordered style={{ marginBottom: '24px' }}>
+              <Descriptions.Item label="Trạng thái">
+                <Tag color={getStatusColor(selectedOrder.status).color}>
+                  {getStatusColor(selectedOrder.status).label}
+                </Tag>
+              </Descriptions.Item>
+              <Descriptions.Item label="Ngày tạo">
+                {new Date(selectedOrder.createdAt).toLocaleString('vi-VN')}
+              </Descriptions.Item>
+              <Descriptions.Item label="Tên khách" span={2}>
+                {selectedOrder.customerName}
+              </Descriptions.Item>
+              <Descriptions.Item label="Email" span={2}>
+                {selectedOrder.customerEmail}
+              </Descriptions.Item>
+              <Descriptions.Item label="Điện thoại" span={2}>
+                {selectedOrder.customerPhone}
+              </Descriptions.Item>
+              <Descriptions.Item label="Địa chỉ" span={2}>
+                {selectedOrder.customerAddress}
+              </Descriptions.Item>
+            </Descriptions>
+
+            {/* Products */}
+            <h3>Sản phẩm đã đặt</h3>
+            <Table
+              columns={[
+                {
+                  title: 'Tên sản phẩm',
+                  dataIndex: 'name',
+                  key: 'name'
+                },
+                {
+                  title: 'Đơn giá',
+                  dataIndex: 'price',
+                  key: 'price',
+                  render: (price) => `${price?.toLocaleString('vi-VN')} ₫`
+                },
+                {
+                  title: 'Số lượng',
+                  dataIndex: 'quantity',
+                  key: 'quantity'
+                },
+                {
+                  title: 'Thành tiền',
+                  key: 'total',
+                  render: (_, record) => `${(record.price * record.quantity).toLocaleString('vi-VN')} ₫`
+                }
+              ]}
+              dataSource={selectedOrder.products}
+              pagination={false}
+              rowKey="id"
+            />
+
+            {/* Summary */}
+            <div style={{ marginTop: '24px', textAlign: 'right' }}>
+              <div style={{ fontSize: '18px', marginBottom: '8px' }}>
+                <strong>Tổng cộng: </strong>
+                <span style={{ color: '#ff4d4f', fontWeight: 'bold', fontSize: '24px' }}>
+                  {selectedOrder.totalPrice?.toLocaleString('vi-VN')} ₫
+                </span>
+              </div>
+            </div>
+          </>
+        )}
+      </Modal>
     </div>
   );
 };

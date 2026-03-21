@@ -1,0 +1,18 @@
+const express = require('express');
+const productsController = require('../controllers/productsController');
+const { verifyToken, verifyAdmin } = require('../middleware/auth');
+
+const router = express.Router();
+
+// Public routes
+router.get('/', productsController.getAllProducts);
+router.get('/brands', productsController.getBrands);
+router.get('/categories', productsController.getCategories);
+router.get('/:id', productsController.getProductById);
+
+// Admin only routes
+router.post('/', verifyToken, verifyAdmin, productsController.createProduct);
+router.patch('/:id', verifyToken, verifyAdmin, productsController.updateProduct);
+router.delete('/:id', verifyToken, verifyAdmin, productsController.deleteProduct);
+
+module.exports = router;
