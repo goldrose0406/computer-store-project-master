@@ -55,7 +55,7 @@ const seedProducts = async () => {
             display: '14 inch FHD',
             battery: '12 giờ'
           }),
-          image: '/images/products/lenovo14.webp'
+          image: '/images/products/levovo14.webp'
         },
         {
           name: 'Acer Aspire 5',
@@ -103,7 +103,7 @@ const seedProducts = async () => {
             display: '13.6 inch Liquid Retina',
             battery: '18 giờ'
           }),
-          image: '/images/products/macbook-air-m2.webp'
+          image: '/images/products/macairm2.webp'
         }
       ];
 

@@ -23,10 +23,7 @@
           "request": {
             "method": "POST",
             "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
@@ -46,10 +43,7 @@
           "request": {
             "method": "POST",
             "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
@@ -68,7 +62,9 @@
           "name": "Verify Token",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+            ],
             "url": {
               "raw": "http://localhost:5000/api/auth/verify",
               "protocol": "http",
@@ -97,76 +93,16 @@
           }
         },
         {
-          "name": "Get Products by Brand",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "http://localhost:5000/api/products?brand=Macbook",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "products"],
-              "query": [
-                {
-                  "key": "brand",
-                  "value": "Macbook"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Product by ID",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "http://localhost:5000/api/products/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "products", "1"]
-            }
-          }
-        },
-        {
-          "name": "Get Brands",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "http://localhost:5000/api/products/brands",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "products", "brands"]
-            }
-          }
-        },
-        {
-          "name": "Get Categories",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "http://localhost:5000/api/products/categories",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "products", "categories"]
-            }
-          }
-        },
-        {
           "name": "Create Product (Admin)",
           "request": {
             "method": "POST",
             "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"name\":\"Dell XPS\",\"brand\":\"Dell\",\"category\":\"laptop\",\"price\":30000000,\"originalPrice\":32000000,\"description\":\"High-performance laptop\"}"
+              "raw": "{\"name\":\"Dell XPS\",\"brand\":\"Dell\",\"category\":\"laptop\",\"price\":30000000,\"description\":\"High-performance laptop\"}"
             },
             "url": {
               "raw": "http://localhost:5000/api/products",
@@ -174,42 +110,6 @@
               "host": ["localhost"],
               "port": "5000",
               "path": ["api", "products"]
-            }
-          }
-        },
-        {
-          "name": "Update Product (Admin)",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"price\":29000000}"
-            },
-            "url": {
-              "raw": "http://localhost:5000/api/products/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "products", "1"]
-            }
-          }
-        },
-        {
-          "name": "Delete Product (Admin)",
-          "request": {
-            "method": "DELETE",
-            "url": {
-              "raw": "http://localhost:5000/api/products/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "products", "1"]
             }
           }
         }
@@ -223,143 +123,11 @@
           "request": {
             "method": "POST",
             "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"customerName\":\"Nguyễn Văn A\",\"customerEmail\":\"user@example.com\",\"customerPhone\":\"0123456789\",\"customerAddress\":\"123 Đường ABC, Hà Nội\",\"products\":[{\"id\":1,\"name\":\"MacBook Pro\",\"price\":45000000,\"quantity\":1}],\"totalPrice\":45000000}"
-            },
-            "url": {
-              "raw": "http://localhost:5000/api/orders/create",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders", "create"]
-            }
-          }
-        },
-        {
-          "name": "Get My Orders",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "http://localhost:5000/api/orders/my-orders",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders", "my-orders"]
-            }
-          }
-        },
-        {
-          "name": "Get Order Details",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "http://localhost:5000/api/orders/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders", "1"]
-            }
-          }
-        },
-        {
-          "name": "Get All Orders (Admin)",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "http://localhost:5000/api/orders",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders"]
-            }
-          }
-        },
-        {
-          "name": "Update Order Status (Admin)",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"status\":\"shipped\"}"
-            },
-            "url": {
-              "raw": "http://localhost:5000/api/orders/1/status",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders", "1", "status"]
-            }
-          }
-        }
-      ]
-    }
-  ]
-}
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"email\":\"admin@computerstore.com\",\"password\":\"Admin@123\"}"
-            },
-            "url": {
-              "raw": "http://localhost:5000/api/auth/login",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "auth", "login"]
-            }
-          }
-        },
-        {
-          "name": "Verify Token",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwt_token}}"
-              }
-            ],
-            "url": {
-              "raw": "http://localhost:5000/api/auth/verify",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "auth", "verify"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Orders",
-      "item": [
-        {
-          "name": "Create Order (No Auth)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"customerName\":\"Trần Thị B\",\"customerEmail\":\"customer@example.com\",\"customerPhone\":\"0123456789\",\"customerAddress\":\"123 Đường ABC, Quận 1, TP. HCM\",\"products\":[{\"id\":1,\"name\":\"Laptop Asus A15\",\"price\":15000000,\"quantity\":1}],\"totalPrice\":15000000,\"notes\":\"Giao hàng trước 5h chiều\"}"
+              "raw": "{\"customerName\":\"Nguyễn Văn A\",\"customerEmail\":\"user@example.com\",\"products\":[{\"id\":1,\"quantity\":1}],\"totalPrice\":45000000}"
             },
             "url": {
               "raw": "http://localhost:5000/api/orders/create",
@@ -375,10 +143,7 @@
           "request": {
             "method": "GET",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwt_token}}"
-              }
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" }
             ],
             "url": {
               "raw": "http://localhost:5000/api/orders",
@@ -386,71 +151,6 @@
               "host": ["localhost"],
               "port": "5000",
               "path": ["api", "orders"]
-            }
-          }
-        },
-        {
-          "name": "Get My Orders",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwt_token}}"
-              }
-            ],
-            "url": {
-              "raw": "http://localhost:5000/api/orders/my-orders",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders", "my-orders"]
-            }
-          }
-        },
-        {
-          "name": "Get Order Details",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwt_token}}"
-              }
-            ],
-            "url": {
-              "raw": "http://localhost:5000/api/orders/1",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders", "1"]
-            }
-          }
-        },
-        {
-          "name": "Update Order Status (Admin)",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwt_token}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"status\":\"shipped\"}"
-            },
-            "url": {
-              "raw": "http://localhost:5000/api/orders/1/status",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
-              "path": ["api", "orders", "1", "status"]
             }
           }
         }
@@ -458,10 +158,6 @@
     }
   ],
   "variable": [
-    {
-      "key": "jwt_token",
-      "value": "",
-      "type": "string"
-    }
+    { "key": "jwt_token", "value": "", "type": "string" }
   ]
 }
