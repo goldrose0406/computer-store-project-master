@@ -1,0 +1,10 @@
+$kind: http-request
+url: http://localhost:5000/api/orders/create
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: '{"customerName":"Nguyễn Văn
+    A","customerEmail":"user@example.com","products":[{"id":1,"quantity":1}],"totalPrice":45000000}'
+order: 1000

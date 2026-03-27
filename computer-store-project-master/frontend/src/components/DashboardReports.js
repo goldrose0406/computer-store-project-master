@@ -2,27 +2,80 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Statistic, Table, Spin, message, Tabs, Badge } from 'antd';
 import { ShoppingCartOutlined, DollarOutlined, ProductOutlined, UserOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { ordersService } from '../services/ordersService';
-import { productsService } from '../services/productsService';
+import { useAuth } from '../context/AuthContext';
 import '../styles/AdminDashboard.css';
 
 const colors = ['#1890ff', '#52c41a', '#faad14', '#f5222d', '#13c2c2'];
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 export default function DashboardReports() {
+  const { token } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [revenueData, setRevenueData] = useState([]);
+  const [ordersStatsData, setOrdersStatsData] = useState(null);
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if (token) {
+      fetchDashboardData();
+    }
+  }, [token]);
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      // Mock API call - Replace with real API endpoint
-      const mockData = generateMockDashboardData();
-      setData(mockData);
+      
+      // Fetch dashboard statistics (REAL DATA)
+      const dashboardResponse = await fetch(`${API_URL}/reports/dashboard`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!dashboardResponse.ok) {
+        throw new Error('Failed to fetch dashboard data');
+      }
+      
+      const dashboardData = await dashboardResponse.json();
+
+      // Fetch revenue trends (REAL DATA)
+      const revenueResponse = await fetch(`${API_URL}/reports/revenue?days=30`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const revenueDataFromAPI = await revenueResponse.json();
+      setRevenueData(revenueDataFromAPI);
+
+      // Fetch orders statistics (REAL DATA)
+      const ordersResponse = await fetch(`${API_URL}/reports/orders`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const ordersStatsFromAPI = await ordersResponse.json();
+      setOrdersStatsData(ordersStatsFromAPI);
+
+      // Prepare data for display
+      const displayData = {
+        stats: {
+          totalRevenue: parseFloat(dashboardData.totalRevenue),
+          totalOrders: dashboardData.totalOrders,
+          totalProducts: dashboardData.totalProducts,
+          totalCustomers: dashboardData.totalCustomers,
+        },
+        revenueByMonth: dashboardData.revenueByMonth || [],
+        orderStatus: dashboardData.orderStatus || {},
+        topProducts: dashboardData.topProducts || []
+      };
+
+      setData(displayData);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setError(err.message);
@@ -30,51 +83,6 @@ export default function DashboardReports() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const generateMockDashboardData = () => {
-    const now = new Date();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
-    return {
-      stats: {
-        totalRevenue: 187450,
-        totalOrders: 542,
-        totalProducts: 12,
-        totalCustomers: 234,
-        revenueGrowth: 12.5,
-        ordersGrowth: -3.2,
-      },
-      revenueByMonth: months.map((month, index) => ({
-        month,
-        revenue: Math.floor(Math.random() * 50000) + 10000,
-        orders: Math.floor(Math.random() * 100) + 20
-      })),
-      dailyRevenue: Array.from({ length: 30 }, (_, i) => ({
-        date: new Date(now.getTime() - (30 - i) * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        revenue: Math.floor(Math.random() * 5000) + 1000,
-        orders: Math.floor(Math.random() * 30) + 5
-      })),
-      orderStatus: {
-        pending: 45,
-        confirmed: 87,
-        shipped: 132,
-        delivered: 278
-      },
-      topProducts: [
-        { id: 1, name: 'Laptop Dell XPS 13', sales: 45, revenue: 44955, rating: 4.8 },
-        { id: 2, name: 'MacBook Pro 14"', sales: 38, revenue: 57200, rating: 4.9 },
-        { id: 3, name: 'Laptop Asus ROG', sales: 32, revenue: 48000, rating: 4.6 },
-        { id: 4, name: 'Lenovo ThinkPad', sales: 28, revenue: 25200, rating: 4.5 },
-        { id: 5, name: 'MSI Gaming Laptop', sales: 22, revenue: 19800, rating: 4.4 }
-      ],
-      brandStats: [
-        { name: 'Laptop', value: 45 },
-        { name: 'Desktop', value: 30 },
-        { name: 'Accessories', value: 15 },
-        { name: 'Components', value: 10 }
-      ]
-    };
   };
 
   if (loading) {
@@ -105,19 +113,13 @@ export default function DashboardReports() {
       title: 'Số lượng bán',
       dataIndex: 'sales',
       key: 'sales',
-      render: (sales) => <Badge count={sales} showZero color="#1890ff" />
+      render: (sales) => <Badge count={sales || 0} showZero color="#1890ff" />
     },
     {
       title: 'Doanh thu',
       dataIndex: 'revenue',
       key: 'revenue',
-      render: (revenue) => <span>${revenue.toLocaleString()}</span>
-    },
-    {
-      title: 'Rating',
-      dataIndex: 'rating',
-      key: 'rating',
-      render: (rating) => <span>⭐ {rating}</span>
+      render: (revenue) => <span>${(revenue || 0).toLocaleString()}</span>
     }
   ];
 
@@ -192,7 +194,7 @@ export default function DashboardReports() {
             <Col xs={24} lg={12}>
               <Card title="Doanh Thu Hàng Ngày (30 ngày gần đây)">
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={data.dailyRevenue}>
+                  <LineChart data={revenueData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" style={{ fontSize: '12px' }} />
                     <YAxis />

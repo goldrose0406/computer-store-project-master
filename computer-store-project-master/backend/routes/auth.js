@@ -1,6 +1,6 @@
 const express = require('express');
 const authController = require('../controllers/authController');
-const { verifyToken } = require('../middleware/auth');
+const { verifyToken, verifyAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ router.post('/login', authController.login);
 
 // GET /api/auth/verify
 router.get('/verify', verifyToken, authController.verifyToken);
+
+// GET /api/auth/users (Admin only - xem danh sách tất cả users)
+router.get('/users', verifyToken, verifyAdmin, authController.getAllUsers);
 
 module.exports = router;

@@ -1,0 +1,547 @@
+================================================================================
+DASHBOARD & BÁO CÁO THUYẾT MINH - KHUNG SƯƠNG CHI TIẾT
+================================================================================
+
+📑 MỤC LỤC (TABLE OF CONTENTS)
+────────────────────────────────
+
+1. Tổng Quan Dashboard (Dashboard Overview)
+   1.1 Định Nghĩa & Mục Đích
+   1.2 Các KPI Chính (Key Performance Indicators)
+   1.3 Người Dùng & Quyền Truy Cập
+
+2. Thành Phần Dashboard (Dashboard Components)
+   2.1 Thẻ Thống Kê (Statistics Cards)
+   2.2 Biểu Đồ Doanh Thu (Revenue Charts)
+   2.3 Biểu Đồ Trạng Thái Đơn (Order Status Charts)
+   2.4 Bảng Sản Phẩm Bán Chạy (Top Products Table)
+   2.5 Thống Kê Danh Mục (Category Statistics)
+
+3. Hướng Dẫn Sử Dụng (User Guide)
+   3.1 Cách Truy Cập Dashboard
+   3.2 Giải Thích Từng Tab
+   3.3 Cách Đọc Biểu Đồ
+   3.4 Xuất Dữ Liệu
+
+4. API Documentation
+   4.1 GET /api/reports/dashboard
+   4.2 GET /api/reports/revenue
+   4.3 GET /api/reports/orders
+
+5. Technical Details
+   5.1 Frontend Components
+   5.2 Backend Services
+   5.3 Database Queries
+
+
+================================================================================
+1. TỔNG QUAN DASHBOARD
+================================================================================
+
+1.1 ĐỊNH NGHĨA & MỤC ĐÍCH
+──────────────────────────
+
+📊 Dashboard là:
+  • Bảng điều khiển quản lý kinh doanh trực quan
+  • Hiển thị các chỉ số kinh doanh quan trọng (KPI)
+  • Giúp Admin quản lý tổng quan tình hình bán hàng
+  • Hỗ trợ quyết định kinh doanh dựa trên dữ liệu thực
+
+🎯 MỤC ĐÍCH:
+  ✓ Theo dõi doanh thu theo thời gian
+  ✓ Quản lý trạng thái các đơn hàng
+  ✓ Xác định sản phẩm bán chạy nhất
+  ✓ Phân tích hành vi khách hàng
+  ✓ Tạo báo cáo kinh doanh
+
+
+1.2 CÁC KPI CHÍNH (KEY PERFORMANCE INDICATORS)
+────────────────────────────────────────────────
+
+1) 💰 TỔNG DOANH THU (Total Revenue)
+   • Định nghĩa: Tổng giá trị tiền từ tất cả đơn hàng đã xác nhận
+   • Cách tính: SUM(totalPrice) WHERE status IN (confirmed, shipped, delivered)
+   • Đơn vị: USD (hoặc VND)
+   • Mục tiêu: Theo dõi tăng trưởng doanh số bán hàng
+
+2) 🛒 TỔNG ĐƠN HÀNG (Total Orders)
+   • Định nghĩa: Số lượng tất cả đơn hàng
+   • Cách tính: COUNT(*) FROM orders
+   • Đơn vị: Số lượng đơn
+   • Mục tiêu: Theo dõi lệnh mua dồi dào hay lạng phát
+
+3) 📦 TỔNG SẢN PHẨM (Total Products)
+   • Định nghĩa: Số lượng sản phẩm trong kho
+   • Cách tính: COUNT(*) FROM products
+   • Đơn vị: Số lượng mặt hàng
+   • Mục tiêu: Quản lý danh mục sản phẩm
+
+4) 👥 TỔNG KHÁCH HÀNG (Total Customers)
+   • Định nghĩa: Số lượng khách hàng duy nhất
+   • Cách tính: COUNT(DISTINCT customerEmail) FROM orders
+   • Đơn vị: Số lượng người
+   • Mục tiêu: Theo dõi tăng trưởng cơ sở khách hàng
+
+
+1.3 NGƯỜI DÙNG & QUYỀN TRUY CẬP
+───────────────────────────────────
+
+👨‍💼 ADMIN (Quản trị viên):
+  ✓ Truy cập toàn bộ Dashboard
+  ✓ Xem tất cả báo cáo & thống kê
+  ✓ Exportcác dữ liệu (future)
+  ✓ Cấu hình Dashboard (future)
+
+❌ CUSTOMER (Khách hàng):
+  ✗ Không thể truy cập Dashboard
+  ✗ Chỉ có thể xem đơn hàng của mình
+
+
+================================================================================
+2. THÀNH PHẦN DASHBOARD
+================================================================================
+
+2.1 THẺ THỐNG KÊ (STATISTICS CARDS)
+────────────────────────────────────
+
+Bố cục: 4 thẻ hiển thị theo hàng ngang
+
+┌─────────────────────┬──────────────────┬──────────────────┬────────────────┐
+│  Doanh Thu ($)      │  Đơn Hàng        │  Sản Phẩm        │  Khách Hàng    │
+├─────────────────────┼──────────────────┼──────────────────┼────────────────┤
+│  💰 150,000         │  🛒 45           │  📦 12           │  👥 28         │
+│  (⬆️ tăng)          │  (⬇️ giảm)       │  (đơn vị)        │  (đơn vị)      │
+└─────────────────────┴──────────────────┴──────────────────┴────────────────┘
+
+✨ ĐẶC ĐIỂM:
+  • Hiển thị số liệu lớn, dễ đọc
+  • Có biểu tượng (icon) để nhận diện nhanh
+  • Có mũi tên (arrow) chỉ tăng/giảm (future)
+  • Responsive: Xếp 4 cột trên desktop, 2 cột tablet, 1 cột mobile
+
+
+2.2 BIỂU ĐỒ DOANH THU (REVENUE CHARTS)
+──────────────────────────────────────────
+
+TAB: 📈 DOANH THU
+
+Biểu Đồ 1: DOANH THU HÀNG THÁNG (Monthly Revenue - Bar Chart)
+┌──────────────────────────────────────┐
+│ Doanh Thu Hàng Tháng                 │
+│  │                                   │
+│  │     ┌──┐                 ┌──┐    │
+│  │ ┌──┐│  │  ┌──┐     ┌──┐ │  │    │
+│  │ │  ││  │  │  │ ┌──┐│  │ │  │    │
+│  └─┴──┴┴──┴──┴──┴─┴──┴┴──┴─┴──┴────┘
+│   Jan Feb Mar Apr May Jun             │
+│                                       │
+│ Doanh Thu ($): 25K, 35K, ..., 45K    │
+└──────────────────────────────────────┘
+
+📊 CHI TIẾT:
+  • Loại: Bar Chart (Biểu đồ cột)
+  • Trục X: Tháng (Jan, Feb, Mar, ...)
+  • Trục Y: Doanh thu ($)
+  • Màu sắc: Xanh (#1890ff)
+  • Mục đích: So sánh doanh thu giữa các tháng
+
+Biểu Đồ 2: DOANH THU HÀNG NGÀY - 30 NGÀY (Daily Revenue - Line Chart)
+┌──────────────────────────────────────┐
+│ Doanh Thu Hàng Ngày (30 ngày)        │
+│                              ╱╲      │
+│                          ╱╲╱  ╲    │
+│        ╱╲        ╱╲╱╲╱      ╲╱╲   │
+│    ╱╲╱  ╲╱╲╱╲╱╱              ╲  │
+│  ╱────────────────────────────  │
+│  Feb 1    Feb 7    Feb 21  Feb 28│
+│                                  │
+│ Doanh Thu ($): 3.5K, 4.2K, ...  │
+└──────────────────────────────────┘
+
+📈 CHI TIẾT:
+  • Loại: Line Chart (Biểu đồ đường)
+  • Trục X: Ngày (Feb 1, Feb 2, ...)
+  • Trục Y: Doanh thu hàng ngày ($)
+  • Màu sắc: Xanh lá (#52c41a)
+  • Mục đích: Theo dõi xu hướng doanh thu theo ngày
+
+
+2.3 BIỂU ĐỒ TRẠNG THÁI ĐƠN (ORDER STATUS CHARTS)
+─────────────────────────────────────────────────────
+
+TAB: 🛍️ TRẠNG THÁI ĐƠN
+
+Biểu Đồ 1: PHÂN BỐ TRẠNG THÁI ĐƠN HÀNG (Pie Chart)
+            ╭──────────╮
+         ╱──╯          ╰──┐
+       ╱    ▓▓ 20%        ╲
+      │ ░░ 12%    ▒▒ 30% │
+      │                  │
+       ╲   ░░░░░░░░░░░░ ╱
+        ╲──┬────────────╱
+          │ ░ 10% ░
+           ╰───────╯
+
+📊 CHI TIẾT:
+  • Loại: Pie Chart (Biểu đồ bánh)
+  • Phân loại:
+    - Pending (Chờ xử lý): 5 đơn (11%)
+    - Confirmed (Đã xác nhận): 12 đơn (27%)
+    - Shipped (Vận chuyển): 18 đơn (40%)
+    - Delivered (Giao hàng): 10 đơn (22%)
+  • Mục đích: Xem tỷ lệ đơn ở mỗi trạng thái
+
+Biểu Đồ 2: CHI TIẾT TRẠNG THÁI (Status Details)
+┌─────────────────────────────────────┐
+│ Chi Tiết Trạng Thái                 │
+├─────────────────────────────────────┤
+│ ● Pending    5 đơn  [████░░░░░░] 11%│
+│ ● Confirmed 12 đơn  [████████░░] 27%│
+│ ● Shipped   18 đơn  [██████████] 40%│
+│ ● Delivered 10 đơn  [████████░░] 22%│
+└─────────────────────────────────────┘
+
+📋 CHI TIẾT:
+  • Hiển thị số lượng đơn mỗi trạng thái
+  • Progress bar biểu diễn tỷ lệ
+  • Màu sắc phân biệt mỗi trạng thái
+  • Dễ đọc & so sánh
+
+
+2.4 BẢNG SẢN PHẨM BÁN CHẠY (TOP PRODUCTS TABLE)
+─────────────────────────────────────────────────
+
+TAB: ⭐ SẢN PHẨM BÁN CHẠY
+
+┌──────────────────────────────────────────────────────┐
+│ Top 5 Sản Phẩm Bán Chạy Nhất                        │
+├──────────────────────────────────────────────────────┤
+│ Sản Phẩm                    Số Lượng Bán  Doanh Thu │
+├──────────────────────────────────────────────────────┤
+│ 1. MacBook Pro 16"                   ① 1   $45000000│
+│ 2. Asus VivoBook 15                  ① 1   $15000000│
+│ 3. Lenovo ThinkBook 14               ① 1   $12000000│
+│ 4. Acer Aspire 5                     ① 1   $13000000│
+│ 5. MSI GE66 Raider                   ① 1   $28000000│
+└──────────────────────────────────────────────────────┘
+
+📊 CHI TIẾT:
+  • Loại: Table (Bảng dữ liệu)
+  • Cột:
+    1. Sản Phẩm: Tên sản phẩm
+    2. Số Lượng Bán: Badge hiển thị số lượng
+    3. Doanh Thu: Giá trị bán ($)
+  • Sắp xếp: Theo số lượng bán giảm dần
+  • Limit: Top 5 sản phẩm
+
+
+2.5 THỐNG KÊ DANH MỤC (CATEGORY STATISTICS)
+────────────────────────────────────────────────
+
+TAB: 📂 THỐNG KÊ DANH MỤC
+
+Biểu Đồ: PHÂN BỐ SẢN PHẨM THEO DANH MỤC (Pie Chart)
+
+            MacBook
+           ╭──────╮
+        ╱───╯      ╰───╲
+      ╱    ▒▒ 25%      ╲
+     │ ░░░░░░░░░░░░  │
+     │ ░░ Asus ░░░░  │
+      ╰───╲      ╱────╯
+         ╰──────╭─
+
+📊 CHI TIẾT:
+  • Loại: Pie Chart (Biểu đồ bánh)
+  • Phân loại:
+    - Macbook: 3 sản phẩm (25%)
+    - Asus: 2 sản phẩm (17%)
+    - Lenovo: 2 sản phẩm (17%)
+    - Acer: 1 sản phẩm (8%)
+    - MSI: 1 sản phẩm (8%)
+    - Khác: 3 sản phẩm (25%)
+  • Mục đích: Xem tỷ lệ sản phẩm mỗi hãng
+
+
+================================================================================
+3. HƯỚNG DẪN SỬ DỤNG
+================================================================================
+
+3.1 CÁCH TRUY CẬP DASHBOARD
+─────────────────────────────
+
+BƯỚC 1: Đăng nhập Admin
+  • URL: http://localhost:3000/login
+  • Email: admin@computerstore.com
+  • Password: Admin@123
+
+BƯỚC 2: Vào Admin Dashboard
+  • Nhấp vào "Admin Dashboard" trong menu
+  • URL: http://localhost:3000/admin
+
+BƯỚC 3: Xem Dashboard & Báo Cáo
+  • Kéo xuống để xem DashboardReports component
+  • 📊 Dashboard & Báo Cáo Tổng Kết hiển thị
+
+
+3.2 GIẢI THÍCH TỪNG TAB
+───────────────────────
+
+TAB 1: 📈 DOANH THU (Revenue)
+  • Hiển thị doanh thu theo tháng & ngày
+  • Giúp bạn theo dõi tăng trưởng bán hàng
+  • Bar chart: So sánh doanh thu tháng trước/tháng này
+  • Line chart: Xem xu hướng doanh thu hàng ngày
+
+  ⭐ TIP: Nếu line chart đi lên → Business tốt
+         Nếu line chart đi xuống → Cần chú ý
+
+TAB 2: 🛍️ TRẠNG THÁI ĐƠN (Order Status)
+  • Hiển thị phân bố đơn hàng theo trạng thái
+  • Pie chart: % của mỗi trạng thái
+  • Progress bar: Số lượng & % chi tiết
+
+  ⭐ TIP: Nếu "Delivered" cao → Khách hàng hài lòng
+         Nếu "Pending" cao → Cần xử lý nhanh hơn
+
+TAB 3: ⭐ SẢN PHẨM BÁN CHẠY (Top Products)
+  • Hiển thị 5 sản phẩm bán chạy nhất
+  • Table: Tên, số lượng, doanh thu
+
+  ⭐ TIP: Sử dụng để:
+         - Tăng stok sản phẩm hot
+         - Tạo khuyến mãi cho sản phẩm lạnh
+
+TAB 4: 📂 DANH MỤC (Category Statistics)
+  • Hiển thị phân bố sản phẩm theo hãng
+  • Pie chart: % sản phẩm mỗi hãng
+
+  ⭐ TIP: Nếu một hãng dominate → Cân bằng inventory
+
+
+3.3 CÁCH ĐỌC BIỂU ĐỒ
+────────────────────────
+
+📊 BAR CHART (Biểu Đồ Cột):
+  • Cột cao = Giá trị cao
+  • Cột thấp = Giá trị thấp
+  • So sánh chiều cao của các cột
+
+📈 LINE CHART (Biểu Đồ Đường):
+  • Đường đi lên = Tăng
+  • Đường đi xuống = Giảm
+  • Đường bằng phẳng = Ổn định
+  • Độ dốc = Tốc độ thay đổi
+
+🥧 PIE CHART (Biểu Đồ Bánh):
+  • Mỗi phần = 1 danh mục
+  • Kích thước phần = Tỉ lệ % của danh mục
+  • Tất cả phần = 100%
+
+
+3.4 XUẤT DỮ LIỆU (Future Feature)
+──────────────────────────────────
+  • Nút "Export to CSV" (sắp ra mắt)
+  • Nút "Print Report" (sắp ra mắt)
+
+
+================================================================================
+4. API DOCUMENTATION
+================================================================================
+
+4.1 GET /api/reports/dashboard
+──────────────────────────────────
+
+📝 MỤC ĐÍCH: Lấy thống kê dashboard chung
+
+REQUEST:
+  GET /api/reports/dashboard
+  Headers:
+    Authorization: Bearer {JWT_TOKEN}
+
+RESPONSE (200 OK):
+  {
+    "totalRevenue": "150000",
+    "totalOrders": 45,
+    "totalProducts": 12,
+    "totalCustomers": 28,
+    "revenueByMonth": [
+      { "month": "Jan", "revenue": 25000, "orders": 8 },
+      { "month": "Feb", "revenue": 35000, "orders": 12 },
+      ...
+    ],
+    "orderStatus": {
+      "pending": 5,
+      "confirmed": 12,
+      "shipped": 18,
+      "delivered": 10
+    },
+    "topProducts": [
+      {
+        "id": 1,
+        "name": "MacBook Pro 16\"",
+        "revenue": 45000000,
+        "sales": 1
+      },
+      ...
+    ],
+    "lastUpdated": "2026-03-28T14:30:45.123Z"
+  }
+
+
+4.2 GET /api/reports/revenue
+──────────────────────────────
+
+📝 MỤC ĐÍCH: Lấy doanh thu hàng ngày
+
+REQUEST:
+  GET /api/reports/revenue?days=30
+  Headers:
+    Authorization: Bearer {JWT_TOKEN}
+  Query Parameters:
+    days: số ngày (default: 30)
+
+RESPONSE (200 OK):
+  [
+    {
+      "date": "Feb 27",
+      "revenue": 3456,
+      "orders": 5
+    },
+    {
+      "date": "Feb 28",
+      "revenue": 4200,
+      "orders": 7
+    },
+    ...
+  ]
+
+
+4.3 GET /api/reports/orders
+──────────────────────────────
+
+📝 MỤC ĐÍCH: Lấy thống kê đơn hàng
+
+REQUEST:
+  GET /api/reports/orders
+  Headers:
+    Authorization: Bearer {JWT_TOKEN}
+
+RESPONSE (200 OK):
+  {
+    "byStatus": {
+      "pending": 5,
+      "confirmed": 12,
+      "shipped": 18,
+      "delivered": 10
+    },
+    "byBrand": {
+      "Macbook": 3,
+      "Asus": 2,
+      "Lenovo": 2,
+      "Acer": 1,
+      "MSI": 1
+    },
+    "dailyOrders": [
+      { "date": "Feb 27", "orders": 5 },
+      { "date": "Feb 28", "orders": 7 },
+      ...
+    ]
+  }
+
+
+================================================================================
+5. TECHNICAL DETAILS
+================================================================================
+
+5.1 FRONTEND COMPONENTS
+───────────────────────
+
+📁 Vị trí: frontend/src/components/DashboardReports.js
+
+🔧 Công nghệ:
+  • React (JavaScript framework)
+  • Ant Design (UI components)
+  • Recharts (Chart library)
+  • Hooks (useState, useEffect)
+
+📦 Main Components:
+  • Statistics Cards (Statistic từ antd)
+  • Bar Chart (BarChart từ recharts)
+  • Line Chart (LineChart từ recharts)
+  • Pie Chart (PieChart từ recharts)
+  • Table (Table từ antd)
+  • Tabs (Tabs từ antd)
+
+
+5.2 BACKEND SERVICES
+─────────────────────
+
+📁 Vị trí: backend/routes/reports.js
+
+🔧 Công nghệ:
+  • Express.js (Web framework)
+  • SQLite (Database)
+  • JWT (Authentication)
+
+📦 API Endpoints:
+  • router.get('/dashboard', auth, adminAuth, async (req, res) => {...})
+  • router.get('/revenue', auth, adminAuth, async (req, res) => {...})
+  • router.get('/orders', auth, adminAuth, async (req, res) => {...})
+
+
+5.3 DATABASE QUERIES
+─────────────────────
+
+Tất cả queries sử dụng thực data từ database:
+
+Query 1: Total Revenue
+  SELECT SUM(totalPrice) FROM orders 
+  WHERE status IN ("confirmed", "shipped", "delivered")
+
+Query 2: Total Orders
+  SELECT COUNT(*) FROM orders
+
+Query 3: Revenue by Month
+  SELECT strftime('%m', createdAt) as monthNumber,
+         strftime('%b', createdAt) as month,
+         SUM(totalPrice) as revenue,
+         COUNT(*) as orders
+  FROM orders
+  WHERE status IN ("confirmed", "shipped", "delivered")
+  GROUP BY strftime('%m', createdAt)
+
+(... và nhiều query khác)
+
+
+================================================================================
+SUMMARY - TÓM TẮT
+================================================================================
+
+✅ DASHBOARD ĐÃ HOÀN THÀNH:
+
+🎛️ COMPONENTS:
+  ✓ 4 Statistics Cards (KPI)
+  ✓ 4 Tabs with charts
+  ✓ Bar Chart (Monthly Revenue)
+  ✓ Line Chart (Daily Revenue)
+  ✓ Pie Chart (Order Status)
+  ✓ Pie Chart (Category Stats)
+  ✓ Table (Top Products)
+  ✓ Progress Bars (Status Details)
+
+📊 DATA SOURCE:
+  ✓ Real database queries
+  ✓ Async/await operations
+  ✓ Error handling
+  ✓ JWT Authentication
+
+📚 DOCUMENTATION:
+  ✓ This framework guide
+  ✓ API documentation
+  ✓ User guide
+  ✓ Technical details
+
+🚀 READY FOR USE!
+
+================================================================================

@@ -61,5 +61,27 @@ export const authService = {
     } catch (error) {
       return { success: false, message: error.message };
     }
+  },
+
+  getAllUsers: async (token) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/users`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return { success: false, message: data.message || 'Failed to fetch users' };
+      }
+
+      return { success: true, users: data.users || [], count: data.count };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
   }
 };

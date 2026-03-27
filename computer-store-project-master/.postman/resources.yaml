@@ -5,3 +5,6 @@ workspace:
 localResources:
   collections:
     - ..\backend\POSTMAN_COLLECTION.json
+cloudResources:
+  collections:
+    ..\postman\collections\Computer Store API: ce32f015-0147-4497-b318-bdb81f0f4b5e

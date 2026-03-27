@@ -120,98 +120,229 @@
 
 const express = require('express');
 const router = express.Router();
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const { auth, adminAuth } = require('../middleware/auth');
 
-// Mock data - Replace with real database queries
-const generateMockData = () => {
-  const now = new Date();
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-  
-  return {
-    revenueByMonth: months.map((month, index) => ({
-      month,
-      revenue: Math.floor(Math.random() * 50000) + 20000,
-      orders: Math.floor(Math.random() * 100) + 30
-    })),
-    orderStatus: {
-      pending: Math.floor(Math.random() * 50) + 10,
-      confirmed: Math.floor(Math.random() * 100) + 50,
-      shipped: Math.floor(Math.random() * 80) + 40,
-      delivered: Math.floor(Math.random() * 150) + 100
-    },
-    topProducts: [
-      { id: 1, name: 'Laptop Dell XPS 13', sales: 45, revenue: 44955 },
-      { id: 2, name: 'MacBook Pro 14"', sales: 38, revenue: 57200 },
-      { id: 3, name: 'Laptop Asus ROG', sales: 32, revenue: 48000 },
-      { id: 4, name: 'Lenovo ThinkPad', sales: 28, revenue: 25200 },
-      { id: 5, name: 'MSI Gaming Laptop', sales: 22, revenue: 19800 }
-    ],
-    dailyRevenue: Array.from({ length: 30 }, (_, i) => ({
-      date: new Date(now.getTime() - (30 - i) * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      revenue: Math.floor(Math.random() * 5000) + 1000
-    }))
-  };
+// SQLite database connection
+const dbPath = path.join(__dirname, '../computerstore.db');
+const db = new sqlite3.Database(dbPath);
+
+// Promisify database methods
+const dbAll = (sql, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.all(sql, params, (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows || []);
+    });
+  });
+};
+
+const dbGet = (sql, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.get(sql, params, (err, row) => {
+      if (err) reject(err);
+      else resolve(row || null);
+    });
+  });
 };
 
 /**
  * GET /api/reports/dashboard
- * Get dashboard statistics
+ * Get dashboard statistics (REAL DATA FROM DATABASE)
  */
-router.get('/dashboard', auth, adminAuth, (req, res) => {
+router.get('/dashboard', auth, adminAuth, async (req, res) => {
   try {
-    const mockData = generateMockData();
-    const totalOrders = Object.values(mockData.orderStatus).reduce((a, b) => a + b, 0);
-    const totalRevenue = mockData.revenueByMonth.reduce((sum, item) => sum + item.revenue, 0);
+    // Get total orders count
+    const totalOrdersResult = await dbGet(
+      'SELECT COUNT(*) as count FROM orders'
+    );
+    const totalOrders = totalOrdersResult?.count || 0;
+
+    // Get total revenue
+    const totalRevenueResult = await dbGet(
+      'SELECT SUM(totalPrice) as total FROM orders WHERE status IN ("confirmed", "shipped", "delivered")'
+    );
+    const totalRevenue = totalRevenueResult?.total || 0;
+
+    // Get total products
+    const totalProductsResult = await dbGet(
+      'SELECT COUNT(*) as count FROM products'
+    );
+    const totalProducts = totalProductsResult?.count || 0;
+
+    // Get unique customers (distinct emails)
+    const totalCustomersResult = await dbGet(
+      'SELECT COUNT(DISTINCT customerEmail) as count FROM orders'
+    );
+    const totalCustomers = totalCustomersResult?.count || 0;
+
+    // Get revenue by month (last 12 months)
+    const revenueByMonth = await dbAll(`
+      SELECT 
+        strftime('%m', createdAt) as monthNumber,
+        strftime('%b', createdAt) as month,
+        SUM(totalPrice) as revenue,
+        COUNT(*) as orders
+      FROM orders
+      WHERE status IN ("confirmed", "shipped", "delivered")
+      GROUP BY strftime('%m', createdAt)
+      ORDER BY monthNumber ASC
+      LIMIT 12
+    `);
+
+    // Get order status breakdown
+    const orderStatusResults = await dbAll(`
+      SELECT status, COUNT(*) as count FROM orders GROUP BY status
+    `);
     
+    const orderStatus = {
+      pending: 0,
+      confirmed: 0,
+      shipped: 0,
+      delivered: 0
+    };
+    
+    orderStatusResults.forEach(item => {
+      if (orderStatus.hasOwnProperty(item.status)) {
+        orderStatus[item.status] = item.count;
+      }
+    });
+
+    // Get top 5 products (by ID / most recent)
+    const topProducts = await dbAll(`
+      SELECT 
+        id,
+        name,
+        price as revenue,
+        1 as sales
+      FROM products
+      ORDER BY id DESC
+      LIMIT 5
+    `);
+
     res.json({
-      totalRevenue: totalRevenue.toFixed(2),
-      totalOrders,
-      totalProducts: 12,
-      totalCustomers: Math.floor(Math.random() * 200) + 100,
-      revenueByMonth: mockData.revenueByMonth,
-      orderStatus: mockData.orderStatus,
-      topProducts: mockData.topProducts,
+      totalRevenue: parseFloat(totalRevenue).toFixed(2),
+      totalOrders: totalOrders,
+      totalProducts: totalProducts,
+      totalCustomers: totalCustomers,
+      revenueByMonth: revenueByMonth.map(item => ({
+        month: item.month,
+        revenue: Math.round(item.revenue),
+        orders: item.orders
+      })),
+      orderStatus: orderStatus,
+      topProducts: topProducts.map(item => ({
+        id: item.id,
+        name: item.name,
+        sales: item.sales || 0,
+        revenue: item.revenue || 0
+      })),
       lastUpdated: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Dashboard error:', error);
     res.status(500).json({ message: 'Error fetching dashboard data', error: error.message });
   }
 });
 
 /**
  * GET /api/reports/revenue
- * Get revenue trends
+ * Get revenue trends (REAL DATA FROM DATABASE)
  */
-router.get('/revenue', auth, adminAuth, (req, res) => {
+router.get('/revenue', auth, adminAuth, async (req, res) => {
   try {
     const days = parseInt(req.query.days) || 30;
-    const mockData = generateMockData();
-    const dailyData = mockData.dailyRevenue.slice(-days);
     
-    res.json(dailyData);
+    const dailyRevenue = await dbAll(`
+      SELECT 
+        DATE(createdAt) as date,
+        SUM(totalPrice) as revenue,
+        COUNT(*) as orders
+      FROM orders
+      WHERE status IN ("confirmed", "shipped", "delivered")
+        AND createdAt >= datetime('now', '-' || ? || ' days')
+      GROUP BY DATE(createdAt)
+      ORDER BY date ASC
+    `, [days]);
+
+    // Format dates nicely
+    const formattedData = dailyRevenue.map(item => ({
+      date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      revenue: Math.round(item.revenue),
+      orders: item.orders
+    }));
+
+    res.json(formattedData);
   } catch (error) {
+    console.error('Revenue error:', error);
     res.status(500).json({ message: 'Error fetching revenue data', error: error.message });
   }
 });
 
 /**
  * GET /api/reports/orders
- * Get order statistics
+ * Get order statistics (REAL DATA FROM DATABASE)
  */
-router.get('/orders', auth, adminAuth, (req, res) => {
+router.get('/orders', auth, adminAuth, async (req, res) => {
   try {
-    const mockData = generateMockData();
+    // Order status breakdown
+    const statusResults = await dbAll(`
+      SELECT status, COUNT(*) as count FROM orders GROUP BY status
+    `);
     
+    const byStatus = {
+      pending: 0,
+      confirmed: 0,
+      shipped: 0,
+      delivered: 0
+    };
+    
+    statusResults.forEach(item => {
+      if (byStatus.hasOwnProperty(item.status)) {
+        byStatus[item.status] = item.count;
+      }
+    });
+
+    // Orders by brand (from products)
+    const brandResults = await dbAll(`
+      SELECT 
+        brand,
+        COUNT(id) as count
+      FROM products
+      GROUP BY brand
+      ORDER BY count DESC
+      LIMIT 5
+    `);
+    
+    const byBrand = {};
+    brandResults.forEach(item => {
+      byBrand[item.brand] = item.count;
+    });
+
+    // Daily orders (last 30 days)
+    const dailyOrders = await dbAll(`
+      SELECT 
+        DATE(createdAt) as date,
+        COUNT(*) as count
+      FROM orders
+      WHERE createdAt >= datetime('now', '-30 days')
+      GROUP BY DATE(createdAt)
+      ORDER BY date ASC
+    `);
+
+    const formattedDailyOrders = dailyOrders.map(item => ({
+      date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      orders: item.count
+    }));
+
     res.json({
-      byStatus: mockData.orderStatus,
-      byBrand: {
-        'Laptop': Math.floor(Math.random() * 100) + 50,
-        'Desktop': Math.floor(Math.random() * 60) + 20,
-        'Accessories': Math.floor(Math.random() * 40) + 10
-      },
-      dailyOrders: mockData.revenueByMonth
+      byStatus: byStatus,
+      byBrand: byBrand,
+      dailyOrders: formattedDailyOrders
     });
   } catch (error) {
+    console.error('Orders error:', error);
     res.status(500).json({ message: 'Error fetching order data', error: error.message });
   }
 });

@@ -145,6 +145,35 @@ const authController = {
     } catch (error) {
       return res.status(401).json({ message: 'Invalid or expired token' });
     }
+  },
+
+  // Lấy danh sách tất cả users (Admin only)
+  getAllUsers: async (req, res) => {
+    try {
+      // Kiểm tra permission
+      if (!req.user?.isAdmin) {
+        return res.status(403).json({ message: 'Admin access required' });
+      }
+
+      const connection = await pool.getConnection();
+
+      try {
+        const [users] = await connection.execute(
+          'SELECT id, name, email, isAdmin, createdAt FROM users ORDER BY createdAt DESC'
+        );
+
+        return res.status(200).json({
+          message: 'Users retrieved successfully',
+          count: users.length,
+          users: users
+        });
+      } finally {
+        connection.release();
+      }
+    } catch (error) {
+      console.error('Get users error:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
   }
 };
 

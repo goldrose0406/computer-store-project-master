@@ -1,0 +1,12 @@
+$kind: http-request
+url: http://localhost:5000/api/products
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{jwt_token}}
+body:
+  type: text
+  content: '{"name":"Dell
+    XPS","brand":"Dell","category":"laptop","price":30000000,"description":"High-performance
+    laptop"}'
+order: 2000

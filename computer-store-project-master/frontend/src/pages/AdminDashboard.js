@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, message, Spin, Tag } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { ordersService } from '../services/ordersService';
 import { productsService } from '../services/productsService';
+import { authService } from '../services/authService';
 import '../styles/AdminDashboard.css';
 
 const { Content } = Layout;
 
 const AdminDashboard = () => {
   const { user, token } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isAddProductModalVisible, setIsAddProductModalVisible] = useState(false);
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
   const [form] = Form.useForm();
   const [productForm] = Form.useForm();
 
@@ -26,6 +33,15 @@ const AdminDashboard = () => {
     }
   }, [user, token]);
 
+  // Handle URL-based modal opening
+  useEffect(() => {
+    if (location.pathname === '/admin/products/add') {
+      setEditingProduct(null);
+      productForm.resetFields();
+      setIsAddProductModalOpen(true);
+    }
+  }, [location.pathname, productForm]);
+
   const loadData = async () => {
     setLoading(true);
     try {
@@ -33,6 +49,27 @@ const AdminDashboard = () => {
       const ordersResult = await ordersService.getAllOrders(token);
       if (ordersResult.success) {
         setOrders(ordersResult.orders);
+        
+        // Extract unique customers from orders
+        const uniqueCustomers = [];
+        const customerEmails = new Set();
+        
+        if (Array.isArray(ordersResult.orders)) {
+          ordersResult.orders.forEach(order => {
+            if (order.customerEmail && !customerEmails.has(order.customerEmail)) {
+              customerEmails.add(order.customerEmail);
+              uniqueCustomers.push({
+                id: order.userId || order.customerEmail,
+                email: order.customerEmail,
+                name: order.customerName,
+                phone: order.customerPhone,
+                address: order.customerAddress,
+                createdAt: order.createdAt
+              });
+            }
+          });
+        }
+        setCustomers(uniqueCustomers);
       }
 
       // Tải sản phẩm
@@ -40,8 +77,15 @@ const AdminDashboard = () => {
       if (productsResult.success) {
         setProducts(productsResult.products);
       }
+
+      // Tải tất cả users (khách hàng đã đăng kí)
+      const usersResult = await authService.getAllUsers(token);
+      if (usersResult.success) {
+        setAllUsers(usersResult.users);
+      }
     } catch (error) {
       message.error('Lỗi tải dữ liệu');
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -49,18 +93,56 @@ const AdminDashboard = () => {
 
   const handleAddProduct = async (values) => {
     try {
-      const result = await productsService.createProduct(values, token);
-      if (result.success) {
-        message.success('Thêm sản phẩm thành công!');
-        setIsAddProductModalVisible(false);
-        productForm.resetFields();
-        loadData();
+      if (editingProduct) {
+        // Update existing product
+        const result = await productsService.updateProduct(editingProduct.id, values, token);
+        if (result.success) {
+          message.success('Cập nhật sản phẩm thành công!');
+          setIsAddProductModalOpen(false);
+          setEditingProduct(null);
+          productForm.resetFields();
+          loadData();
+          navigate('/admin');
+        } else {
+          message.error(result.message);
+        }
       } else {
-        message.error(result.message);
+        // Create new product
+        const result = await productsService.createProduct(values, token);
+        if (result.success) {
+          message.success('Thêm sản phẩm thành công!');
+          setIsAddProductModalOpen(false);
+          setEditingProduct(null);
+          productForm.resetFields();
+          loadData();
+          navigate('/admin');
+        } else {
+          message.error(result.message);
+        }
       }
     } catch (error) {
       message.error('Lỗi: ' + error.message);
     }
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    productForm.setFieldsValue({
+      name: product.name,
+      brand: product.brand,
+      category: product.category,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      description: product.description
+    });
+    setIsAddProductModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsAddProductModalOpen(false);
+    setEditingProduct(null);
+    productForm.resetFields();
+    navigate('/admin');
   };
 
   const handleDeleteProduct = async (productId) => {
@@ -188,17 +270,302 @@ const AdminDashboard = () => {
       key: 'action',
       render: (_, record) => (
         <Space>
-          <Button icon={<DeleteOutlined />} danger size="small" onClick={() => handleDeleteProduct(record.id)}>
+          <Button 
+            icon={<EditOutlined />} 
+            size="small" 
+            onClick={() => handleEditProduct(record)}
+          >
+            Sửa
+          </Button>
+          <Button 
+            icon={<DeleteOutlined />} 
+            danger 
+            size="small" 
+            onClick={() => handleDeleteProduct(record.id)}
+          >
             Xóa
           </Button>
         </Space>
       ),
-      width: 100
+      width: 140
     }
   ];
 
   const totalRevenue = orders.reduce((acc, order) => acc + (order.totalPrice || 0), 0);
   const uniqueCustomers = new Set(orders.map(o => o.customerEmail)).size;
+
+  // Render different views based on pathname
+  const renderContent = () => {
+    const pathname = location.pathname;
+
+    // Products list page
+    if (pathname === '/admin/products') {
+      return (
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>🛍️ Quản lý sản phẩm</h1>
+          </div>
+          <Card>
+            <div style={{ marginBottom: '16px' }}>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={() => navigate('/admin/products/add')}
+              >
+                Thêm sản phẩm mới
+              </Button>
+            </div>
+            <Table
+              columns={productsColumns}
+              dataSource={products.map(product => ({ ...product, key: product.id }))}
+              pagination={{ pageSize: 10 }}
+              responsive
+              scroll={{ x: 800 }}
+            />
+          </Card>
+        </div>
+      );
+    }
+
+    // Orders page
+    if (pathname === '/admin/orders') {
+      return (
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>📋 Quản lý đơn hàng</h1>
+          </div>
+          <Card>
+            <Table
+              columns={ordersColumns}
+              dataSource={orders.map(order => ({ ...order, key: order.id }))}
+              pagination={{ pageSize: 10 }}
+              responsive
+              scroll={{ x: 800 }}
+            />
+          </Card>
+        </div>
+      );
+    }
+
+    // Users/Customers page
+    if (pathname === '/admin/users') {
+      return (
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>👥 Quản lý khách hàng</h1>
+          </div>
+          <Card>
+            <Table
+              columns={[
+                {
+                  title: 'ID',
+                  dataIndex: 'id',
+                  key: 'id',
+                  width: 60
+                },
+                {
+                  title: 'Email',
+                  dataIndex: 'email',
+                  key: 'email'
+                },
+                {
+                  title: 'Tên khách hàng',
+                  dataIndex: 'name',
+                  key: 'name'
+                },
+                {
+                  title: 'Loại',
+                  dataIndex: 'isAdmin',
+                  key: 'isAdmin',
+                  render: (isAdmin) => (
+                    <Tag color={isAdmin ? 'red' : 'green'}>
+                      {isAdmin ? 'Admin' : 'Người dùng'}
+                    </Tag>
+                  ),
+                  width: 120
+                },
+                {
+                  title: 'Ngày tạo',
+                  dataIndex: 'createdAt',
+                  key: 'createdAt',
+                  render: (date) => new Date(date).toLocaleDateString('vi-VN')
+                }
+              ]}
+              dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
+              pagination={{ pageSize: 10 }}
+              responsive
+              scroll={{ x: 800 }}
+            />
+          </Card>
+        </div>
+      );
+    }
+
+    // Settings page
+    if (pathname === '/admin/settings') {
+      return (
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>⚙️ Cấu hình</h1>
+          </div>
+          <Card>
+            <p>Tính năng cấu hình sẽ sớm được cập nhật</p>
+          </Card>
+        </div>
+      );
+    }
+
+    // Default: Dashboard with tabs
+    return (
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: '32px' }}>
+          <h1 style={{ fontSize: '28px', marginBottom: '0' }}>📊 Admin Dashboard</h1>
+        </div>
+
+        {/* Stats */}
+        <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
+          <Col xs={24} sm={12} md={6}>
+            <Card>
+              <Statistic
+                title="Tổng đơn hàng"
+                value={orders.length}
+                valueStyle={{ color: '#1890ff', fontSize: '24px' }}
+              />
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Card>
+              <Statistic
+                title="Sản phẩm"
+                value={products.length}
+                valueStyle={{ color: '#52c41a', fontSize: '24px' }}
+              />
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Card>
+              <Statistic
+                title="Doanh thu"
+                value={totalRevenue}
+                valueStyle={{ color: '#faad14', fontSize: '24px' }}
+                formatter={(value) => `${(value / 1000000).toFixed(1)}M ₫`}
+              />
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Card>
+              <Statistic
+                title="Khách hàng"
+                value={uniqueCustomers}
+                valueStyle={{ color: '#ff7a45', fontSize: '24px' }}
+              />
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Tabs */}
+        <Card>
+          <Tabs
+            items={[
+              {
+                key: 'orders',
+                label: '📋 Quản lý đơn hàng',
+                children: (
+                  <div>
+                    <Table
+                      columns={ordersColumns}
+                      dataSource={orders.map(order => ({ ...order, key: order.id }))}
+                      pagination={{ pageSize: 10 }}
+                      responsive
+                      scroll={{ x: 800 }}
+                    />
+                  </div>
+                )
+              },
+              {
+                key: 'products',
+                label: '🛍️ Quản lý sản phẩm',
+                children: (
+                  <div>
+                    <div style={{ marginBottom: '16px' }}>
+                      <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => {
+                          setEditingProduct(null);
+                          productForm.resetFields();
+                          setIsAddProductModalOpen(true);
+                        }}
+                      >
+                        Thêm sản phẩm mới
+                      </Button>
+                    </div>
+                    <Table
+                      columns={productsColumns}
+                      dataSource={products.map(product => ({ ...product, key: product.id }))}
+                      pagination={{ pageSize: 10 }}
+                      responsive
+                      scroll={{ x: 800 }}
+                    />
+                  </div>
+                )
+              },
+              {
+                key: 'customers',
+                label: '👥 Quản lý khách hàng',
+                children: (
+                  <div>
+                    <Table
+                      columns={[
+                        {
+                          title: 'ID',
+                          dataIndex: 'id',
+                          key: 'id',
+                          width: 60
+                        },
+                        {
+                          title: 'Email',
+                          dataIndex: 'email',
+                          key: 'email'
+                        },
+                        {
+                          title: 'Tên khách hàng',
+                          dataIndex: 'name',
+                          key: 'name'
+                        },
+                        {
+                          title: 'Loại',
+                          dataIndex: 'isAdmin',
+                          key: 'isAdmin',
+                          render: (isAdmin) => (
+                            <Tag color={isAdmin ? 'red' : 'green'}>
+                              {isAdmin ? 'Admin' : 'Người dùng'}
+                            </Tag>
+                          ),
+                          width: 120
+                        },
+                        {
+                          title: 'Ngày tạo',
+                          dataIndex: 'createdAt',
+                          key: 'createdAt',
+                          render: (date) => new Date(date).toLocaleDateString('vi-VN')
+                        }
+                      ]}
+                      dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
+                      pagination={{ pageSize: 10 }}
+                      responsive
+                      scroll={{ x: 800 }}
+                    />
+                  </div>
+                )
+              }
+            ]}
+          />
+        </Card>
+      </div>
+    );
+  };
 
   if (!user?.isAdmin) {
     return (
@@ -215,112 +582,16 @@ const AdminDashboard = () => {
       <Layout>
         <Content style={{ padding: '24px', background: '#f0f2f5' }}>
           <Spin spinning={loading}>
-            <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-              {/* Header */}
-              <div style={{ marginBottom: '32px' }}>
-                <h1 style={{ fontSize: '28px', marginBottom: '0' }}>📊 Admin Dashboard</h1>
-              </div>
-
-              {/* Stats */}
-              <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
-                <Col xs={24} sm={12} md={6}>
-                  <Card>
-                    <Statistic
-                      title="Tổng đơn hàng"
-                      value={orders.length}
-                      valueStyle={{ color: '#1890ff', fontSize: '24px' }}
-                    />
-                  </Card>
-                </Col>
-                <Col xs={24} sm={12} md={6}>
-                  <Card>
-                    <Statistic
-                      title="Sản phẩm"
-                      value={products.length}
-                      valueStyle={{ color: '#52c41a', fontSize: '24px' }}
-                    />
-                  </Card>
-                </Col>
-                <Col xs={24} sm={12} md={6}>
-                  <Card>
-                    <Statistic
-                      title="Doanh thu"
-                      value={totalRevenue}
-                      valueStyle={{ color: '#faad14', fontSize: '24px' }}
-                      formatter={(value) => `${(value / 1000000).toFixed(1)}M ₫`}
-                    />
-                  </Card>
-                </Col>
-                <Col xs={24} sm={12} md={6}>
-                  <Card>
-                    <Statistic
-                      title="Khách hàng"
-                      value={uniqueCustomers}
-                      valueStyle={{ color: '#ff7a45', fontSize: '24px' }}
-                    />
-                  </Card>
-                </Col>
-              </Row>
-
-              {/* Tabs */}
-              <Card>
-                <Tabs
-                  items={[
-                    {
-                      key: 'orders',
-                      label: '📋 Quản lý đơn hàng',
-                      children: (
-                        <div>
-                          <Table
-                            columns={ordersColumns}
-                            dataSource={orders.map(order => ({ ...order, key: order.id }))}
-                            pagination={{ pageSize: 10 }}
-                            responsive
-                            scroll={{ x: 800 }}
-                          />
-                        </div>
-                      )
-                    },
-                    {
-                      key: 'products',
-                      label: '🛍️ Quản lý sản phẩm',
-                      children: (
-                        <div>
-                          <div style={{ marginBottom: '16px' }}>
-                            <Button
-                              type="primary"
-                              icon={<PlusOutlined />}
-                              onClick={() => setIsAddProductModalVisible(true)}
-                            >
-                              Thêm sản phẩm mới
-                            </Button>
-                          </div>
-                          <Table
-                            columns={productsColumns}
-                            dataSource={products.map(product => ({ ...product, key: product.id }))}
-                            pagination={{ pageSize: 10 }}
-                            responsive
-                            scroll={{ x: 800 }}
-                          />
-                        </div>
-                      )
-                    }
-                  ]}
-                />
-              </Card>
-            </div>
+            {renderContent()}
           </Spin>
         </Content>
       </Layout>
 
       {/* Add Product Modal */}
       <Modal
-        title="Thêm sản phẩm mới"
-        visible={isAddProductModalVisible}
-        onCancel={() => {
-          setIsAddProductModalVisible(false);
-          productForm.resetFields();
-        }}
+        title={editingProduct ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
+        open={isAddProductModalOpen}
+        onCancel={handleCloseModal}
         onOk={() => productForm.submit()}
       >
         <Form
