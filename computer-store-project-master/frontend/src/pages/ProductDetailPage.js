@@ -15,6 +15,11 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Scroll to top when product ID changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   useEffect(() => {
     const loadProduct = async () => {
       setLoading(true);
@@ -122,9 +127,9 @@ const ProductDetailPage = () => {
 
       {/* MAIN PRODUCT SECTION */}
       <section className="product-main-section">
-        <Row gutter={[32, 32]}>
+        <Row gutter={[24, 24]}>
           {/* LEFT: GALLERY */}
-          <Col xs={24} sm={24} md={10} className="product-gallery-col sticky-col">
+          <Col xs={24} sm={24} md={8} className="product-gallery-col">
             <div className="product-gallery">
               <div className="gallery-main">
                 <img 
@@ -145,7 +150,7 @@ const ProductDetailPage = () => {
           </Col>
 
           {/* CENTER: DETAILS */}
-          <Col xs={24} sm={24} md={10} className="product-details-col sticky-col">
+          <Col xs={24} sm={24} md={10} className="product-details-col">
             {/* Title */}
             <h1 className="product-title">{product.name}</h1>
 
@@ -162,12 +167,50 @@ const ProductDetailPage = () => {
               </div>
             </div>
 
+            {/* Quantity & Add to Cart */}
+            <Form layout="vertical" className="add-to-cart-form">
+              <Form.Item label="Số lượng" style={{ marginBottom: '12px' }}>
+                <div className="quantity-wrapper">
+                  <button className="qty-btn" onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
+                  <InputNumber
+                    min={1}
+                    max={100}
+                    value={quantity}
+                    onChange={setQuantity}
+                    className="qty-input"
+                    bordered={false}
+                  />
+                  <button className="qty-btn" onClick={() => setQuantity(quantity + 1)}>+</button>
+                </div>
+              </Form.Item>
+            </Form>
+
+            {/* Action Buttons */}
+            <div className="action-buttons">
+              <Button
+                type="primary"
+                size="large"
+                onClick={handleAddToCart}
+                className="btn-add-cart"
+              >
+                Thêm vào giỏ hàng
+              </Button>
+              <Button
+                type="default"
+                size="large"
+                onClick={handleBuyNow}
+                className="btn-buy-now"
+              >
+                Mua Ngay
+              </Button>
+            </div>
+
             {/* Stock Status */}
             <div className="stock-status"></div>
 
             {/* Promotional Offers */}
             <div className="promotional-offers">
-              <p className="promo-title">🎁 <strong style={{color: '#c300ff'}}>ƯU ĐÃI KHI BUILD PC TẠI PC79 STORE</strong></p>
+              <p className="promo-title">🎁 <strong style={{color: '#c300ff'}}>ƯU ĐÃI KHI BUILD PC TẠI COMPUTER STORE</strong></p>
               <ul className="promo-list">
                 <li>Voucher giảm 200K khi mua kèm Màn Hình bất kỳ.</li>
                 <li>Tặng Combo Bàn Phím – Chuột – Pad Chuột.</li>
@@ -190,49 +233,12 @@ const ProductDetailPage = () => {
               </div>
             </div>
 
-            {/* Quantity & Add to Cart */}
-            <Form layout="vertical" className="add-to-cart-form">
-              <Form.Item label="Số lượng">
-                <div className="quantity-wrapper">
-                  <button className="qty-btn" onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
-                  <InputNumber
-                    min={1}
-                    max={100}
-                    value={quantity}
-                    onChange={setQuantity}
-                    className="qty-input"
-                    bordered={false}
-                  />
-                  <button className="qty-btn" onClick={() => setQuantity(quantity + 1)}>+</button>
-                </div>
-              </Form.Item>
-            </Form>
-
-            <div className="action-buttons">
-              <Button
-                type="primary"
-                size="large"
-                onClick={handleAddToCart}
-                className="btn-add-cart"
-              >
-                Thêm vào giỏ hàng
-              </Button>
-              <Button
-                type="default"
-                size="large"
-                onClick={handleBuyNow}
-                className="btn-buy-now"
-              >
-                Mua Ngay
-              </Button>
-            </div>
-
             {/* Contact Buttons */}
             <div className="contact-buttons">
-              <a href="https://zalo.me/2807113230385078620" target="_blank" rel="noopener noreferrer" className="contact-btn">
+              <a href="123123" target="_blank" rel="noopener noreferrer" className="contact-btn">
                 Liên Hệ Zalo OA
               </a>
-              <a href="https://messenger.com/t/110811251984154" target="_blank" rel="noopener noreferrer" className="contact-btn">
+              <a href="123123123" target="_blank" rel="noopener noreferrer" className="contact-btn">
                 Liên Hệ Fanpage
               </a>
             </div>
@@ -246,17 +252,16 @@ const ProductDetailPage = () => {
           </Col>
 
           {/* RIGHT: SIDEBAR */}
-          <Col xs={24} sm={24} md={4} className="product-sidebar">
+          <Col xs={24} sm={24} md={6} className="product-sidebar">
             {/* Showroom Info */}
             <div className="showroom-box">
-              <h4>📍 SHOWROOM PHẠM VĂN CHIÊU - TP. HỒ CHÍ MINH</h4>
+              <h4>📍 SHOWROOM CDSG - TP. HỒ CHÍ MINH</h4>
               <div className="showroom-details">
-                <p><strong>Địa chỉ Showroom:</strong> 522 Phạm Văn Chiêu, P.An Hội Đông, TPHCM (P16, Gò Vấp Cũ)</p>
+                <p><strong>Địa chỉ Showroom:</strong> Hà Thị Khiêm 123123</p>
                 <p>🚘 Có chỗ đậu xe ô tô quay đầu thoáng - đường 2 chiều.</p>
-                <p>☎️ Liên hệ với PC79 để giúp Quý khách lựa chọn đúng nhu cầu của mình:</p>
+                <p>☎️ Liên hệ với Nhóm 10 store để giúp Quý khách lựa chọn đúng nhu cầu của mình:</p>
                 <ul>
-                  <li><a href="tel:0868792992"><strong>Hotline</strong></a> hoặc <a href="https://zalo.me/2807113230385078620"><strong>Zalo OA</strong></a></li>
-                  <li>Thứ 2 - CN từ 9:00 AM - 18:00 PM</li>
+                  Thứ 2 - CN từ 9:00 AM - 18:00 PM
                 </ul>
               </div>
             </div>
@@ -264,34 +269,30 @@ const ProductDetailPage = () => {
             {/* Delivery & Warranty */}
             <div className="delivery-warranty-box">
               <div className="delivery-item">
-                <div className="delivery-icon">🏪</div>
+                
                 <h5>Nhận máy & kiểm tra trực tiếp tại Showroom PC79 Store</h5>
                 <p>Khách có thể đến tận nơi để kiểm tra chất lượng sản phẩm, đảm bảo mọi chức năng hoạt động tốt trước khi thanh toán.</p>
               </div>
 
               <div className="delivery-item">
-                <div className="delivery-icon">🚚</div>
                 <h5>Giao hàng trực tiếp tại Tp. Hồ Chí Minh</h5>
                 <p>Nhân viên PC79 Store trực tiếp giao máy, lắp đặt tận nơi nội thành Hồ Chí Minh.</p>
                 <p><strong>Miễn phí. Thời gian trong vòng 24h.</strong></p>
               </div>
 
               <div className="delivery-item">
-                <div className="delivery-icon">📦</div>
                 <h5>Giao COD toàn quốc qua các bên Vận Chuyển uy tín</h5>
                 <p>Sản phẩm sẽ được lắp đặt, đóng gói và giao hàng tận nơi qua các nhà Vận chuyển uy tín như Nhất Tín, Viettel Post, Giao Hàng Tiết Kiệm...</p>
                 <p><strong>PC79 hỗ trợ đến 45% phí Ship các bên Vận chuyển. Thời gian: 3 - 5 ngày.</strong></p>
               </div>
 
               <div className="delivery-item">
-                <div className="delivery-icon">⭐</div>
-                <h5>Bảo hành ít nhất 12 tháng.</h5>
+                <h5>⭐ Bảo hành ít nhất 12 tháng.</h5>
                 <a href="https://example.com/warranty" className="detail-link">Xem chi tiết</a>
               </div>
 
               <div className="delivery-item">
-                <div className="delivery-icon">🔄</div>
-                <h5>Chính sách 1-đổi-1 nếu lỗi trong 30 ngày.</h5>
+                <h5>🔄 Chính sách 1-đổi-1 nếu lỗi trong 30 ngày.</h5>
                 <a href="https://example.com/return" className="detail-link">Xem chi tiết</a>
               </div>
             </div>
