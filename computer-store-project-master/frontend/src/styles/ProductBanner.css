@@ -1,0 +1,33 @@
+.product-banner-section {
+  position: relative;
+  width: 100%;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .banner-content {
+    padding: 40px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-banner-section {
+    min-height: 600px !important;
+  }
+
+  .banner-content-wrapper {
+    min-height: 600px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-banner-section {
+    min-height: 500px !important;
+  }
+
+  .banner-content-wrapper {
+    min-height: 500px !important;
+  }
+}

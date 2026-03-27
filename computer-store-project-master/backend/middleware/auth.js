@@ -23,4 +23,9 @@ const verifyAdmin = (req, res, next) => {
   next();
 };
 
-module.exports = { verifyToken, verifyAdmin };
+module.exports = { 
+  auth: verifyToken, 
+  adminAuth: verifyAdmin,
+  verifyToken, 
+  verifyAdmin 
+};

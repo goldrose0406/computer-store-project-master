@@ -1,0 +1,408 @@
+================================================================================
+HƯỚNG DẪN TEST PHẦN DOCKERIZATION - COMPUTER STORE PROJECT
+================================================================================
+
+📋 KIỂM TRA TIÊN QUYẾT:
+
+1. Cài đặt Docker Desktop
+   - Tải từ: https://www.docker.com/products/docker-desktop
+   - Cài đặt và khởi động Docker Desktop
+   - Kiểm tra: Mở Terminal/PowerShell và chạy:
+     docker --version
+     docker-compose --version
+
+2. Chuẩn bị môi trường
+   - Đảm bảo bạn ở thư mục chính của project:
+     cd D:\computer-store-project-master\computer-store-project-master
+
+================================================================================
+BƯỚC 1: KIỂM TRA CÁC FILE DOCKERIZATION
+================================================================================
+
+✓ Kiểm tra các file tồn tại:
+  - docker-compose.yml (tại thư mục gốc project) ✓ CÓ
+  - backend/Dockerfile ✓ CÓ
+  - frontend/Dockerfile ✓ CÓ
+
+Cấu hình hiện tại:
+  - Backend: Chạy trên port 5000
+  - Frontend: Chạy trên port 3000
+  - Database: Volume được tạo từ ./backend
+  - Network: computer-store-network (Bridge network)
+
+================================================================================
+BƯỚC 2: BUILD CÁC IMAGE DOCKER
+================================================================================
+
+Lệnh: docker-compose build
+
+Kết quả mong đợi:
+  - Backend image được build từ node:18-alpine
+  - Frontend image được build từ node:18-alpine với 2 stage (builder + production)
+  - Hoàn thành mà không có lỗi
+
+Thời gian: ~3-5 phút (tùy vào tốc độ internet)
+
+================================================================================
+BƯỚC 3: CHẠY CÁC CONTAINER (ONE CLICK SETUP)
+================================================================================
+
+Lệnh: docker-compose up -d
+
+Giải thích:
+  - -d: Chạy ở background mode
+  - Sẽ tự động khởi động:
+    1. Backend service trên port 5000
+    2. Frontend service trên port 3000
+    3. Database volume
+
+Kết quả mong đợi:
+  - Container computer-store-backend đang chạy
+  - Container computer-store-frontend đang chạy
+  - Container computer-store-db đang chạy
+
+================================================================================
+BƯỚC 4: KIỂM TRA TRẠNG THÁI CONTAINER
+================================================================================
+
+Lệnh: docker-compose ps
+
+Hoặc xem chi tiết hơn:
+  docker ps -a
+
+Kết quả mong đợi:
+  STATUS: "Up X seconds" cho cả 3 container
+  Ports:
+    - backend: 0.0.0.0:5000->5000/tcp
+    - frontend: 0.0.0.0:3000->3000/tcp
+
+================================================================================
+BƯỚC 5: KIỂM TRA LOG CỦA CÁC SERVICE
+================================================================================
+
+Xem log Backend:
+  docker-compose logs backend
+
+Xem log Frontend:
+  docker-compose logs frontend
+
+Xem tất cả log:
+  docker-compose logs -f
+
+Giải thích:
+  - -f: Follow log (tự động cập nhật)
+  - Ấn Ctrl+C để thoát
+
+Kết quả mong đợi:
+  Backend:
+    - Server listening on port 5000
+    - Database initialized
+    - No errors
+
+  Frontend:
+    - Compiled successfully
+    - Ready to accept connections
+
+================================================================================
+BƯỚC 6: TEST HEALTH CHECK
+================================================================================
+
+Test Backend Health:
+  curl http://localhost:5000/health
+
+Test Frontend Health:
+  curl http://localhost:3000
+
+Hoặc mở trình duyệt:
+  Frontend: http://localhost:3000
+  Backend API: http://localhost:5000/api
+
+Kết quả mong đợi:
+  - Frontend: Trang web Computer Store hiển thị
+  - Backend: Health status OK (JSON response)
+
+================================================================================
+BƯỚC 7: TEST API ENDPOINTS
+================================================================================
+
+Kiểm tra các endpoint cơ bản:
+
+1. Lấy danh sách sản phẩm:
+   GET http://localhost:5000/api/products
+
+2. Đăng ký người dùng:
+   POST http://localhost:5000/api/auth/register
+   Body: {"username": "test", "password": "test123"}
+
+3. Đăng nhập:
+   POST http://localhost:5000/api/auth/login
+   Body: {"username": "test", "password": "test123"}
+
+Công cụ: Sử dụng Postman hoặc curl
+  curl -X GET http://localhost:5000/api/products
+
+================================================================================
+BƯỚC 8: KIỂM TRA VOLUME VÀ DATA
+================================================================================
+
+Kiểm tra volume Docker:
+  docker volume ls
+
+Kiểm tra dung lượng container:
+  docker stats
+
+Kết quả mong đợi:
+  - Volume backend-data tồn tại
+  - Volume frontend-build tồn tại
+  - Container không chiếm quá nhiều tài nguyên
+
+================================================================================
+BƯỚC 9: DỪNG VÀ RESTART
+================================================================================
+
+Dừng tất cả container:
+  docker-compose down
+
+Dừng mà giữ volume:
+  docker-compose down -v  (ghi chú: -v sẽ xóa volume)
+
+Restart tất cả container:
+  docker-compose restart
+
+Restart một service cụ thể:
+  docker-compose restart backend
+  docker-compose restart frontend
+
+================================================================================
+BƯỚC 10: KIỂM TRA LỖI VÀ TROUBLESHOOTING
+================================================================================
+
+1. Nếu container không khởi động:
+   - Kiểm tra log: docker-compose logs [service-name]
+   - Kiểm tra port có bị chiếm không: netstat -an | findstr :5000
+   - Xóa container cũ: docker-compose down --remove-orphans
+
+2. Nếu Build thất bại:
+   - Xóa cache: docker-compose build --no-cache
+   - Kiểm tra file Dockerfile
+   - Kiểm tra package.json
+
+3. Nếu Frontend không kết nối Backend:
+   - Kiểm tra REACT_APP_API_URL trong docker-compose.yml
+   - Đảm bảo Backend đã khởi động
+   - Kiểm tra network: docker network ls
+
+4. Nếu Port bị chiếm:
+   - Thay đổi port trong docker-compose.yml
+   - Ví dụ: "8000:5000" thay vì "5000:5000"
+
+================================================================================
+BƯỚC 11: TEST TOÀN BỘ FLOW (ONE CLICK TEST)
+================================================================================
+
+Chạy lệnh complete test:
+
+  # Clean up old containers
+  docker-compose down
+
+  # Build fresh images
+  docker-compose build --no-cache
+
+  # Start all services
+  docker-compose up -d
+
+  # Wait 10 seconds for services to start
+  timeout /t 10
+
+  # Check status
+  docker-compose ps
+
+  # Test backend health
+  curl http://localhost:5000/health
+
+  # Test frontend
+  curl http://localhost:3000
+
+  # Check logs for errors
+  docker-compose logs
+
+  # View running containers
+  docker ps
+
+Kết quả mong đợi:
+  ✓ Tất cả 3 container Status: Up
+  ✓ Backend respond 200 OK
+  ✓ Frontend respond 200 OK
+  ✓ Không có error trong logs
+  ✓ Có thể truy cập http://localhost:3000 từ trình duyệt
+
+================================================================================
+BƯỚC 12: TEST HIỆU SUẤT VÀ RESOURCE USAGE
+================================================================================
+
+Kiểm tra CPU, Memory, Network:
+  docker stats
+
+Kiểm tra chi tiết container:
+  docker inspect computer-store-backend
+  docker inspect computer-store-frontend
+
+Kết quả mong đợi:
+  - CPU usage: < 50% mỗi container
+  - Memory: < 300MB mỗi container
+  - Network healthy
+
+================================================================================
+BƯỚC 13: TEST ADVANCED (Database Connection)
+================================================================================
+
+Kiểm tra database initialize:
+  docker-compose logs db
+
+Test database connection từ Backend:
+  docker-compose exec backend node -e "console.log('DB Check')"
+
+Kết quả mong đợi:
+  - DB volume mounted successfully
+  - Database initialized
+  - Backend can access database
+
+================================================================================
+FILE CHECKLIST: CÁC FILE DOCKERIZATION
+================================================================================
+
+✓ docker-compose.yml
+  - Services: backend, frontend, db
+  - Ports: 5000 (backend), 3000 (frontend)
+  - Networks: computer-store-network
+  - Environment variables configured
+  - Health checks configured
+
+✓ backend/Dockerfile
+  - Base image: node:18-alpine
+  - Working directory: /app
+  - Dependencies: npm install
+  - Port exposed: 5000
+  - Health check: HTTP endpoint check
+  - CMD: npm run dev
+
+✓ frontend/Dockerfile
+  - Build stage: Multi-stage build
+  - Base image: node:18-alpine
+  - Build output: npm run build
+  - Production: serve package
+  - Port exposed: 3000
+  - Health check: HTTP root check
+  - CMD: serve -s build -l 3000
+
+================================================================================
+QUICK TEST COMMANDS (Copy & Paste)
+================================================================================
+
+# Test 1: Build
+docker-compose build
+
+# Test 2: Start
+docker-compose up -d
+
+# Test 3: Status
+docker-compose ps
+
+# Test 4: Logs
+docker-compose logs -f
+
+# Test 5: Health Check
+curl http://localhost:5000/health
+curl http://localhost:3000
+
+# Test 6: Stop
+docker-compose down
+
+================================================================================
+EXPECTED TEST RESULTS SUMMARY
+================================================================================
+
+✓ BUILD TEST: PASSED
+  - Backend image built successfully
+  - Frontend image built successfully
+
+✓ START TEST: PASSED
+  - All 3 containers running
+  - Network created
+  - Volumes mounted
+
+✓ CONNECTIVITY TEST: PASSED
+  - Frontend accessible on http://localhost:3000
+  - Backend accessible on http://localhost:5000
+  - Health checks responding
+
+✓ FUNCTIONALITY TEST: PASSED
+  - API endpoints responding
+  - Frontend-Backend communication working
+  - Database volume working
+
+✓ ONE CLICK SETUP: PASSED
+  - Complete system running from single docker-compose command
+  - All services interconnected
+  - Ready for testing
+
+================================================================================
+NOTES & COMMON ISSUES
+================================================================================
+
+1. Port Conflicts:
+   - Nếu port 5000 hoặc 3000 đã được sử dụng, thay đổi trong docker-compose.yml
+
+2. Slow Build:
+   - Lần đầu tiên build sẽ chậm (tải dependencies)
+   - Lần kế tiếp sẽ nhanh hơn (Docker cache)
+
+3. Memory Issues:
+   - Nếu máy có ít RAM, giảm replicas hoặc resources limits
+   - Thêm vào docker-compose.yml:
+     deploy:
+       resources:
+         limits:
+           memory: 512M
+
+4. Network Issues:
+   - Kiểm tra Docker network hoạt động tốt
+   - Kiểm tra firewall không block ports
+
+5. Container Exit:
+   - Kiểm tra logs: docker-compose logs [service]
+   - Xem exit code: docker-compose ps
+   - Debug: docker run -it node:18-alpine /bin/sh
+
+================================================================================
+TEST SUCCESS CRITERIA
+================================================================================
+
+Để xác nhận Docker setup thành công, cần thỏa mãn:
+
+✓ CriteriaTiêu chuẩn 1: Tất cả container khởi động thành công
+✓ Tiêu chuẩn 2: Backend chạy trên port 5000
+✓ Tiêu chuẩn 3: Frontend chạy trên port 3000
+✓ Tiêu chuẩn 4: Frontend có thể kết nối Backend
+✓ Tiêu chuẩn 5: API health check respond OK
+✓ Tiêu chuẩn 6: Frontend hiển thị bình thường
+✓ Tiêu chuẩn 7: Không có error trong logs
+
+Nếu tất cả ✓ có, Docker ONE CLICK SETUP đã test thành công!
+
+================================================================================
+CONTACT & SUPPORT
+================================================================================
+
+Nếu gặp lỗi:
+1. Kiểm tra Docker Desktop đang chạy
+2. Kiểm tra các port 5000, 3000 không bị chiếm
+3. Xem logs: docker-compose logs
+4. Xóa và rebuild: docker-compose down && docker-compose build --no-cache
+5. Khởi động lại Docker Desktop
+
+================================================================================
+TEST COMPLETION DATE: ___________
+TESTER NAME: ____________________
+STATUS: ✓ PASSED / ✗ FAILED
+================================================================================

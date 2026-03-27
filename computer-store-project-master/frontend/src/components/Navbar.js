@@ -78,10 +78,15 @@ const Navbar = () => {
             placeholder="Bạn đang tìm sản phẩm nào?"
             style={{
               width: '100%',
-              background: 'transparent',
-              border: '1px solid #555',
-              borderRadius: '24px',
               padding: '0px'
+            }}
+            inputProps={{
+              style: {
+                background: 'transparent !important',
+                border: 'none !important',
+                borderRadius: '24px !important',
+                color: '#fff !important',
+              }
             }}
             className="custom-search"
             allowClear

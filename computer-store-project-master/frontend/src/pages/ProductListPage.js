@@ -3,6 +3,8 @@ import { Row, Col, Card, Select, Button, Empty, Pagination, Spin, message } from
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { productsService } from '../services/productsService';
 import ProductCard from '../components/ProductCard';
+import ProductBanner from '../components/ProductBanner';
+import PCGamingBestSeller from '../components/PCGamingBestSeller';
 import '../styles/ProductList.css';
 
 const ProductListPage = () => {
@@ -64,12 +66,20 @@ const ProductListPage = () => {
   const paginatedProducts = sorted.slice(startIdx, startIdx + itemsPerPage);
 
   return (
-    <div className="product-list-page" style={{ padding: '40px 20px', maxWidth: '1400px', margin: '0 auto' }}>
-      {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '32px', marginBottom: '16px' }}>🛍️ Danh sách sản phẩm</h1>
-        <p style={{ color: '#666' }}>Tìm laptop hoặc máy tính phù hợp với nhu cầu của bạn</p>
-      </div>
+    <div className="product-list-page">
+      {/* Product Banner */}
+      <ProductBanner />
+
+      {/* PC Gaming Best Seller Section */}
+      <PCGamingBestSeller />
+
+      {/* Main Content */}
+      <div style={{ padding: '40px 20px', maxWidth: '1400px', margin: '0 auto' }} id="products-list">
+        {/* Header */}
+        <div style={{ marginBottom: '32px' }}>
+          <h1 style={{ fontSize: '32px', marginBottom: '16px' }}>🛍️ Danh sách sản phẩm</h1>
+          <p style={{ color: '#666' }}>Tìm laptop hoặc máy tính phù hợp với nhu cầu của bạn</p>
+        </div>
 
       {/* Filters */}
       <Card style={{ marginBottom: '32px', background: '#fafafa' }}>
@@ -154,6 +164,7 @@ const ProductListPage = () => {
           />
         )}
       </Spin>
+      </div>
     </div>
   );
 };
