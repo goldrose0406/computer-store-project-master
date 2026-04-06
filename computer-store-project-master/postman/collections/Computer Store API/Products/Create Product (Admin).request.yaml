@@ -9,4 +9,5 @@ body:
   content: '{"name":"Dell
     XPS","brand":"Dell","category":"laptop","price":30000000,"description":"High-performance
     laptop"}'
+examples: .resources/Create Product (Admin).resources/examples
 order: 2000

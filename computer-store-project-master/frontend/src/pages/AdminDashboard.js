@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, message, Spin, Tag } from 'antd';
+import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, message, Spin, Tag, Progress } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
@@ -353,6 +353,88 @@ const AdminDashboard = () => {
   const totalRevenue = orders.reduce((acc, order) => acc + (order.totalPrice || 0), 0);
   const uniqueCustomers = new Set(orders.map(o => o.customerEmail)).size;
 
+  // Calculate data for charts
+  // 1. Revenue by month (Line Chart)
+  const getRevenueByMonth = () => {
+    const revenueData = {};
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    orders.forEach(order => {
+      const date = new Date(order.createdAt);
+      const monthKey = `${monthNames[date.getMonth()]} ${date.getDate()}`;
+      revenueData[monthKey] = (revenueData[monthKey] || 0) + (order.totalPrice || 0);
+    });
+
+    return Object.entries(revenueData)
+      .slice(-15) // Last 15 days
+      .map(([month, revenue]) => ({
+        name: month,
+        revenue: Math.round(revenue)
+      }));
+  };
+
+  // 2. Brand distribution (Pie Chart)
+  const getBrandDistribution = () => {
+    const brandData = {};
+    
+    orders.forEach(order => {
+      if (order.products && typeof order.products === 'string') {
+        try {
+          const productsList = JSON.parse(order.products);
+          productsList.forEach(product => {
+            const productInfo = products.find(p => p.id === product.id);
+            if (productInfo) {
+              brandData[productInfo.brand] = (brandData[productInfo.brand] || 0) + (product.quantity || 1);
+            }
+          });
+        } catch (e) {
+          // Handle error
+        }
+      }
+    });
+
+    return Object.entries(brandData)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([brand, count], index) => ({
+        name: brand,
+        value: count,
+        color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'][index % 6]
+      }));
+  };
+
+  // 3. Top 5 best-selling products (Bar Chart)
+  const getTopProducts = () => {
+    const productSales = {};
+    
+    orders.forEach(order => {
+      if (order.products && typeof order.products === 'string') {
+        try {
+          const productsList = JSON.parse(order.products);
+          productsList.forEach(product => {
+            const key = product.name || `Product ${product.id}`;
+            productSales[key] = (productSales[key] || 0) + (product.quantity || 1);
+          });
+        } catch (e) {
+          // Handle error
+        }
+      }
+    });
+
+    return Object.entries(productSales)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([name, quantity]) => ({
+        name: name.length > 20 ? name.substring(0, 20) + '...' : name,
+        quantity: quantity
+      }));
+  };
+
+  const revenueByMonth = getRevenueByMonth();
+  const brandData = getBrandDistribution();
+  const topProducts = getTopProducts();
+  const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
+
   // Render different views based on pathname
   const renderContent = () => {
     const pathname = location.pathname;
@@ -550,7 +632,130 @@ const AdminDashboard = () => {
           </Col>
         </Row>
 
-        {/* Tabs */}
+        {/* Charts Section - Simple HTML/CSS based charts */}
+        <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
+          {/* Revenue Trend Chart */}
+          <Col xs={24} lg={12}>
+            <Card title="📈 Xu hướng doanh thu (15 ngày gần nhất)" bordered={false}>
+              {revenueByMonth.length > 0 ? (
+                <div style={{ padding: '20px 0' }}>
+                  {revenueByMonth.map((item, idx) => (
+                    <div key={idx} style={{ marginBottom: '12px' }}>
+                      <div style={{ fontSize: '12px', marginBottom: '4px', display: 'flex', justifyContent: 'space-between' }}>
+                        <span>{item.name}</span>
+                        <span style={{ fontWeight: 'bold', color: '#1890ff' }}>
+                          {(item.revenue / 1000000).toFixed(1)}M ₫
+                        </span>
+                      </div>
+                      <div style={{ 
+                        width: '100%', 
+                        height: '20px', 
+                        backgroundColor: '#f0f0f0', 
+                        borderRadius: '4px',
+                        overflow: 'hidden'
+                      }}>
+                        <div style={{
+                          height: '100%',
+                          width: `${Math.min((item.revenue / totalRevenue) * 100 || 0, 100)}%`,
+                          backgroundColor: '#1890ff',
+                          transition: 'width 0.3s'
+                        }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p style={{ textAlign: 'center', color: '#999' }}>Chưa có dữ liệu</p>
+              )}
+            </Card>
+          </Col>
+
+          {/* Brand Distribution Chart */}
+          <Col xs={24} lg={12}>
+            <Card title="🏷️ Tỷ lệ hãng bán chạy" bordered={false}>
+              {brandData.length > 0 ? (
+                <div style={{ padding: '20px 0' }}>
+                  {brandData.map((item, idx) => {
+                    const totalBrand = brandData.reduce((sum, b) => sum + b.value, 0);
+                    const percentage = ((item.value / totalBrand) * 100).toFixed(1);
+                    return (
+                      <div key={idx} style={{ marginBottom: '16px' }}>
+                        <div style={{ fontSize: '13px', marginBottom: '4px', display: 'flex', justifyContent: 'space-between', fontWeight: '500' }}>
+                          <span>{item.name}</span>
+                          <span>{percentage}%</span>
+                        </div>
+                        <div style={{
+                          width: '100%',
+                          height: '24px',
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: '4px',
+                          overflow: 'hidden'
+                        }}>
+                          <div style={{
+                            height: '100%',
+                            width: `${percentage}%`,
+                            backgroundColor: item.color,
+                            transition: 'width 0.3s'
+                          }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p style={{ textAlign: 'center', color: '#999' }}>Chưa có dữ liệu</p>
+              )}
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Top Products Bar Chart */}
+        <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
+          <Col xs={24}>
+            <Card title="🔥 Top 5 sản phẩm bán chạy nhất" bordered={false}>
+              {topProducts.length > 0 ? (
+                <div style={{ padding: '20px 0' }}>
+                  {topProducts.map((item, idx) => {
+                    const maxQty = Math.max(...topProducts.map(p => p.quantity));
+                    const percentage = (item.quantity / maxQty) * 100;
+                    return (
+                      <div key={idx} style={{ marginBottom: '18px' }}>
+                        <div style={{ fontSize: '13px', marginBottom: '6px', display: 'flex', justifyContent: 'space-between', fontWeight: '500' }}>
+                          <span>#{idx + 1} {item.name}</span>
+                          <span style={{ color: '#52c41a', fontWeight: 'bold' }}>{item.quantity} sản phẩm</span>
+                        </div>
+                        <div style={{
+                          width: '100%',
+                          height: '28px',
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: '4px',
+                          overflow: 'hidden'
+                        }}>
+                          <div style={{
+                            height: '100%',
+                            width: `${percentage}%`,
+                            backgroundColor: `hsl(${(idx * 60) % 360}, 70%, 50%)`,
+                            transition: 'width 0.3s',
+                            display: 'flex',
+                            alignItems: 'center',
+                            paddingLeft: '8px',
+                            color: 'white',
+                            fontSize: '12px',
+                            fontWeight: 'bold'
+                          }}>
+                            {percentage > 10 && `${percentage.toFixed(0)}%`}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p style={{ textAlign: 'center', color: '#999' }}>Chưa có dữ liệu</p>
+              )}
+            </Card>
+          </Col>
+        </Row>
         <Card>
           <Tabs
             items={[

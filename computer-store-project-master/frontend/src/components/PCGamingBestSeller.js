@@ -14,7 +14,6 @@ const PCGamingBestSeller = () => {
       ram: '32GB D4',
       image: 'https://pc79.vn/wp-content/uploads/2025/08/DANH-MUC-PC-I-PC-GAMING-GMN5407W-780x1024.png',
       color: '#00D4FF',
-
     },
     {
       id: 2,
@@ -25,7 +24,6 @@ const PCGamingBestSeller = () => {
       ram: '32GB D4',
       image: 'https://pc79.vn/wp-content/uploads/2025/08/DANH-MUC-PC-I-PC-GAMING-GMN5406-780x1024.png',
       color: '#9945FF',
-
     },
     {
       id: 3,
@@ -33,7 +31,6 @@ const PCGamingBestSeller = () => {
       
       image: 'https://pc79.vn/wp-content/uploads/2025/08/DANH-MUC-PC-I-MINI-PC-I5-5405IW-780x1024.png',
       color: '#00E5FF',
-
     },
     {
       id: 4,
@@ -44,7 +41,6 @@ const PCGamingBestSeller = () => {
       ram: '16GB D4',
       image: 'https://pc79.vn/wp-content/uploads/2025/08/DANH-MUC-PC-I-PC-GAMING-BEST-PRICE-GMN-BP-5204-780x1024.png',
       color: '#FF3366',
-
     }
   ];
 
