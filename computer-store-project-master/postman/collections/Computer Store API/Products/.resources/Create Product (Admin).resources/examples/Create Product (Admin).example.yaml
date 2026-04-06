@@ -1,0 +1,29 @@
+$kind: http-example
+request:
+  url: http://localhost:5000/api/products
+  method: POST
+  headers:
+    Content-Type: application/json
+    Authorization: Bearer {{jwt_token}}
+  body:
+    type: text
+    content: '{"name":"Dell
+      XPS","brand":"Dell","category":"laptop","price":30000000,"description":"High-performance
+      laptop"}'
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    x-powered-by: Express
+    access-control-allow-origin: "*"
+    content-type: application/json; charset=utf-8
+    content-length: "149"
+    etag: W/"95-Zb/NpvlMFVn1iZ+jS/ko0mqs0as"
+    date: Fri, 27 Mar 2026 23:44:21 GMT
+    connection: keep-alive
+    keep-alive: timeout=5
+  body:
+    type: json
+    content: '{"message":"Product created successfully","product":{"name":"Dell
+      XPS","brand":"Dell","category":"laptop","price":30000000,"originalPrice":30000000}}'
+order: 1774655067629

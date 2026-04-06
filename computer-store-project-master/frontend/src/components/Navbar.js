@@ -9,7 +9,7 @@ import '../styles/Navbar.css';
 const Navbar = () => {
   const navigate = useNavigate();
   const { totalItems, toggleCart } = useContext(CartContext);
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout, isAdmin, setLoginModalOpen } = useAuth();
 
   const menuItems = [
     'SẢN PHẨM',
@@ -152,7 +152,7 @@ const Navbar = () => {
                   type="default"
                   size="small"
                   style={{ background: 'linear-gradient(135deg, #7c3aed, #ec4899)', border: 'none' }}
-                  onClick={() => navigate('/login')}
+                  onClick={() => setLoginModalOpen(true)}
                 >
                   Đăng Nhập
                 </Button>
@@ -160,7 +160,7 @@ const Navbar = () => {
                   type="primary"
                   size="small"
                   style={{ background: 'linear-gradient(135deg, #7c3aed, #ec4899)', border: 'none' }}
-                  onClick={() => navigate('/register')}
+                  onClick={() => setLoginModalOpen(true)}
                 >
                   Đăng Ký
                 </Button>

@@ -1,0 +1,28 @@
+$kind: http-example
+request:
+  url: http://localhost:5000/api/auth/register
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: text
+    content: '{"name":"Nguyễn Văn
+      A","email":"user@example.com","password":"123456","confirmPassword":"123456"}'
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    x-powered-by: Express
+    access-control-allow-origin: "*"
+    content-type: application/json; charset=utf-8
+    content-length: "340"
+    etag: W/"154-I/F1RqDkPpq9bZwKt+vD2lGhDqg"
+    date: Fri, 27 Mar 2026 23:40:56 GMT
+    connection: keep-alive
+    keep-alive: timeout=5
+  body:
+    type: json
+    content: '{"message":"Register
+      successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJuYW1lIjoiTmd1eeG7hW4gVsSDbiBBIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTc3NDY1NDg1NiwiZXhwIjoxNzc1MjU5NjU2fQ.HshOWV09b-UxtVmxcq3JwrqoBnxUvzhNDki8kuN-_eQ","user":{"name":"Nguyễn
+      Văn A","email":"user@example.com","isAdmin":false}}'
+order: 1774654900565

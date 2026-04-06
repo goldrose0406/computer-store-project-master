@@ -1,0 +1,27 @@
+$kind: http-example
+name: Register New User
+request:
+  url: http://localhost:5000/api/auth/register
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: text
+    content: '{"name":"Nguyễn Văn
+      A","email":"user@example.com","password":"12356","confirmPassword":"123456"}'
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    x-powered-by: Express
+    access-control-allow-origin: "*"
+    content-type: application/json; charset=utf-8
+    content-length: "36"
+    etag: W/"24-N6uFjuN5oLJQsoX+l0WGxyl2HG4"
+    date: Fri, 27 Mar 2026 23:42:50 GMT
+    connection: keep-alive
+    keep-alive: timeout=5
+  body:
+    type: json
+    content: '{"message":"Passwords do not match"}'
+order: 4458886205359260

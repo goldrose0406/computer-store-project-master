@@ -7,6 +7,8 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
   const API_URL = 'http://localhost:5000/api/auth';
 
@@ -122,7 +124,11 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     isLoggedIn: !!user,
-    isAdmin: user?.isAdmin || false
+    isAdmin: user?.isAdmin || false,
+    loginModalOpen,
+    setLoginModalOpen,
+    forgotPasswordModalOpen,
+    setForgotPasswordModalOpen
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

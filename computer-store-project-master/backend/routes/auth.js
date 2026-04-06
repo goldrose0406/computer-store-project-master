@@ -13,6 +13,15 @@ router.post('/login', authController.login);
 // GET /api/auth/verify
 router.get('/verify', verifyToken, authController.verifyToken);
 
+// POST /api/auth/forgot-password
+router.post('/forgot-password', authController.forgotPassword);
+
+// POST /api/auth/verify-reset-code
+router.post('/verify-reset-code', authController.verifyResetCode);
+
+// POST /api/auth/reset-password
+router.post('/reset-password', authController.resetPassword);
+
 // GET /api/auth/users (Admin only - xem danh sách tất cả users)
 router.get('/users', verifyToken, verifyAdmin, authController.getAllUsers);
 

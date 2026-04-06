@@ -1,0 +1,27 @@
+$kind: http-example
+name: Register New User
+request:
+  url: http://localhost:5000/api/auth/register
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: text
+    content: '{"name":"Nguyễn Văn
+      A","email":"userexample.com","password":"123456","confirmPassword":"123456"}'
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    x-powered-by: Express
+    access-control-allow-origin: "*"
+    content-type: application/json; charset=utf-8
+    content-length: "34"
+    etag: W/"22-YA4eD/IUibRf5v2CqvJut5mOZSs"
+    date: Fri, 27 Mar 2026 23:43:07 GMT
+    connection: keep-alive
+    keep-alive: timeout=5
+  body:
+    type: json
+    content: '{"message":"Invalid email format"}'
+order: 1056417924460240

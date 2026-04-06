@@ -1,6 +1,12 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const { pool } = require('../config/db');
+const { sendResetCode, sendPasswordChangeConfirmation } = require('../services/emailService');
+
+// Hàm tạo mã reset password 6 số
+const generateResetCode = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
 
 const authController = {
   // Đăng ký
@@ -225,6 +231,211 @@ const authController = {
       }
     } catch (error) {
       console.error('Update user role error:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
+
+  // Quên mật khẩu - Gửi mã reset
+  forgotPassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      // Validate input
+      if (!email) {
+        return res.status(400).json({ message: 'Email is required' });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: 'Invalid email format' });
+      }
+
+      const connection = await pool.getConnection();
+
+      try {
+        // Kiểm tra user tồn tại
+        const [users] = await connection.execute(
+          'SELECT id, name, email FROM users WHERE email = ?',
+          [email]
+        );
+
+        if (users.length === 0) {
+          // Không tiết lộ rằng email không tồn tại (security)
+          return res.status(200).json({ 
+            message: 'If an account exists with this email, a reset code has been sent' 
+          });
+        }
+
+        const user = users[0];
+
+        // Tạo reset code
+        const resetCode = generateResetCode();
+        const resetCodeExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 phút
+
+        // Lưu reset code vào database
+        await connection.execute(
+          'UPDATE users SET reset_code = ?, reset_code_expires = ?, reset_attempts = 0, last_reset_attempt = ? WHERE id = ?',
+          [resetCode, resetCodeExpires, new Date(), user.id]
+        );
+
+        // Gửi email
+        const emailResult = await sendResetCode(email, resetCode);
+
+        if (!emailResult.success) {
+          return res.status(500).json({ 
+            message: 'Failed to send reset code',
+            error: emailResult.error 
+          });
+        }
+
+        return res.status(200).json({
+          message: 'Reset code sent to email successfully',
+          email: email
+        });
+      } finally {
+        connection.release();
+      }
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
+
+  // Xác minh reset code
+  verifyResetCode: async (req, res) => {
+    try {
+      const { email, resetCode } = req.body;
+
+      // Validate input
+      if (!email || !resetCode) {
+        return res.status(400).json({ message: 'Email and reset code are required' });
+      }
+
+      const connection = await pool.getConnection();
+
+      try {
+        // Tìm user
+        const [users] = await connection.execute(
+          'SELECT id, reset_code, reset_code_expires, reset_attempts FROM users WHERE email = ?',
+          [email]
+        );
+
+        if (users.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        const user = users[0];
+
+        // Kiểm tra reset code có tồn tại không
+        if (!user.reset_code) {
+          return res.status(400).json({ message: 'No reset code requested' });
+        }
+
+        // Kiểm tra reset code còn valid không
+        if (new Date() > new Date(user.reset_code_expires)) {
+          await connection.execute(
+            'UPDATE users SET reset_code = NULL, reset_code_expires = NULL WHERE id = ?',
+            [user.id]
+          );
+          return res.status(400).json({ message: 'Reset code expired. Please request a new one' });
+        }
+
+        // Kiểm tra số lần nhập sai (tối đa 5 lần)
+        if (user.reset_attempts >= 5) {
+          return res.status(429).json({ 
+            message: 'Too many failed attempts. Please request a new code' 
+          });
+        }
+
+        // Kiểm tra reset code có đúng không
+        if (user.reset_code !== resetCode) {
+          // Tăng counter lỗi
+          await connection.execute(
+            'UPDATE users SET reset_attempts = reset_attempts + 1 WHERE id = ?',
+            [user.id]
+          );
+          return res.status(400).json({ 
+            message: 'Invalid reset code',
+            attemptsRemaining: 5 - (user.reset_attempts + 1)
+          });
+        }
+
+        return res.status(200).json({
+          message: 'Reset code verified successfully'
+        });
+      } finally {
+        connection.release();
+      }
+    } catch (error) {
+      console.error('Verify reset code error:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
+
+  // Đặt lại mật khẩu
+  resetPassword: async (req, res) => {
+    try {
+      const { email, resetCode, newPassword, confirmPassword } = req.body;
+
+      // Validate input
+      if (!email || !resetCode || !newPassword || !confirmPassword) {
+        return res.status(400).json({ message: 'All fields are required' });
+      }
+
+      if (newPassword !== confirmPassword) {
+        return res.status(400).json({ message: 'Passwords do not match' });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({ message: 'Password must be at least 6 characters' });
+      }
+
+      const connection = await pool.getConnection();
+
+      try {
+        // Tìm user
+        const [users] = await connection.execute(
+          'SELECT id, name, reset_code, reset_code_expires FROM users WHERE email = ?',
+          [email]
+        );
+
+        if (users.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        const user = users[0];
+
+        // Kiểm tra reset code
+        if (user.reset_code !== resetCode) {
+          return res.status(400).json({ message: 'Invalid reset code' });
+        }
+
+        // Kiểm tra reset code còn valid không
+        if (new Date() > new Date(user.reset_code_expires)) {
+          return res.status(400).json({ message: 'Reset code expired' });
+        }
+
+        // Hash mật khẩu mới
+        const hashedPassword = await bcryptjs.hash(newPassword, 10);
+
+        // Cập nhật mật khẩu
+        await connection.execute(
+          'UPDATE users SET password = ?, reset_code = NULL, reset_code_expires = NULL, reset_attempts = 0 WHERE id = ?',
+          [hashedPassword, user.id]
+        );
+
+        // Gửi email xác nhận
+        await sendPasswordChangeConfirmation(email, user.name);
+
+        return res.status(200).json({
+          message: 'Password reset successfully'
+        });
+      } finally {
+        connection.release();
+      }
+    } catch (error) {
+      console.error('Reset password error:', error);
       return res.status(500).json({ message: 'Server error', error: error.message });
     }
   }
