@@ -441,19 +441,29 @@ const AdminDashboard = () => {
 
     // Products list page
     if (pathname === '/admin/products') {
+      const handleExportProductsExcel = () => {
+        window.location.href = `${process.env.REACT_APP_API_URL}/reports/export/products/excel`;
+      };
+
       return (
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ marginBottom: '32px' }}>
             <h1 style={{ fontSize: '28px', marginBottom: '0' }}>🛍️ Quản lý sản phẩm</h1>
           </div>
           <Card>
-            <div style={{ marginBottom: '16px' }}>
+            <div style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
                 onClick={() => navigate('/admin/products/add')}
               >
                 Thêm sản phẩm mới
+              </Button>
+              <Button
+                type="default"
+                onClick={handleExportProductsExcel}
+              >
+                📥 Xuất Excel
               </Button>
             </div>
             <Table
@@ -470,12 +480,34 @@ const AdminDashboard = () => {
 
     // Orders page
     if (pathname === '/admin/orders') {
+      const handleExportOrdersExcel = () => {
+        window.location.href = `${process.env.REACT_APP_API_URL}/reports/export/orders/excel`;
+      };
+
+      const handleExportOrdersPDF = () => {
+        window.location.href = `${process.env.REACT_APP_API_URL}/reports/export/orders/pdf`;
+      };
+
       return (
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ marginBottom: '32px' }}>
             <h1 style={{ fontSize: '28px', marginBottom: '0' }}>📋 Quản lý đơn hàng</h1>
           </div>
           <Card>
+            <div style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
+              <Button
+                type="default"
+                onClick={handleExportOrdersExcel}
+              >
+                📥 Xuất Excel
+              </Button>
+              <Button
+                type="default"
+                onClick={handleExportOrdersPDF}
+              >
+                📄 Xuất PDF
+              </Button>
+            </div>
             <Table
               columns={ordersColumns}
               dataSource={orders.map(order => ({ ...order, key: order.id }))}

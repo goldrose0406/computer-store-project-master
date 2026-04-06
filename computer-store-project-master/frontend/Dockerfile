@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --legacy-peer-deps
+RUN npm install --legacy-peer-deps && npm install ajv@^8.0.0
 
 COPY . .
 

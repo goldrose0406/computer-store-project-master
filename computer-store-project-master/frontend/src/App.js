@@ -19,6 +19,7 @@ import MyOrdersPage from './pages/MyOrdersPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AdminDashboard from './pages/AdminDashboard';
+import StaffDashboard from './pages/StaffDashboard';
 import './App.css';
 
 const { Content } = Layout;
@@ -93,6 +94,24 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Staff Dashboard - Protected */}
+            <Route
+              path="/staff/*"
+              element={
+                <ProtectedRoute>
+                  <StaffDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/staff"
+              element={
+                <ProtectedRoute>
+                  <StaffDashboard />
                 </ProtectedRoute>
               }
             />

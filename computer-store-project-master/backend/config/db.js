@@ -148,11 +148,30 @@ const initDatabase = async () => {
         description TEXT,
         specs TEXT,
         image VARCHAR(500),
+        stock INTEGER DEFAULT 999,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
     console.log('✅ Products table created/exists');
+
+    // Thêm stock column nếu chưa có
+    try {
+      const tableInfo = await new Promise((resolve, reject) => {
+        db.all('PRAGMA table_info(products)', (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows || []);
+        });
+      });
+      
+      const hasStockColumn = tableInfo.some(col => col.name === 'stock');
+      if (!hasStockColumn) {
+        await dbRun(`ALTER TABLE products ADD COLUMN stock INTEGER DEFAULT 999`);
+        console.log('✅ Stock column added to products table');
+      }
+    } catch (err) {
+      // Bỏ qua nếu column đã tồn tại
+    }
 
     // Create default accounts
     const bcryptjs = require('bcryptjs');

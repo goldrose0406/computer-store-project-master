@@ -1,5 +1,4 @@
 const swaggerJsdoc = require('swagger-jsdoc');
-require('./swagger-endpoints');
 
 const options = {
   definition: {

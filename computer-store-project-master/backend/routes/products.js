@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/', productsController.getAllProducts);
 router.get('/brands', productsController.getBrands);
 router.get('/categories', productsController.getCategories);
+router.get('/stock-check/:id', productsController.getStockCheck);
 router.get('/:id', productsController.getProductById);
 
 // Admin only routes

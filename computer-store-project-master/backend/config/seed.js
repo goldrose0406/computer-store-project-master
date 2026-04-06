@@ -5,10 +5,16 @@ const seedProducts = async () => {
     const connection = await pool.getConnection();
 
     try {
-      // Delete old data (SQLite compatible)
-      await connection.execute('DELETE FROM products');
+      // Check if products already exist (don't delete - preserve data)
+      const [existingProducts] = await connection.execute('SELECT COUNT(*) as count FROM products');
+      
+      if (existingProducts[0]?.count > 0) {
+        console.log(`✅ Products already exist (${existingProducts[0].count} products found). Skipping seed.`);
+        return;
+      }
 
-      const products = [
+      // Original 6 products
+      const baseProducts = [
         {
           name: 'MacBook Pro 16"',
           brand: 'Macbook',
@@ -107,7 +113,49 @@ const seedProducts = async () => {
         }
       ];
 
-      for (const product of products) {
+      // Generate 500+ additional products programmatically
+      const brands = ['Dell', 'HP', 'Lenovo', 'Asus', 'MSI', 'Acer', 'Razer', 'ROG', 'Macbook', 'Sony', 'LG', 'Samsung'];
+      const categories = ['laptop', 'gaming-laptop', 'ultrabook', 'workstation', 'budget-laptop'];
+      const cpus = [
+        'Intel Core i3 12th Gen', 'Intel Core i5 12th Gen', 'Intel Core i7 12th Gen', 'Intel Core i9 13th Gen',
+        'AMD Ryzen 3 5000', 'AMD Ryzen 5 5000', 'AMD Ryzen 7 5000', 'Apple M1', 'Apple M2', 'Apple M3'
+      ];
+      const rams = ['4GB DDR4', '8GB DDR4', '16GB DDR5', '32GB DDR5', '64GB DDR5'];
+      const storages = ['256GB SSD', '512GB SSD', '1TB SSD', '2TB SSD'];
+
+      let generatedProducts = [];
+      
+      for (let i = 0; i < 500; i++) {
+        const brand = brands[Math.floor(Math.random() * brands.length)];
+        const category = categories[Math.floor(Math.random() * categories.length)];
+        const cpu = cpus[Math.floor(Math.random() * cpus.length)];
+        const ram = rams[Math.floor(Math.random() * rams.length)];
+        const storage = storages[Math.floor(Math.random() * storages.length)];
+        const basePrice = 8000000 + Math.random() * 50000000;
+        const discount = Math.random() * 0.3; // 0-30% discount
+
+        generatedProducts.push({
+          name: `${brand} ${category} Model ${i + 1}`,
+          brand: brand,
+          category: category,
+          price: Math.floor(basePrice * (1 - discount)),
+          originalPrice: Math.floor(basePrice),
+          description: `Máy tính xách tay ${brand} chuyên dùng cho ${category.replace('-', ' ')} với ${cpu}, ${ram}, ${storage}`,
+          specs: JSON.stringify({
+            cpu: cpu,
+            ram: ram,
+            storage: storage,
+            display: Math.random() > 0.5 ? '14 inch FHD' : '15.6 inch IPS',
+            battery: `${Math.floor(8 + Math.random() * 12)} giờ`
+          }),
+          image: `/images/products/laptop-${i + 1}.webp`
+        });
+      }
+
+      // Combine original products with generated ones (APPEND, not replace)
+      const allProducts = [...baseProducts, ...generatedProducts];
+
+      for (const product of allProducts) {
         await connection.execute(
           `INSERT INTO products (name, brand, category, price, originalPrice, description, specs, image)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -124,7 +172,7 @@ const seedProducts = async () => {
         );
       }
 
-      console.log('✅ Products seeded successfully');
+      console.log(`✅ Products seeded successfully: ${baseProducts.length} original + ${generatedProducts.length} generated = ${allProducts.length} total`);
     } finally {
       connection.release();
     }

@@ -1,4 +1,5 @@
 const { pool } = require('../config/db');
+const { sendOrderConfirmation } = require('../services/emailService');
 
 const ordersController = {
   // Tạo đơn hàng mới
@@ -24,6 +25,43 @@ const ordersController = {
       const connection = await pool.getConnection();
 
       try {
+        // ✅ CHECK STOCK FOR EACH PRODUCT
+        const outOfStockProducts = [];
+        
+        for (const item of products) {
+          const [productData] = await connection.execute(
+            'SELECT id, name, stock FROM products WHERE id = ?',
+            [item.id]
+          );
+
+          if (productData.length === 0) {
+            return res.status(404).json({ message: `Product ${item.id} not found` });
+          }
+
+          const product = productData[0];
+          if (product.stock === undefined || product.stock === null) {
+            // If stock field doesn't exist, assume unlimited
+            continue;
+          }
+
+          if (product.stock < item.quantity) {
+            outOfStockProducts.push({
+              id: product.id,
+              name: product.name,
+              requested: item.quantity,
+              available: product.stock
+            });
+          }
+        }
+
+        // If any product is out of stock, reject the order
+        if (outOfStockProducts.length > 0) {
+          return res.status(422).json({
+            message: 'Some products are out of stock',
+            outOfStockProducts
+          });
+        }
+
         const totalItems = products.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
         // Chèn order vào database
@@ -32,6 +70,23 @@ const ordersController = {
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
           [userId, customerName, customerEmail, customerPhone, customerAddress, JSON.stringify(products), totalPrice, totalItems, notes || null]
         );
+
+        // ✅ DEDUCT STOCK FROM PRODUCTS
+        for (const item of products) {
+          await connection.execute(
+            'UPDATE products SET stock = stock - ? WHERE id = ?',
+            [item.quantity, item.id]
+          );
+        }
+
+        // ✅ SEND ORDER CONFIRMATION EMAIL
+        await sendOrderConfirmation(customerEmail, {
+          orderId: result.insertId,
+          customerName,
+          products,
+          totalPrice,
+          totalItems
+        });
 
         return res.status(201).json({
           message: 'Order created successfully',

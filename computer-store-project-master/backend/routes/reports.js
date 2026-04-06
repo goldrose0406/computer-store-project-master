@@ -122,7 +122,7 @@ const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const { auth, adminAuth } = require('../middleware/auth');
+const { auth, adminAuth, verifyToken, verifyAdmin } = require('../middleware/auth');
 
 // SQLite database connection
 const dbPath = path.join(__dirname, '../computerstore.db');
@@ -344,6 +344,155 @@ router.get('/orders', auth, adminAuth, async (req, res) => {
   } catch (error) {
     console.error('Orders error:', error);
     res.status(500).json({ message: 'Error fetching order data', error: error.message });
+  }
+});
+
+// ✅ EXPORT ORDERS TO EXCEL
+router.get('/export/orders/excel', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const ExcelJS = require('exceljs');
+    const connection = await pool.getConnection();
+
+    const [orders] = await connection.execute(
+      `SELECT id, userId, customerName, customerEmail, customerPhone, totalPrice, totalItems, status, createdAt 
+       FROM orders ORDER BY createdAt DESC`
+    );
+    connection.release();
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Orders');
+
+    // Header
+    worksheet.columns = [
+      { header: 'Order ID', key: 'id', width: 10 },
+      { header: 'Customer Name', key: 'customerName', width: 20 },
+      { header: 'Email', key: 'customerEmail', width: 25 },
+      { header: 'Phone', key: 'customerPhone', width: 15 },
+      { header: 'Total Items', key: 'totalItems', width: 12 },
+      { header: 'Total Price', key: 'totalPrice', width: 15 },
+      { header: 'Status', key: 'status', width: 12 },
+      { header: 'Date', key: 'createdAt', width: 20 }
+    ];
+
+    // Style header
+    worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    worksheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF7C3AED' } };
+
+    // Add data
+    orders.forEach(order => {
+      worksheet.addRow({
+        id: order.id,
+        customerName: order.customerName,
+        customerEmail: order.customerEmail,
+        customerPhone: order.customerPhone,
+        totalItems: order.totalItems,
+        totalPrice: order.totalPrice,
+        status: order.status,
+        createdAt: new Date(order.createdAt).toLocaleDateString('vi-VN')
+      });
+    });
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="orders.xlsx"');
+    
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error('Export orders excel error:', error);
+    res.status(500).json({ message: 'Error exporting orders', error: error.message });
+  }
+});
+
+// ✅ EXPORT PRODUCTS TO EXCEL
+router.get('/export/products/excel', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const ExcelJS = require('exceljs');
+    const connection = await pool.getConnection();
+
+    const [products] = await connection.execute(
+      `SELECT id, name, brand, category, price, originalPrice, stock FROM products ORDER BY id DESC`
+    );
+    connection.release();
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Products');
+
+    worksheet.columns = [
+      { header: 'Product ID', key: 'id', width: 10 },
+      { header: 'Product Name', key: 'name', width: 30 },
+      { header: 'Brand', key: 'brand', width: 15 },
+      { header: 'Category', key: 'category', width: 15 },
+      { header: 'Price', key: 'price', width: 15 },
+      { header: 'Original Price', key: 'originalPrice', width: 15 },
+      { header: 'Stock', key: 'stock', width: 10 }
+    ];
+
+    worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    worksheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF7C3AED' } };
+
+    products.forEach(product => {
+      worksheet.addRow({
+        id: product.id,
+        name: product.name,
+        brand: product.brand,
+        category: product.category,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        stock: product.stock || 'Unlimited'
+      });
+    });
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="products.xlsx"');
+    
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error('Export products excel error:', error);
+    res.status(500).json({ message: 'Error exporting products', error: error.message });
+  }
+});
+
+// ✅ EXPORT ORDERS TO PDF
+router.get('/export/orders/pdf', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const PDFDocument = require('pdfkit');
+    const connection = await pool.getConnection();
+
+    const [orders] = await connection.execute(
+      `SELECT id, customerName, customerEmail, totalPrice, totalItems, status, createdAt 
+       FROM orders ORDER BY createdAt DESC LIMIT 100`
+    );
+    connection.release();
+
+    const doc = new PDFDocument();
+    
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="orders.pdf"');
+    
+    doc.pipe(res);
+
+    // Title
+    doc.fontSize(20).text('Computer Store - Order Report', { align: 'center' });
+    doc.fontSize(12).text(`Generated: ${new Date().toLocaleDateString('vi-VN')}`, { align: 'center' });
+    doc.moveDown();
+
+    // Table
+    doc.fontSize(10);
+    doc.text('Order ID | Customer | Total Items | Price | Status | Date', { underline: true });
+    
+    orders.forEach(order => {
+      const dateStr = new Date(order.createdAt).toLocaleDateString('vi-VN');
+      doc.text(`${order.id} | ${order.customerName.substring(0, 15)} | ${order.totalItems} | ₫${order.totalPrice} | ${order.status} | ${dateStr}`);
+    });
+
+    doc.moveDown();
+    doc.fontSize(9).text(`Total Orders: ${orders.length}`, { align: 'right' });
+
+    doc.end();
+  } catch (error) {
+    console.error('Export orders pdf error:', error);
+    res.status(500).json({ message: 'Error exporting PDF', error: error.message });
   }
 });
 

@@ -1,47 +1,114 @@
 const { pool } = require('../config/db');
 
 const productsController = {
+  // Kiểm tra và lấy tồn kho sản phẩm (public)
+  getStockCheck: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({ message: 'Invalid product ID' });
+      }
+
+      const connection = await pool.getConnection();
+
+      try {
+        const [products] = await connection.execute(
+          'SELECT id, name, stock FROM products WHERE id = ?',
+          [id]
+        );
+
+        if (products.length === 0) {
+          return res.status(404).json({ message: 'Product not found' });
+        }
+
+        const product = products[0];
+        const inStock = (product.stock === null || product.stock === undefined || product.stock > 0);
+
+        return res.status(200).json({
+          message: 'Stock check',
+          productId: product.id,
+          productName: product.name,
+          stock: product.stock || 999,
+          inStock: inStock,
+          status: inStock ? 'available' : 'out-of-stock'
+        });
+      } finally {
+        connection.release();
+      }
+    } catch (error) {
+      console.error('Stock check error:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
+
   // Lấy tất cả sản phẩm (public)
   getAllProducts: async (req, res) => {
     try {
-      const { category, brand, priceMin, priceMax, search } = req.query;
+      const { category, brand, priceMin, priceMax, search, page = 1, limit = 20 } = req.query;
+      
+      // Pagination params
+      const pageNum = Math.max(1, parseInt(page) || 1);
+      const limitNum = Math.max(1, parseInt(limit) || 20);
+      const offset = (pageNum - 1) * limitNum;
+      
       let query = 'SELECT * FROM products WHERE 1=1';
+      let countQuery = 'SELECT COUNT(*) as total FROM products WHERE 1=1';
       const params = [];
 
       if (category) {
         query += ' AND category = ?';
+        countQuery += ' AND category = ?';
         params.push(category);
       }
 
       if (brand) {
         query += ' AND brand = ?';
+        countQuery += ' AND brand = ?';
         params.push(brand);
       }
 
       if (search) {
         query += ' AND (name LIKE ? OR description LIKE ?)';
+        countQuery += ' AND (name LIKE ? OR description LIKE ?)';
         params.push(`%${search}%`, `%${search}%`);
       }
 
       if (priceMin) {
         query += ' AND price >= ?';
+        countQuery += ' AND price >= ?';
         params.push(parseFloat(priceMin));
       }
 
       if (priceMax) {
         query += ' AND price <= ?';
+        countQuery += ' AND price <= ?';
         params.push(parseFloat(priceMax));
       }
 
       const connection = await pool.getConnection();
 
       try {
+        // Get total count
+        const [countResult] = await connection.execute(countQuery, params);
+        const total = countResult[0].total;
+        
+        // Add pagination
+        query += ` LIMIT ? OFFSET ?`;
+        params.push(limitNum, offset);
+
         const [products] = await connection.execute(query, params);
 
         return res.status(200).json({
           message: 'Products retrieved',
           count: products.length,
-          products
+          products,
+          pagination: {
+            page: pageNum,
+            limit: limitNum,
+            total: total,
+            totalPages: Math.ceil(total / limitNum)
+          }
         });
       } finally {
         connection.release();
