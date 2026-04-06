@@ -82,19 +82,38 @@ const pool = {
 // Initialize database and tables
 const initDatabase = async () => {
   try {
-    // Create users table
+    // Create users table với role field
     await dbRun(`
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(100) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
+        role TEXT DEFAULT 'customer',
         isAdmin BOOLEAN DEFAULT 0,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
     console.log('✅ Users table created/exists');
+
+    // Thêm role column nếu chưa có
+    try {
+      const tableInfo = await new Promise((resolve, reject) => {
+        db.all('PRAGMA table_info(users)', (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        });
+      });
+      
+      const hasRoleColumn = tableInfo.some(col => col.name === 'role');
+      if (!hasRoleColumn) {
+        await dbRun(`ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'customer'`);
+        console.log('✅ Role column added to users table');
+      }
+    } catch (err) {
+      // Bỏ qua nếu column đã tồn tại
+    }
 
     // Create orders table
     await dbRun(`
@@ -135,20 +154,39 @@ const initDatabase = async () => {
     `);
     console.log('✅ Products table created/exists');
 
-    // Create admin account
+    // Create default accounts
+    const bcryptjs = require('bcryptjs');
+
+    // Admin account
     const adminEmail = 'admin@computerstore.com';
-    const adminPassword = await require('bcryptjs').hash('Admin@123', 10);
+    const adminPassword = await bcryptjs.hash('Admin@123', 10);
     
     try {
       await dbRun(
-        'INSERT INTO users (name, email, password, isAdmin) VALUES (?, ?, ?, ?)',
-        ['Admin', adminEmail, adminPassword, 1]
+        'INSERT INTO users (name, email, password, role, isAdmin) VALUES (?, ?, ?, ?, ?)',
+        ['Admin', adminEmail, adminPassword, 'admin', 1]
       );
-      console.log('✅ Admin account created');
+      console.log('✅ Admin account created (admin@computerstore.com / Admin@123)');
     } catch (err) {
       if (err.message.includes('UNIQUE')) {
         console.log('✅ Admin account already exists');
       } else {
+        throw err;
+      }
+    }
+
+    // Staff account
+    const staffEmail = 'staff@computerstore.com';
+    const staffPassword = await bcryptjs.hash('Staff@123', 10);
+    
+    try {
+      await dbRun(
+        'INSERT INTO users (name, email, password, role, isAdmin) VALUES (?, ?, ?, ?, ?)',
+        ['Staff', staffEmail, staffPassword, 'staff', 0]
+      );
+      console.log('✅ Staff account created (staff@computerstore.com / Staff@123)');
+    } catch (err) {
+      if (!err.message.includes('UNIQUE')) {
         throw err;
       }
     }

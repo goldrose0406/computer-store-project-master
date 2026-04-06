@@ -23,6 +23,10 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [isEditRoleModalOpen, setIsEditRoleModalOpen] = useState(false);
+  const [selectedUserForRole, setSelectedUserForRole] = useState(null);
+  const [newRole, setNewRole] = useState(null);
+  const [updatingRole, setUpdatingRole] = useState(false);
   const [form] = Form.useForm();
   const [productForm] = Form.useForm();
 
@@ -170,6 +174,61 @@ const AdminDashboard = () => {
       }
     } catch (error) {
       message.error('Lỗi: ' + error.message);
+    }
+  };
+
+  // Handle Update User Role
+  const handleOpenEditRoleModal = (user) => {
+    setSelectedUserForRole(user);
+    setNewRole(user.role || (user.isAdmin ? 'admin' : 'customer'));
+    setIsEditRoleModalOpen(true);
+  };
+
+  const handleUpdateUserRole = async () => {
+    console.log('🔍 handleUpdateUserRole called');
+    console.log('selectedUserForRole:', selectedUserForRole);
+    console.log('newRole:', newRole);
+    
+    if (!selectedUserForRole || !newRole) {
+      message.error('Vui lòng chọn role');
+      return;
+    }
+
+    setUpdatingRole(true);
+    try {
+      console.log('📡 Sending API request...');
+      const url = `http://localhost:5000/api/auth/users/${selectedUserForRole.id}/role`;
+      console.log('URL:', url);
+      console.log('Token:', token.substring(0, 20) + '...');
+      
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ newRole })
+      });
+
+      console.log('Response status:', response.status);
+      const data = await response.json();
+      console.log('Response data:', data);
+
+      if (!response.ok) {
+        message.error(data.message || 'Cập nhật role thất bại');
+        return;
+      }
+
+      message.success(`Cập nhật role thành công! User "${selectedUserForRole.name}" giờ là "${newRole}"`);
+      setIsEditRoleModalOpen(false);
+      setSelectedUserForRole(null);
+      setNewRole(null);
+      loadData();
+    } catch (error) {
+      console.error('❌ Error:', error);
+      message.error('Lỗi: ' + error.message);
+    } finally {
+      setUpdatingRole(false);
     }
   };
 
@@ -374,21 +433,48 @@ const AdminDashboard = () => {
                   key: 'name'
                 },
                 {
-                  title: 'Loại',
-                  dataIndex: 'isAdmin',
-                  key: 'isAdmin',
-                  render: (isAdmin) => (
-                    <Tag color={isAdmin ? 'red' : 'green'}>
-                      {isAdmin ? 'Admin' : 'Người dùng'}
-                    </Tag>
-                  ),
-                  width: 120
+                  title: 'Role',
+                  dataIndex: 'role',
+                  key: 'role',
+                  render: (role) => {
+                    const roleColors = {
+                      'admin': 'red',
+                      'staff': 'orange',
+                      'customer': 'green'
+                    };
+                    const roleLabels = {
+                      'admin': 'Admin',
+                      'staff': 'Staff',
+                      'customer': 'Customer'
+                    };
+                    return (
+                      <Tag color={roleColors[role] || 'blue'}>
+                        {roleLabels[role] || role}
+                      </Tag>
+                    );
+                  },
+                  width: 100
                 },
                 {
                   title: 'Ngày tạo',
                   dataIndex: 'createdAt',
                   key: 'createdAt',
-                  render: (date) => new Date(date).toLocaleDateString('vi-VN')
+                  render: (date) => new Date(date).toLocaleDateString('vi-VN'),
+                  width: 120
+                },
+                {
+                  title: 'Hành động',
+                  key: 'action',
+                  render: (_, record) => (
+                    <Button
+                      type="primary"
+                      size="small"
+                      onClick={() => handleOpenEditRoleModal(record)}
+                    >
+                      Đổi Role
+                    </Button>
+                  ),
+                  width: 100
                 }
               ]}
               dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
@@ -618,6 +704,44 @@ const AdminDashboard = () => {
             <Input.TextArea rows={3} placeholder="Mô tả sản phẩm" />
           </Form.Item>
         </Form>
+      </Modal>
+
+      {/* Edit User Role Modal */}
+      <Modal
+        title={`Đổi Role - ${selectedUserForRole?.name || ''}`}
+        open={isEditRoleModalOpen}
+        onCancel={() => {
+          setIsEditRoleModalOpen(false);
+          setSelectedUserForRole(null);
+          setNewRole(null);
+        }}
+        okText="Cập nhật"
+        cancelText="Hủy"
+        confirmLoading={updatingRole}
+        onOk={handleUpdateUserRole}
+      >
+        {selectedUserForRole && (
+          <div style={{ marginBottom: '16px' }}>
+            <p><strong>Email:</strong> {selectedUserForRole.email}</p>
+            <p><strong>Tên:</strong> {selectedUserForRole.name}</p>
+            <p><strong>Role hiện tại:</strong> <Tag color={selectedUserForRole.role === 'admin' ? 'red' : selectedUserForRole.role === 'staff' ? 'orange' : 'green'}>{selectedUserForRole.role || 'customer'}</Tag></p>
+            <div style={{ marginTop: '16px' }}>
+              <label style={{ marginBottom: '8px', display: 'block' }}>
+                <strong>Chọn role mới:</strong>
+              </label>
+              <Select
+                value={newRole}
+                onChange={(value) => setNewRole(value)}
+                options={[
+                  { label: '👤 Customer (Khách hàng)', value: 'customer' },
+                  { label: '💼 Staff (Nhân viên)', value: 'staff' },
+                  { label: '👨‍💼 Admin (Quản trị viên)', value: 'admin' }
+                ]}
+                style={{ width: '100%' }}
+              />
+            </div>
+          </div>
+        )}
       </Modal>
     </Layout>
   );

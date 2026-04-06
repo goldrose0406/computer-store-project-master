@@ -16,4 +16,7 @@ router.get('/verify', verifyToken, authController.verifyToken);
 // GET /api/auth/users (Admin only - xem danh sách tất cả users)
 router.get('/users', verifyToken, verifyAdmin, authController.getAllUsers);
 
+// PUT /api/auth/users/:userId/role (Admin only - đổi role user)
+router.put('/users/:userId/role', verifyToken, verifyAdmin, authController.updateUserRole);
+
 module.exports = router;
