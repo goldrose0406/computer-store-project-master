@@ -8,10 +8,12 @@ import '../styles/AuthPages.css';
 const LoginPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const onFinish = async (values) => {
+    setLoginError('');
     setLoading(true);
     try {
       const result = await login(values.email, values.password);
@@ -24,10 +26,10 @@ const LoginPage = () => {
           navigate('/');
         }
       } else {
-        message.error(result.message);
+        setLoginError(result.message);
       }
     } catch (error) {
-      message.error('Login failed: ' + error.message);
+      setLoginError('Login failed: ' + error.message);
     }
     setLoading(false);
   };
@@ -70,6 +72,24 @@ const LoginPage = () => {
                 size="large"
               />
             </Form.Item>
+
+            {loginError && (
+              <div style={{
+                marginBottom: '20px',
+                padding: '12px',
+                backgroundColor: '#fef2f2',
+                border: '1px solid #fecaca',
+                borderRadius: '6px',
+                color: '#dc2626',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <span style={{ fontSize: '16px' }}>⚠️</span>
+                {loginError}
+              </div>
+            )}
 
             <Form.Item>
               <Button

@@ -8,10 +8,12 @@ import '../styles/AuthPages.css';
 const RegisterPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [registerError, setRegisterError] = useState('');
   const navigate = useNavigate();
   const { register } = useAuth();
 
   const onFinish = async (values) => {
+    setRegisterError('');
     setLoading(true);
     try {
       const result = await register(
@@ -26,10 +28,10 @@ const RegisterPage = () => {
           navigate('/');
         }, 1000);
       } else {
-        message.error(result.message);
+        setRegisterError(result.message);
       }
     } catch (error) {
-      message.error('Registration failed: ' + error.message);
+      setRegisterError('Registration failed: ' + error.message);
     }
     setLoading(false);
   };
@@ -110,6 +112,24 @@ const RegisterPage = () => {
                 size="large"
               />
             </Form.Item>
+
+            {registerError && (
+              <div style={{
+                marginBottom: '20px',
+                padding: '12px',
+                backgroundColor: '#fef2f2',
+                border: '1px solid #fecaca',
+                borderRadius: '6px',
+                color: '#dc2626',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <span style={{ fontSize: '16px' }}>⚠️</span>
+                {registerError}
+              </div>
+            )}
 
             <Form.Item>
               <Button

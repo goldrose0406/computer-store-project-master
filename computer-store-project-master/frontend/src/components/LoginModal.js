@@ -8,10 +8,13 @@ const LoginModal = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('login');
+  const [loginError, setLoginError] = useState('');
+  const [registerError, setRegisterError] = useState('');
   const { login, register, loginModalOpen, setLoginModalOpen, setForgotPasswordModalOpen } = useAuth();
 
   // Handle Login
   const onFinishLogin = async (values) => {
+    setLoginError('');
     setLoading(true);
     try {
       const result = await login(values.email, values.password);
@@ -20,19 +23,21 @@ const LoginModal = () => {
         setLoginModalOpen(false);
         form.resetFields();
         setActiveTab('login');
+        setLoginError('');
       } else {
-        message.error(result.message);
+        setLoginError(result.message);
       }
     } catch (error) {
-      message.error('Đăng nhập thất bại: ' + error.message);
+      setLoginError('Đăng nhập thất bại: ' + error.message);
     }
     setLoading(false);
   };
 
   // Handle Register
   const onFinishRegister = async (values) => {
+    setRegisterError('');
     if (values.password !== values.confirmPassword) {
-      message.error('Mật khẩu không trùng khớp!');
+      setRegisterError('Mật khẩu không trùng khớp!');
       return;
     }
 
@@ -43,11 +48,12 @@ const LoginModal = () => {
         message.success('Đăng ký thành công! Vui lòng đăng nhập.');
         setActiveTab('login');
         form.resetFields();
+        setRegisterError('');
       } else {
-        message.error(result.message);
+        setRegisterError(result.message);
       }
     } catch (error) {
-      message.error('Đăng ký thất bại: ' + error.message);
+      setRegisterError('Đăng ký thất bại: ' + error.message);
     }
     setLoading(false);
   };
@@ -55,6 +61,8 @@ const LoginModal = () => {
   const handleCancel = () => {
     setLoginModalOpen(false);
     form.resetFields();
+    setLoginError('');
+    setRegisterError('');
   };
 
   return (
@@ -115,6 +123,24 @@ const LoginModal = () => {
                       size="large"
                     />
                   </Form.Item>
+
+                  {loginError && (
+                    <div style={{
+                      marginBottom: '20px',
+                      padding: '12px',
+                      backgroundColor: '#fef2f2',
+                      border: '1px solid #fecaca',
+                      borderRadius: '6px',
+                      color: '#dc2626',
+                      fontSize: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                    }}>
+                      <span style={{ fontSize: '16px' }}>⚠️</span>
+                      {loginError}
+                    </div>
+                  )}
 
                   <div style={{ textAlign: 'right', marginBottom: '20px' }}>
                     <span 
@@ -235,6 +261,24 @@ const LoginModal = () => {
                       size="large"
                     />
                   </Form.Item>
+
+                  {registerError && (
+                    <div style={{
+                      marginBottom: '20px',
+                      padding: '12px',
+                      backgroundColor: '#fef2f2',
+                      border: '1px solid #fecaca',
+                      borderRadius: '6px',
+                      color: '#dc2626',
+                      fontSize: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                    }}>
+                      <span style={{ fontSize: '16px' }}>⚠️</span>
+                      {registerError}
+                    </div>
+                  )}
 
                   <Form.Item>
                     <Button

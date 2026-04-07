@@ -85,11 +85,15 @@ const AdminDashboard = () => {
       // Tải tất cả users (khách hàng đã đăng kí)
       const usersResult = await authService.getAllUsers(token);
       if (usersResult.success) {
-        setAllUsers(usersResult.users);
+        setAllUsers(usersResult.users || []);
+      } else {
+        console.error('Lỗi tải danh sách users:', usersResult.message);
+        setAllUsers([]);
       }
     } catch (error) {
-      message.error('Lỗi tải dữ liệu');
-      console.error(error);
+      message.error('Lỗi tải dữ liệu: ' + error.message);
+      console.error('Load data error:', error);
+      setAllUsers([]);
     } finally {
       setLoading(false);
     }
@@ -528,74 +532,82 @@ const AdminDashboard = () => {
             <h1 style={{ fontSize: '28px', marginBottom: '0' }}>👥 Quản lý khách hàng</h1>
           </div>
           <Card>
-            <Table
-              columns={[
-                {
-                  title: 'ID',
-                  dataIndex: 'id',
-                  key: 'id',
-                  width: 60
-                },
-                {
-                  title: 'Email',
-                  dataIndex: 'email',
-                  key: 'email'
-                },
-                {
-                  title: 'Tên khách hàng',
-                  dataIndex: 'name',
-                  key: 'name'
-                },
-                {
-                  title: 'Role',
-                  dataIndex: 'role',
-                  key: 'role',
-                  render: (role) => {
-                    const roleColors = {
-                      'admin': 'red',
-                      'staff': 'orange',
-                      'customer': 'green'
-                    };
-                    const roleLabels = {
-                      'admin': 'Admin',
-                      'staff': 'Staff',
-                      'customer': 'Customer'
-                    };
-                    return (
-                      <Tag color={roleColors[role] || 'blue'}>
-                        {roleLabels[role] || role}
-                      </Tag>
-                    );
+            {allUsers && Array.isArray(allUsers) && allUsers.length > 0 ? (
+              <Table
+                columns={[
+                  {
+                    title: 'ID',
+                    dataIndex: 'id',
+                    key: 'id',
+                    width: 60
                   },
-                  width: 100
-                },
-                {
-                  title: 'Ngày tạo',
-                  dataIndex: 'createdAt',
-                  key: 'createdAt',
-                  render: (date) => new Date(date).toLocaleDateString('vi-VN'),
-                  width: 120
-                },
-                {
-                  title: 'Hành động',
-                  key: 'action',
-                  render: (_, record) => (
-                    <Button
-                      type="primary"
-                      size="small"
-                      onClick={() => handleOpenEditRoleModal(record)}
-                    >
-                      Đổi Role
-                    </Button>
-                  ),
-                  width: 100
-                }
-              ]}
-              dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
-              pagination={{ pageSize: 10 }}
-              responsive
-              scroll={{ x: 800 }}
-            />
+                  {
+                    title: 'Email',
+                    dataIndex: 'email',
+                    key: 'email'
+                  },
+                  {
+                    title: 'Tên khách hàng',
+                    dataIndex: 'name',
+                    key: 'name'
+                  },
+                  {
+                    title: 'Role',
+                    dataIndex: 'role',
+                    key: 'role',
+                    render: (role) => {
+                      const roleColors = {
+                        'admin': 'red',
+                        'staff': 'orange',
+                        'customer': 'green'
+                      };
+                      const roleLabels = {
+                        'admin': 'Admin',
+                        'staff': 'Staff',
+                        'customer': 'Customer'
+                      };
+                      return (
+                        <Tag color={roleColors[role] || 'blue'}>
+                          {roleLabels[role] || role}
+                        </Tag>
+                      );
+                    },
+                    width: 100
+                  },
+                  {
+                    title: 'Ngày tạo',
+                    dataIndex: 'createdAt',
+                    key: 'createdAt',
+                    render: (date) => new Date(date).toLocaleDateString('vi-VN'),
+                    width: 120
+                  },
+                  {
+                    title: 'Hành động',
+                    key: 'action',
+                    render: (_, record) => (
+                      <Button
+                        type="primary"
+                        size="small"
+                        onClick={() => handleOpenEditRoleModal(record)}
+                      >
+                        Đổi Role
+                      </Button>
+                    ),
+                    width: 100
+                  }
+                ]}
+                dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
+                pagination={{ pageSize: 10 }}
+                responsive
+                scroll={{ x: 800 }}
+              />
+            ) : (
+              <div style={{ textAlign: 'center', padding: '40px' }}>
+                <p style={{ color: '#999', fontSize: '16px' }}>
+                  ℹ️ Chưa có tài khoản nào được tạo
+                </p>
+              </div>
+            )}
           </Card>
         </div>
       );
@@ -839,47 +851,55 @@ const AdminDashboard = () => {
                 label: '👥 Quản lý khách hàng',
                 children: (
                   <div>
-                    <Table
-                      columns={[
-                        {
-                          title: 'ID',
-                          dataIndex: 'id',
-                          key: 'id',
-                          width: 60
-                        },
-                        {
-                          title: 'Email',
-                          dataIndex: 'email',
-                          key: 'email'
-                        },
-                        {
-                          title: 'Tên khách hàng',
-                          dataIndex: 'name',
-                          key: 'name'
-                        },
-                        {
-                          title: 'Loại',
-                          dataIndex: 'isAdmin',
-                          key: 'isAdmin',
-                          render: (isAdmin) => (
-                            <Tag color={isAdmin ? 'red' : 'green'}>
-                              {isAdmin ? 'Admin' : 'Người dùng'}
-                            </Tag>
-                          ),
-                          width: 120
-                        },
-                        {
-                          title: 'Ngày tạo',
-                          dataIndex: 'createdAt',
-                          key: 'createdAt',
-                          render: (date) => new Date(date).toLocaleDateString('vi-VN')
-                        }
-                      ]}
-                      dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
-                      pagination={{ pageSize: 10 }}
-                      responsive
-                      scroll={{ x: 800 }}
-                    />
+                    {allUsers && Array.isArray(allUsers) && allUsers.length > 0 ? (
+                      <Table
+                        columns={[
+                          {
+                            title: 'ID',
+                            dataIndex: 'id',
+                            key: 'id',
+                            width: 60
+                          },
+                          {
+                            title: 'Email',
+                            dataIndex: 'email',
+                            key: 'email'
+                          },
+                          {
+                            title: 'Tên khách hàng',
+                            dataIndex: 'name',
+                            key: 'name'
+                          },
+                          {
+                            title: 'Loại',
+                            dataIndex: 'isAdmin',
+                            key: 'isAdmin',
+                            render: (isAdmin) => (
+                              <Tag color={isAdmin ? 'red' : 'green'}>
+                                {isAdmin ? 'Admin' : 'Người dùng'}
+                              </Tag>
+                            ),
+                            width: 120
+                          },
+                          {
+                            title: 'Ngày tạo',
+                            dataIndex: 'createdAt',
+                            key: 'createdAt',
+                            render: (date) => new Date(date).toLocaleDateString('vi-VN')
+                          }
+                        ]}
+                        dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
+                        pagination={{ pageSize: 10 }}
+                        responsive
+                        scroll={{ x: 800 }}
+                      />
+                    ) : (
+                      <Card>
+                        <p style={{ textAlign: 'center', color: '#999', padding: '40px 0' }}>
+                          ℹ️ Chưa có tài khoản nào được tạo
+                        </p>
+                      </Card>
+                    )}
                   </div>
                 )
               }

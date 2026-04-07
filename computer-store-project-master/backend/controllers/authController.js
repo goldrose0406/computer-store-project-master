@@ -96,7 +96,7 @@ const authController = {
         );
 
         if (users.length === 0) {
-          return res.status(401).json({ message: 'Invalid email or password' });
+          return res.status(401).json({ message: 'Tài khoản không tồn tại' });
         }
 
         const user = users[0];
@@ -105,7 +105,7 @@ const authController = {
         const isPasswordValid = await bcryptjs.compare(password, user.password);
 
         if (!isPasswordValid) {
-          return res.status(401).json({ message: 'Invalid email or password' });
+          return res.status(401).json({ message: 'Mật khẩu sai' });
         }
 
         // Tạo token
@@ -157,9 +157,13 @@ const authController = {
   // Lấy danh sách tất cả users (Admin only)
   getAllUsers: async (req, res) => {
     try {
+      console.log('🔍 getAllUsers called');
+      console.log('req.user:', req.user);
+      
       // Kiểm tra permission
       if (!req.user?.isAdmin) {
-        return res.status(403).json({ message: 'Admin access required' });
+        console.error('❌ User is not admin. isAdmin:', req.user?.isAdmin);
+        return res.status(403).json({ message: 'Admin access required', user: req.user });
       }
 
       const connection = await pool.getConnection();
@@ -169,6 +173,8 @@ const authController = {
           'SELECT id, name, email, role, isAdmin, createdAt FROM users ORDER BY createdAt DESC'
         );
 
+        console.log('✅ Users retrieved successfully. Count:', users.length);
+        
         return res.status(200).json({
           message: 'Users retrieved successfully',
           count: users.length,
@@ -178,7 +184,7 @@ const authController = {
         connection.release();
       }
     } catch (error) {
-      console.error('Get users error:', error);
+      console.error('❌ Get users error:', error);
       return res.status(500).json({ message: 'Server error', error: error.message });
     }
   },
