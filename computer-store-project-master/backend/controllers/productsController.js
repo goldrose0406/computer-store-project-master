@@ -1,6 +1,27 @@
 const { pool } = require('../config/db');
 
 const productsController = {
+  uploadProductImage: async (req, res) => {
+    try {
+      if (!req.user?.isAdmin) {
+        return res.status(403).json({ message: 'Admin access required' });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ message: 'Image file is required' });
+      }
+
+      const imageUrl = `${req.protocol}://${req.get('host')}/uploads/products/${req.file.filename}`;
+
+      return res.status(201).json({
+        message: 'Image uploaded successfully',
+        imageUrl
+      });
+    } catch (error) {
+      console.error('Upload product image error:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
   // Kiểm tra và lấy tồn kho sản phẩm (public)
   getStockCheck: async (req, res) => {
     try {
@@ -49,7 +70,9 @@ const productsController = {
       
       // Pagination params
       const pageNum = Math.max(1, parseInt(page) || 1);
-      const limitNum = Math.max(1, parseInt(limit) || 20);
+      const limitNum = String(limit).toLowerCase() === 'all'
+        ? null
+        : Math.max(1, parseInt(limit) || 20);
       const offset = (pageNum - 1) * limitNum;
       
       let query = 'SELECT * FROM products WHERE 1=1';
@@ -93,9 +116,12 @@ const productsController = {
         const [countResult] = await connection.execute(countQuery, params);
         const total = countResult[0].total;
         
-        // Add pagination
-        query += ` LIMIT ? OFFSET ?`;
-        params.push(limitNum, offset);
+        query += ' ORDER BY id DESC';
+
+        if (limitNum !== null) {
+          query += ' LIMIT ? OFFSET ?';
+          params.push(limitNum, offset);
+        }
 
         const [products] = await connection.execute(query, params);
 
@@ -105,9 +131,9 @@ const productsController = {
           products,
           pagination: {
             page: pageNum,
-            limit: limitNum,
+            limit: limitNum ?? total,
             total: total,
-            totalPages: Math.ceil(total / limitNum)
+            totalPages: limitNum ? Math.ceil(total / limitNum) : 1
           }
         });
       } finally {

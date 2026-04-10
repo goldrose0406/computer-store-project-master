@@ -1,169 +1,194 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Row, Col, Card, Select, Button, Empty, Pagination, Spin, message } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { useNavigate, useParams } from 'react-router-dom';
 import { productsService } from '../services/productsService';
 import ProductCard from '../components/ProductCard';
 import ProductBanner from '../components/ProductBanner';
 import PCGamingBestSeller from '../components/PCGamingBestSeller';
+import {
+  getCatalogConfig,
+  getSampleProductsByCategory,
+  PRODUCT_CATALOGS
+} from '../data/productCatalog';
 import '../styles/ProductList.css';
 
 const ProductListPage = () => {
+  const navigate = useNavigate();
+  const { catalog = 'laptop' } = useParams();
+  const catalogConfig = getCatalogConfig(catalog);
   const [products, setProducts] = useState([]);
-  const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState('default');
   const [filterBrand, setFilterBrand] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  // Tải brands
   useEffect(() => {
-    const loadBrands = async () => {
-      const result = await productsService.getBrands();
-      if (result.success) {
-        setBrands(result.brands);
-      }
-    };
-    loadBrands();
-  }, []);
+    if (!PRODUCT_CATALOGS[catalog]) {
+      navigate('/products/laptop', { replace: true });
+    }
+  }, [catalog, navigate]);
 
-  // Tải sản phẩm
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
-      const filters = filterBrand !== 'all' ? { brand: filterBrand } : {};
-      const result = await productsService.getAllProducts(filters);
+      const result = await productsService.getAllProducts({ category: catalogConfig.key, limit: 'all' });
+
       if (result.success) {
-        setProducts(result.products);
+        const backendProducts = result.products || [];
+        const categoryProducts =
+          backendProducts.length > 0 ? backendProducts : getSampleProductsByCategory(catalogConfig.key);
+        setProducts(categoryProducts);
         setCurrentPage(1);
-      } else {
+      } else if (catalogConfig.key === 'laptop') {
         message.error(result.message);
+        setProducts([]);
+      } else {
+        setProducts(getSampleProductsByCategory(catalogConfig.key));
+        setCurrentPage(1);
       }
+
       setLoading(false);
     };
+
     loadProducts();
-  }, [filterBrand]);
+  }, [catalogConfig.key]);
 
-  // Filter products
-  let filtered = products;
+  const brands = useMemo(
+    () => [...new Set(products.map((product) => product.brand).filter(Boolean))],
+    [products]
+  );
 
-  // Sort products
-  let sorted = [...filtered];
-  switch (sortBy) {
-    case 'price-asc':
-      sorted.sort((a, b) => a.price - b.price);
-      break;
-    case 'price-desc':
-      sorted.sort((a, b) => b.price - a.price);
-      break;
-    default:
-      break;
-  }
+  const filteredProducts = useMemo(() => {
+    let list = [...products];
 
-  // Pagination
-  const totalPages = Math.ceil(sorted.length / itemsPerPage);
+    if (filterBrand !== 'all') {
+      list = list.filter((product) => product.brand === filterBrand);
+    }
+
+    switch (sortBy) {
+      case 'price-asc':
+        list.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        list.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        break;
+    }
+
+    return list;
+  }, [products, filterBrand, sortBy]);
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIdx = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = sorted.slice(startIdx, startIdx + itemsPerPage);
+  const paginatedProducts = filteredProducts.slice(startIdx, startIdx + itemsPerPage);
 
   return (
     <div className="product-list-page">
-      {/* Product Banner */}
-      <ProductBanner />
+      <ProductBanner
+        title={catalogConfig.title === 'Laptop' ? 'Laptop Chính Hãng Dễ Chọn Dễ Mua' : `Cấu Hình ${catalogConfig.title} Tối Ưu Sẵn`}
+        description={catalogConfig.description}
+        highlights={
+          catalogConfig.key === 'laptop'
+            ? [
+                'Mỏng nhẹ, văn phòng, học tập và đồ họa',
+                'Nhiều mức giá từ phổ thông đến cao cấp',
+                'Bảo hành rõ ràng, dễ nâng cấp và dễ chọn'
+              ]
+            : [
+                'Cấu hình build sẵn dễ tham khảo',
+                'Ưu tiên hiệu năng trên giá thành',
+                'Có thể nâng cấp theo nhu cầu thực tế'
+              ]
+        }
+      />
 
-      {/* PC Gaming Best Seller Section */}
-      <PCGamingBestSeller />
+      {catalog !== 'laptop' && <PCGamingBestSeller />}
 
-      {/* Main Content */}
       <div style={{ padding: '40px 20px', maxWidth: '1400px', margin: '0 auto' }} id="products-list">
-        {/* Header */}
         <div style={{ marginBottom: '32px' }}>
-          <h1 style={{ fontSize: '32px', marginBottom: '16px' }}>🛍️ Danh sách sản phẩm</h1>
-          <p style={{ color: '#666' }}>Tìm laptop hoặc máy tính phù hợp với nhu cầu của bạn</p>
+          <h1 style={{ fontSize: '32px', marginBottom: '16px' }}>{catalogConfig.heading}</h1>
+          <p style={{ color: '#666' }}>{catalogConfig.description}</p>
         </div>
 
-      {/* Filters */}
-      <Card style={{ marginBottom: '32px', background: '#fafafa' }}>
-        <Row gutter={[24, 24]}>
-          <Col xs={24} sm={12} md={8}>
-            <div>
-              <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Sắp xếp</label>
-              <Select
-                value={sortBy}
-                onChange={setSortBy}
-                style={{ width: '100%' }}
-                options={[
-                  { label: 'Mặc định', value: 'default' },
-                  { label: 'Giá: Thấp đến Cao', value: 'price-asc' },
-                  { label: 'Giá: Cao đến Thấp', value: 'price-desc' }
-                ]}
-              />
-            </div>
-          </Col>
-          <Col xs={24} sm={12} md={8}>
-            <div>
-              <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Thương hiệu</label>
-              <Select
-                value={filterBrand}
-                onChange={setFilterBrand}
-                style={{ width: '100%' }}
-                options={[
-                  { label: 'Tất cả', value: 'all' },
-                  ...brands.map(b => ({ label: b, value: b }))
-                ]}
-              />
-            </div>
-          </Col>
-          <Col xs={24} sm={12} md={8} style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Button
-              block
-              onClick={() => {
-                setSortBy('default');
-                setFilterBrand('all');
-                setCurrentPage(1);
-              }}
-            >
-              Đặt lại bộ lọc
-            </Button>
-          </Col>
-        </Row>
-      </Card>
-
-      {/* Results Count */}
-      <div style={{ marginBottom: '16px', color: '#666' }}>
-        <strong>{sorted.length}</strong> sản phẩm tìm thấy
-      </div>
-
-      {/* Products Grid */}
-      <Spin spinning={loading}>
-        {paginatedProducts.length > 0 ? (
-          <>
-            <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
-              {paginatedProducts.map((product) => (
-                <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
-                  <ProductCard product={product} />
-                </Col>
-              ))}
-            </Row>
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div style={{ textAlign: 'center', marginTop: '32px' }}>
-                <Pagination
-                  current={currentPage}
-                  total={sorted.length}
-                  pageSize={itemsPerPage}
-                  onChange={setCurrentPage}
+        <Card style={{ marginBottom: '32px', background: '#fafafa' }}>
+          <Row gutter={[24, 24]}>
+            <Col xs={24} sm={12} md={8}>
+              <div>
+                <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Sắp xếp</label>
+                <Select
+                  value={sortBy}
+                  onChange={setSortBy}
+                  style={{ width: '100%' }}
+                  options={[
+                    { label: 'Mặc định', value: 'default' },
+                    { label: 'Giá: Thấp đến cao', value: 'price-asc' },
+                    { label: 'Giá: Cao đến thấp', value: 'price-desc' }
+                  ]}
                 />
               </div>
-            )}
-          </>
-        ) : (
-          <Empty
-            description="Không tìm thấy sản phẩm"
-            style={{ marginTop: '40px' }}
-          />
-        )}
-      </Spin>
+            </Col>
+            <Col xs={24} sm={12} md={8}>
+              <div>
+                <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Thương hiệu</label>
+                <Select
+                  value={filterBrand}
+                  onChange={setFilterBrand}
+                  style={{ width: '100%' }}
+                  options={[
+                    { label: 'Tất cả', value: 'all' },
+                    ...brands.map((brand) => ({ label: brand, value: brand }))
+                  ]}
+                />
+              </div>
+            </Col>
+            <Col xs={24} sm={12} md={8} style={{ display: 'flex', alignItems: 'flex-end' }}>
+              <Button
+                block
+                onClick={() => {
+                  setSortBy('default');
+                  setFilterBrand('all');
+                  setCurrentPage(1);
+                }}
+              >
+                Đặt lại bộ lọc
+              </Button>
+            </Col>
+          </Row>
+        </Card>
+
+        <div style={{ marginBottom: '16px', color: '#666' }}>
+          <strong>{filteredProducts.length}</strong> sản phẩm tìm thấy trong mục{' '}
+          <strong>{catalogConfig.title}</strong>
+        </div>
+
+        <Spin spinning={loading}>
+          {paginatedProducts.length > 0 ? (
+            <>
+              <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
+                {paginatedProducts.map((product) => (
+                  <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
+                    <ProductCard product={product} />
+                  </Col>
+                ))}
+              </Row>
+
+              {totalPages > 1 && (
+                <div style={{ textAlign: 'center', marginTop: '32px' }}>
+                  <Pagination
+                    current={currentPage}
+                    total={filteredProducts.length}
+                    pageSize={itemsPerPage}
+                    onChange={setCurrentPage}
+                  />
+                </div>
+              )}
+            </>
+          ) : (
+            <Empty description="Không tìm thấy sản phẩm" style={{ marginTop: '40px' }} />
+          )}
+        </Spin>
       </div>
     </div>
   );

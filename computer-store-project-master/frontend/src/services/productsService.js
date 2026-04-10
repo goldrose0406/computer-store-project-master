@@ -1,5 +1,28 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
+const parseSpecs = (specs) => {
+  if (!specs) {
+    return {};
+  }
+
+  if (typeof specs === 'object') {
+    return specs;
+  }
+
+  try {
+    return JSON.parse(specs);
+  } catch (error) {
+    return {};
+  }
+};
+
+const normalizeProduct = (product = {}) => ({
+  ...product,
+  price: Number(product.price) || 0,
+  originalPrice: Number(product.originalPrice) || Number(product.price) || 0,
+  specs: parseSpecs(product.specs)
+});
+
 export const productsService = {
   getAllProducts: async (filters = {}) => {
     try {
@@ -10,6 +33,8 @@ export const productsService = {
       if (filters.search) query.append('search', filters.search);
       if (filters.priceMin) query.append('priceMin', filters.priceMin);
       if (filters.priceMax) query.append('priceMax', filters.priceMax);
+      if (filters.page) query.append('page', filters.page);
+      if (filters.limit) query.append('limit', filters.limit);
 
       const response = await fetch(`${API_BASE_URL}/products?${query}`, {
         method: 'GET',
@@ -22,7 +47,11 @@ export const productsService = {
         return { success: false, message: data.message || 'Failed to fetch products' };
       }
 
-      return { success: true, products: data.products || [] };
+      return {
+        success: true,
+        products: (data.products || []).map(normalizeProduct),
+        pagination: data.pagination || null
+      };
     } catch (error) {
       return { success: false, message: error.message };
     }
@@ -41,7 +70,7 @@ export const productsService = {
         return { success: false, message: data.message || 'Product not found' };
       }
 
-      return { success: true, product: data.product };
+      return { success: true, product: normalizeProduct(data.product) };
     } catch (error) {
       return { success: false, message: error.message };
     }
@@ -102,7 +131,32 @@ export const productsService = {
         return { success: false, message: data.message || 'Failed to create product' };
       }
 
-      return { success: true, product: data.product };
+      return { success: true, product: data.product ? normalizeProduct(data.product) : null };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  },
+
+  uploadProductImage: async (file, token) => {
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await fetch(`${API_BASE_URL}/products/upload-image`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return { success: false, message: data.message || 'Failed to upload image' };
+      }
+
+      return { success: true, imageUrl: data.imageUrl };
     } catch (error) {
       return { success: false, message: error.message };
     }

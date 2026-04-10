@@ -62,7 +62,8 @@ function AppContent() {
             <Route path="/" element={<HomePage />} />
 
             {/* Danh sách sản phẩm */}
-            <Route path="/products" element={<ProductListPage />} />
+            <Route path="/products" element={<Navigate to="/products/laptop" replace />} />
+            <Route path="/products/:catalog" element={<ProductListPage />} />
 
             {/* Chi tiết sản phẩm */}
             <Route path="/product/:id" element={<ProductDetailPage />} />

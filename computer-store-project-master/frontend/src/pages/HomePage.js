@@ -2,8 +2,8 @@ import React from 'react';
 import { Row, Col, Button } from 'antd';
 import { RightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { brands } from '../data/mockData';
 import CategorySection from '../components/CategorySection';
+import BuildPcShowcase from '../components/BuildPcShowcase';
 import '../styles/HomePage.css';
 
 const HomePage = () => {
@@ -567,6 +567,7 @@ const HomePage = () => {
 
       {/* Category Section */}
       <CategorySection />
+      <BuildPcShowcase />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, message, Spin, Tag, Progress } from 'antd';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, Upload, message, Spin, Tag, Progress } from 'antd';
+import { DeleteOutlined, EditOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
@@ -10,6 +10,28 @@ import { authService } from '../services/authService';
 import '../styles/AdminDashboard.css';
 
 const { Content } = Layout;
+const productCategoryOptions = [
+  { label: 'Laptop', value: 'laptop' },
+  { label: 'PC Gaming New', value: 'pc-gaming-new' },
+  { label: 'PC Gaming Old', value: 'pc-gaming-old' }
+];
+
+const productCategoryLabelMap = {
+  laptop: 'Laptop',
+  'pc-gaming-new': 'PC Gaming New',
+  'pc-gaming-old': 'PC Gaming Old',
+  'gaming-laptop': 'Gaming Laptop',
+  ultrabook: 'Ultrabook',
+  workstation: 'Workstation',
+  'budget-laptop': 'Budget Laptop'
+};
+
+const formatCategoryLabel = (category) =>
+  productCategoryLabelMap[category] ||
+  category
+    ?.split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 
 const AdminDashboard = () => {
   const { user, token } = useAuth();
@@ -27,6 +49,10 @@ const AdminDashboard = () => {
   const [selectedUserForRole, setSelectedUserForRole] = useState(null);
   const [newRole, setNewRole] = useState(null);
   const [updatingRole, setUpdatingRole] = useState(false);
+  const [coverImageFileList, setCoverImageFileList] = useState([]);
+  const [coverImagePreview, setCoverImagePreview] = useState('');
+  const [galleryImageFileList, setGalleryImageFileList] = useState([]);
+  const [galleryImagePreviews, setGalleryImagePreviews] = useState([]);
   const [form] = Form.useForm();
   const [productForm] = Form.useForm();
 
@@ -42,6 +68,10 @@ const AdminDashboard = () => {
     if (location.pathname === '/admin/products/add') {
       setEditingProduct(null);
       productForm.resetFields();
+      setCoverImageFileList([]);
+      setCoverImagePreview('');
+      setGalleryImageFileList([]);
+      setGalleryImagePreviews([]);
       setIsAddProductModalOpen(true);
     }
   }, [location.pathname, productForm]);
@@ -77,7 +107,7 @@ const AdminDashboard = () => {
       }
 
       // Tải sản phẩm
-      const productsResult = await productsService.getAllProducts({});
+      const productsResult = await productsService.getAllProducts({ limit: 'all' });
       if (productsResult.success) {
         setProducts(productsResult.products);
       }
@@ -100,10 +130,56 @@ const AdminDashboard = () => {
   };
 
   const handleAddProduct = async (values) => {
+    let coverImageUrl = coverImagePreview;
+    let galleryImageUrls = [...galleryImagePreviews];
+
+    if (coverImageFileList[0]?.originFileObj) {
+      const uploadResult = await productsService.uploadProductImage(coverImageFileList[0].originFileObj, token);
+      if (!uploadResult.success) {
+        message.error(uploadResult.message);
+        return;
+      }
+      coverImageUrl = uploadResult.imageUrl;
+    }
+
+    const newGalleryFiles = galleryImageFileList.filter((file) => file.originFileObj);
+    if (newGalleryFiles.length > 0) {
+      const uploadedGallery = await Promise.all(
+        newGalleryFiles.map((file) => productsService.uploadProductImage(file.originFileObj, token))
+      );
+
+      const failedUpload = uploadedGallery.find((item) => !item.success);
+      if (failedUpload) {
+        message.error(failedUpload.message);
+        return;
+      }
+
+      galleryImageUrls = uploadedGallery.map((item) => item.imageUrl);
+    }
+
+    const payload = {
+      name: values.name,
+      brand: values.brand,
+      category: values.category,
+      price: values.price,
+      originalPrice: values.originalPrice,
+      description: values.description,
+      image: coverImageUrl || null,
+      specs: {
+        cpu: values.cpu,
+        ram: values.ram,
+        storage: values.storage,
+        gpu: values.gpu,
+        mainboard: values.mainboard,
+        psu: values.psu,
+        galleryImages: galleryImageUrls
+      }
+    };
+
     try {
       if (editingProduct) {
         // Update existing product
-        const result = await productsService.updateProduct(editingProduct.id, values, token);
+        const result = await productsService.updateProduct(editingProduct.id, payload, token);
         if (result.success) {
           message.success('Cập nhật sản phẩm thành công!');
           setIsAddProductModalOpen(false);
@@ -116,7 +192,7 @@ const AdminDashboard = () => {
         }
       } else {
         // Create new product
-        const result = await productsService.createProduct(values, token);
+        const result = await productsService.createProduct(payload, token);
         if (result.success) {
           message.success('Thêm sản phẩm thành công!');
           setIsAddProductModalOpen(false);
@@ -141,8 +217,25 @@ const AdminDashboard = () => {
       category: product.category,
       price: product.price,
       originalPrice: product.originalPrice,
-      description: product.description
+      description: product.description,
+      cpu: product.specs?.cpu,
+      ram: product.specs?.ram,
+      storage: product.specs?.storage,
+      gpu: product.specs?.gpu,
+      mainboard: product.specs?.mainboard,
+      psu: product.specs?.psu
     });
+    setCoverImagePreview(product.image || '');
+    setCoverImageFileList([]);
+    setGalleryImagePreviews(product.specs?.galleryImages || []);
+    setGalleryImageFileList(
+      (product.specs?.galleryImages || []).map((url, index) => ({
+        uid: `existing-${index}`,
+        name: `gallery-${index + 1}.jpg`,
+        status: 'done',
+        url
+      }))
+    );
     setIsAddProductModalOpen(true);
   };
 
@@ -150,6 +243,10 @@ const AdminDashboard = () => {
     setIsAddProductModalOpen(false);
     setEditingProduct(null);
     productForm.resetFields();
+    setCoverImageFileList([]);
+    setCoverImagePreview('');
+    setGalleryImageFileList([]);
+    setGalleryImagePreviews([]);
     navigate('/admin');
   };
 
@@ -308,6 +405,19 @@ const AdminDashboard = () => {
       width: 60
     },
     {
+      title: 'Ảnh',
+      dataIndex: 'image',
+      key: 'image',
+      width: 90,
+      render: (image, record) => (
+        <img
+          src={image || 'https://via.placeholder.com/60x60?text=No+Image'}
+          alt={record.name}
+          style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 8 }}
+        />
+      )
+    },
+    {
       title: 'Tên sản phẩm',
       dataIndex: 'name',
       key: 'name'
@@ -320,7 +430,8 @@ const AdminDashboard = () => {
     {
       title: 'Danh mục',
       dataIndex: 'category',
-      key: 'category'
+      key: 'category',
+      render: (category) => formatCategoryLabel(category)
     },
     {
       title: 'Giá',
@@ -356,6 +467,15 @@ const AdminDashboard = () => {
 
   const totalRevenue = orders.reduce((acc, order) => acc + (order.totalPrice || 0), 0);
   const uniqueCustomers = new Set(orders.map(o => o.customerEmail)).size;
+  const adminProductCategories = Array.from(
+    new Set([
+      ...productCategoryOptions.map((option) => option.value),
+      ...products.map((product) => product.category).filter(Boolean)
+    ])
+  ).map((value) => ({
+    value,
+    label: formatCategoryLabel(value)
+  }));
 
   // Calculate data for charts
   // 1. Revenue by month (Line Chart)
@@ -439,9 +559,73 @@ const AdminDashboard = () => {
   const topProducts = getTopProducts();
   const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
 
+  const renderProductsTable = (category) => {
+    const filteredProducts = products.filter((product) => product.category === category);
+
+    return (
+      <Table
+        columns={productsColumns}
+        dataSource={filteredProducts.map((product) => ({ ...product, key: product.id }))}
+        pagination={{ pageSize: 10 }}
+        locale={{ emptyText: `Chưa có sản phẩm trong mục ${formatCategoryLabel(category)}` }}
+        responsive
+        scroll={{ x: 800 }}
+      />
+    );
+  };
+
+  const renderProductsManager = () => (
+    <Card>
+      <div style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => {
+            setEditingProduct(null);
+            productForm.resetFields();
+            setCoverImageFileList([]);
+            setCoverImagePreview('');
+            setGalleryImageFileList([]);
+            setGalleryImagePreviews([]);
+            setIsAddProductModalOpen(true);
+          }}
+        >
+          Thêm sản phẩm mới
+        </Button>
+      </div>
+      <Tabs
+        items={adminProductCategories.map((option) => ({
+          key: option.value,
+          label: `${option.label} (${products.filter((product) => product.category === option.value).length})`,
+          children: renderProductsTable(option.value)
+        }))}
+      />
+    </Card>
+  );
+
   // Render different views based on pathname
   const renderContent = () => {
     const pathname = location.pathname;
+
+    if (pathname === '/admin/products') {
+      const handleExportProductsExcel = () => {
+        window.location.href = `${process.env.REACT_APP_API_URL}/reports/export/products/excel`;
+      };
+
+      return (
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>Quan ly san pham</h1>
+          </div>
+          <div style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
+            <Button type="default" onClick={handleExportProductsExcel}>
+              Xuat Excel
+            </Button>
+          </div>
+          {renderProductsManager()}
+        </div>
+      );
+    }
 
     // Products list page
     if (pathname === '/admin/products') {
@@ -936,6 +1120,7 @@ const AdminDashboard = () => {
         open={isAddProductModalOpen}
         onCancel={handleCloseModal}
         onOk={() => productForm.submit()}
+        width={720}
       >
         <Form
           form={productForm}
@@ -948,18 +1133,122 @@ const AdminDashboard = () => {
           <Form.Item name="brand" label="Thương hiệu" rules={[{ required: true }]}>
             <Input placeholder="VD: Apple" />
           </Form.Item>
-          <Form.Item name="category" label="Danh mục" rules={[{ required: true }]}>
-            <Input placeholder="VD: laptop" />
+          <Form.Item
+            name="category"
+            label="Bạn muốn thêm vào product nào?"
+            rules={[{ required: true, message: 'Vui lòng chọn nhóm sản phẩm' }]}
+          >
+            <Select
+              placeholder="Chọn nhóm sản phẩm"
+              options={productCategoryOptions}
+            />
           </Form.Item>
           <Form.Item name="price" label="Giá" rules={[{ required: true, type: 'number' }]}>
-            <InputNumber placeholder="0" />
+            <InputNumber placeholder="0" style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="originalPrice" label="Giá gốc">
-            <InputNumber placeholder="0" />
+            <InputNumber placeholder="0" style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item label="Ảnh bìa sản phẩm">
+            <Upload
+              accept=".jpg,.jpeg,.png,.webp"
+              beforeUpload={() => false}
+              maxCount={1}
+              fileList={coverImageFileList}
+              onChange={({ fileList }) => {
+                const nextList = fileList.slice(-1);
+                setCoverImageFileList(nextList);
+                if (nextList[0]?.originFileObj) {
+                  setCoverImagePreview(URL.createObjectURL(nextList[0].originFileObj));
+                } else if (!nextList.length && !editingProduct) {
+                  setCoverImagePreview('');
+                }
+              }}
+            >
+              <Button icon={<UploadOutlined />}>Chọn ảnh bìa từ máy</Button>
+            </Upload>
+            <div style={{ marginTop: 8, color: '#888', fontSize: 12 }}>
+              Hỗ trợ file JPG, PNG, WEBP. Dung lượng tối đa 5MB.
+            </div>
+            {coverImagePreview && (
+              <div style={{ marginTop: 12 }}>
+                <img
+                  src={coverImagePreview}
+                  alt="Cover Preview"
+                  style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 8, border: '1px solid #e5e5e5' }}
+                />
+              </div>
+            )}
+          </Form.Item>
+          <Form.Item label="Ảnh chi tiết sản phẩm tối đa 5 hình">
+            <Upload
+              accept=".jpg,.jpeg,.png,.webp"
+              beforeUpload={() => false}
+              maxCount={5}
+              multiple
+              listType="picture"
+              fileList={galleryImageFileList}
+              onChange={({ fileList }) => {
+                const nextList = fileList.slice(0, 5);
+                setGalleryImageFileList(nextList);
+                setGalleryImagePreviews(
+                  nextList.map((file) => file.url || (file.originFileObj ? URL.createObjectURL(file.originFileObj) : '')).filter(Boolean)
+                );
+              }}
+            >
+              <Button icon={<UploadOutlined />}>Chọn tối đa 5 ảnh chi tiết</Button>
+            </Upload>
+            <div style={{ marginTop: 8, color: '#888', fontSize: 12 }}>
+              Những ảnh này sẽ hiện trong phần chi tiết sản phẩm.
+            </div>
+            {galleryImagePreviews.length > 0 && (
+              <div style={{ marginTop: 12, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                {galleryImagePreviews.map((image, index) => (
+                  <img
+                    key={`${image}-${index}`}
+                    src={image}
+                    alt={`Gallery Preview ${index + 1}`}
+                    style={{ width: 88, height: 88, objectFit: 'cover', borderRadius: 8, border: '1px solid #e5e5e5' }}
+                  />
+                ))}
+              </div>
+            )}
           </Form.Item>
           <Form.Item name="description" label="Mô tả">
             <Input.TextArea rows={3} placeholder="Mô tả sản phẩm" />
           </Form.Item>
+          <Row gutter={12}>
+            <Col span={12}>
+              <Form.Item name="cpu" label="CPU">
+                <Input placeholder="VD: Intel Core i5-14400F" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="gpu" label="GPU">
+                <Input placeholder="VD: RTX 4060 8GB" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="ram" label="RAM">
+                <Input placeholder="VD: 16GB DDR5" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="storage" label="Ổ cứng">
+                <Input placeholder="VD: SSD NVMe 1TB" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="mainboard" label="Mainboard">
+                <Input placeholder="VD: B760M WiFi" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="psu" label="Nguồn">
+                <Input placeholder="VD: 650W 80 Plus Bronze" />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
 
