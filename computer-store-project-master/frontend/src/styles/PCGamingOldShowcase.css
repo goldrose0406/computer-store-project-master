@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap');
+
+.pc-gaming-old-showcase {
+  padding: 56px 20px 40px;
+  background:
+    radial-gradient(circle at top, rgba(242, 0, 255, 0.12), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #fff8ff 100%);
+  font-family: 'Barlow Semi Condensed', 'Segoe UI', sans-serif;
+}
+
+.pc-gaming-old-showcase__container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pc-gaming-old-showcase__header,
+.pc-gaming-old-showcase__promo-header {
+  max-width: 980px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.pc-gaming-old-showcase__eyebrow,
+.pc-gaming-old-showcase__promo-eyebrow {
+  margin: 0 0 10px;
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #171717;
+}
+
+.pc-gaming-old-showcase__title,
+.pc-gaming-old-showcase__promo-title {
+  margin: 0 0 14px;
+  font-family: 'Barlow Semi Condensed', 'Segoe UI', sans-serif;
+  font-size: 45px;
+  line-height: 1.24;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background: radial-gradient(circle, #f200ff 0%, #9400b5 99%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  overflow: visible;
+}
+
+.pc-gaming-old-showcase__promo-title {
+  font-size: 32px;
+}
+
+.pc-gaming-old-showcase__description {
+  margin: 0 auto;
+  max-width: 920px;
+  color: #111111;
+  font-size: 19px;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.pc-gaming-old-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.old-build-card {
+  --old-build-content-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  overflow: visible;
+  background: transparent;
+}
+
+.old-build-card__image-link {
+  display: block;
+  position: relative;
+  z-index: 2;
+  width: var(--old-build-content-width);
+  margin: 0 0 10px;
+  padding: 0;
+  overflow: visible;
+}
+
+.old-build-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1.2;
+  object-fit: contain;
+  border-radius: 0;
+  background: transparent;
+  filter: drop-shadow(0 20px 32px rgba(65, 20, 94, 0.18));
+  transform-origin: center bottom;
+  transition: transform 0.28s ease, filter 0.28s ease;
+}
+
+.old-build-card:hover .old-build-card__image {
+  transform: scale(1.04);
+  filter: drop-shadow(0 24px 38px rgba(65, 20, 94, 0.24));
+}
+
+.old-build-card__panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: var(--old-build-content-width);
+  overflow: hidden;
+  border: 1px solid #f3dcf7;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 20px 45px rgba(163, 52, 191, 0.08);
+}
+
+.old-build-card__pricing {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  align-items: baseline;
+  padding: 14px 24px 18px;
+  background: linear-gradient(90deg, #d51cf3 0%, #b20fdd 100%);
+}
+
+.old-build-card__currency {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.old-build-card__price {
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.old-build-card__note {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.old-build-card__specs {
+  padding: 0 24px;
+}
+
+.old-build-card__spec {
+  padding: 11px 0;
+  border-top: 1px solid #f1e5f4;
+  color: #2a2230;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.old-build-card__footer {
+  margin-top: auto;
+  padding: 22px 24px 24px;
+  text-align: center;
+}
+
+.old-build-card__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 116px;
+  min-height: 38px;
+  padding: 0 22px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f200ff 0%, #9400b5 100%);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 12px 26px rgba(196, 29, 255, 0.22);
+}
+
+.pc-gaming-old-showcase__promo {
+  margin-top: 44px;
+}
+
+.pc-gaming-old-showcase__promo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.promo-image-card {
+  display: block;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(80, 14, 96, 0.08);
+}
+
+.promo-image-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (max-width: 1200px) {
+  .pc-gaming-old-showcase__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pc-gaming-old-showcase__promo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pc-gaming-old-showcase {
+    padding: 40px 16px 28px;
+  }
+
+  .old-build-card {
+    --old-build-content-width: 88%;
+  }
+
+  .pc-gaming-old-showcase__title {
+    font-size: 34px;
+    line-height: 1.22;
+  }
+
+  .pc-gaming-old-showcase__promo-title {
+    font-size: 26px;
+  }
+
+  .pc-gaming-old-showcase__description {
+    font-size: 16px;
+  }
+
+  .old-build-card__pricing,
+  .old-build-card__specs,
+  .old-build-card__footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .old-build-card__panel {
+    width: var(--old-build-content-width);
+  }
+}
+
+@media (max-width: 576px) {
+  .pc-gaming-old-showcase__eyebrow,
+  .pc-gaming-old-showcase__promo-eyebrow {
+    font-size: 15px;
+  }
+
+  .pc-gaming-old-showcase__title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .pc-gaming-old-showcase__promo-title {
+    font-size: 22px;
+  }
+
+  .pc-gaming-old-showcase__description {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .pc-gaming-old-showcase__promo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .old-build-card__price {
+    font-size: 28px;
+  }
+
+  .old-build-card__button {
+    min-width: 104px;
+  }
+}

@@ -5,6 +5,7 @@ import { productsService } from '../services/productsService';
 import ProductCard from '../components/ProductCard';
 import ProductBanner from '../components/ProductBanner';
 import PCGamingBestSeller from '../components/PCGamingBestSeller';
+import PCGamingOldShowcase from '../components/PCGamingOldShowcase';
 import {
   getCatalogConfig,
   getSampleProductsByCategory,
@@ -22,7 +23,7 @@ const ProductListPage = () => {
   const [sortBy, setSortBy] = useState('default');
   const [filterBrand, setFilterBrand] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 15;
 
   useEffect(() => {
     if (!PRODUCT_CATALOGS[catalog]) {
@@ -139,7 +140,8 @@ const ProductListPage = () => {
         }
       />
 
-      {catalog !== 'laptop' && <PCGamingBestSeller />}
+      {catalog === 'pc-gaming-new' && <PCGamingBestSeller />}
+      {catalog === 'pc-gaming-old' && <PCGamingOldShowcase />}
 
       <div style={{ padding: '40px 20px', maxWidth: '1400px', margin: '0 auto' }} id="products-list">
         <div style={{ marginBottom: '32px' }}>

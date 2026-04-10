@@ -16,7 +16,6 @@ const ProductCard = ({ product }) => {
       : 0;
 
   const subtitle = [formatProductCategory(product.category), product.brand].filter(Boolean).join(' / ');
-  const specSummary = [product.specs?.cpu, product.specs?.ram].filter(Boolean).join(' / ');
   const fallbackImage = `https://via.placeholder.com/640x640/f4f4f5/5b5b66?text=${encodeURIComponent(product.name || 'Product')}`;
 
   const handleProductClick = () => {
@@ -58,31 +57,29 @@ const ProductCard = ({ product }) => {
           {subtitle || 'Danh muc san pham'}
         </div>
 
-        <div className="product-spec-summary" title={specSummary}>
-          {specSummary || 'Cau hinh dang cap nhat'}
-        </div>
+        <div className="product-purchase">
+          <div className="product-price">
+            <div className="current-price">{product.price.toLocaleString('vi-VN')} ₫</div>
+            {product.originalPrice > product.price && (
+              <div className="original-price">{product.originalPrice.toLocaleString('vi-VN')} ₫</div>
+            )}
+          </div>
 
-        <div className="product-price">
-          <div className="current-price">{product.price.toLocaleString('vi-VN')} ₫</div>
-          {product.originalPrice > product.price && (
-            <div className="original-price">{product.originalPrice.toLocaleString('vi-VN')} ₫</div>
-          )}
-        </div>
-
-        <div className="product-actions">
-          <Button
-            type="primary"
-            icon={<ShoppingCartOutlined />}
-            block
-            className="product-card-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              addToCart(product);
-              message.success(`Đã thêm ${product.name} vào giỏ hàng!`);
-            }}
-          >
-            Thêm Vào Giỏ Hàng
-          </Button>
+          <div className="product-actions">
+            <Button
+              type="primary"
+              icon={<ShoppingCartOutlined />}
+              block
+              className="product-card-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                addToCart(product);
+                message.success(`Đã thêm ${product.name} vào giỏ hàng!`);
+              }}
+            >
+              Thêm Vào Giỏ Hàng
+            </Button>
+          </div>
         </div>
       </div>
     </Card>
