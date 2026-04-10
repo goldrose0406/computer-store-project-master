@@ -1,4 +1,14 @@
 const { pool } = require('../config/db');
+const {
+  PRODUCT_CATEGORY_OPTIONS,
+  normalizeProductCategory,
+  getCategoryFilterValues
+} = require('../utils/productCategories');
+
+const normalizeProductRecord = (product = {}) => ({
+  ...product,
+  category: normalizeProductCategory(product.category)
+});
 
 const productsController = {
   uploadProductImage: async (req, res) => {
@@ -80,9 +90,11 @@ const productsController = {
       const params = [];
 
       if (category) {
-        query += ' AND category = ?';
-        countQuery += ' AND category = ?';
-        params.push(category);
+        const categoryValues = getCategoryFilterValues(category);
+        const placeholders = categoryValues.map(() => '?').join(', ');
+        query += ` AND category IN (${placeholders})`;
+        countQuery += ` AND category IN (${placeholders})`;
+        params.push(...categoryValues);
       }
 
       if (brand) {
@@ -128,7 +140,7 @@ const productsController = {
         return res.status(200).json({
           message: 'Products retrieved',
           count: products.length,
-          products,
+          products: products.map(normalizeProductRecord),
           pagination: {
             page: pageNum,
             limit: limitNum ?? total,
@@ -169,7 +181,7 @@ const productsController = {
 
         return res.status(200).json({
           message: 'Product details',
-          product: products[0]
+          product: normalizeProductRecord(products[0])
         });
       } finally {
         connection.release();
@@ -188,9 +200,10 @@ const productsController = {
       }
 
       const { name, brand, category, price, originalPrice, description, specs, image } = req.body;
+      const normalizedCategory = normalizeProductCategory(category);
 
       // Validation
-      if (!name || !brand || !category || !price) {
+      if (!name || !brand || !normalizedCategory || price === undefined || price === null) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
 
@@ -211,7 +224,7 @@ const productsController = {
           [
             name,
             brand,
-            category,
+            normalizedCategory,
             price,
             originalPrice || price,
             description || null,
@@ -227,7 +240,7 @@ const productsController = {
             id: result.insertId,
             name,
             brand,
-            category,
+            category: normalizedCategory,
             price,
             originalPrice: originalPrice || price
           }
@@ -250,6 +263,7 @@ const productsController = {
 
       const { id } = req.params;
       const { name, brand, category, price, originalPrice, description, specs, image } = req.body;
+      const normalizedCategory = category !== undefined ? normalizeProductCategory(category) : undefined;
 
       // Validate ID
       if (!id || isNaN(id)) {
@@ -257,7 +271,7 @@ const productsController = {
       }
 
       // Validate price if provided
-      if (price && (isNaN(price) || price < 0)) {
+      if (price !== undefined && (isNaN(price) || price < 0)) {
         return res.status(422).json({ message: 'Invalid price' });
       }
 
@@ -286,9 +300,9 @@ const productsController = {
           updates.push('brand = ?');
           values.push(brand);
         }
-        if (category !== undefined) {
+        if (normalizedCategory !== undefined) {
           updates.push('category = ?');
-          values.push(category);
+          values.push(normalizedCategory);
         }
         if (price !== undefined) {
           updates.push('price = ?');
@@ -407,9 +421,16 @@ const productsController = {
           'SELECT DISTINCT category FROM products ORDER BY category'
         );
 
+        const availableCategorySet = new Set(
+          categories.map((item) => normalizeProductCategory(item.category))
+        );
+        const visibleCategories = PRODUCT_CATEGORY_OPTIONS
+          .map((option) => option.value)
+          .filter((value) => availableCategorySet.has(value));
+
         return res.status(200).json({
           message: 'Categories retrieved',
-          categories: categories.map(c => c.category)
+          categories: visibleCategories
         });
       } finally {
         connection.release();

@@ -26,7 +26,7 @@ const productDropdownItems = [
 const menuItems = [
   {
     label: 'SẢN PHẨM',
-    path: '/products/laptop',
+    path: '/products/pc-gaming-new',
     dropdown: productDropdownItems
   },
   { label: 'GIẢI PHÁP ĐỒ HỌA' },

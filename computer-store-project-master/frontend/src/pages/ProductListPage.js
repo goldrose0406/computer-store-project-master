@@ -10,6 +10,7 @@ import {
   getSampleProductsByCategory,
   PRODUCT_CATALOGS
 } from '../data/productCatalog';
+import { normalizeProductCategory } from '../utils/productCategories';
 import '../styles/ProductList.css';
 
 const ProductListPage = () => {
@@ -35,7 +36,10 @@ const ProductListPage = () => {
       const result = await productsService.getAllProducts({ category: catalogConfig.key, limit: 'all' });
 
       if (result.success) {
-        const backendProducts = result.products || [];
+        const backendProducts = (result.products || []).map((product) => ({
+          ...product,
+          category: normalizeProductCategory(product.category)
+        }));
         const categoryProducts =
           backendProducts.length > 0 ? backendProducts : getSampleProductsByCategory(catalogConfig.key);
         setProducts(categoryProducts);
@@ -89,6 +93,37 @@ const ProductListPage = () => {
       <ProductBanner
         title={catalogConfig.title === 'Laptop' ? 'Laptop Chính Hãng Dễ Chọn Dễ Mua' : `Cấu Hình ${catalogConfig.title} Tối Ưu Sẵn`}
         description={catalogConfig.description}
+        heroImage={
+          catalog === 'pc-gaming-new'
+            ? 'https://pc79.vn/wp-content/uploads/2024/05/PC-GAMING-CU-PC79.png'
+            : ''
+        }
+        infoBoxes={
+          catalog === 'pc-gaming-new'
+            ? [
+                {
+                  title: 'LINH KIỆN CHÍNH HÃNG',
+                  description:
+                    'Linh kiện PC New & Like New được lựa chọn kỹ càng, sử dụng ổn định và bền bỉ'
+                },
+                {
+                  title: 'NHIỀU ƯU ĐÃI HẤP DẪN',
+                  description:
+                    'Nhiều CTKM, giảm giá, quà tặng hấp dẫn khi build PC Gaming Like New'
+                },
+                {
+                  title: 'HỖ TRỢ TRẢ GÓP DỄ DÀNG',
+                  description:
+                    'Thanh toán trả góp linh hoạt qua thẻ tín dụng (MPOS) hoặc cty tài chính HD Saison'
+                },
+                {
+                  title: 'BẢO HÀNH CAM KẾT',
+                  description:
+                    'Miễn phí 1-đổi-1 trong 30 ngày nếu phát sinh lỗi phần cứng đối với bộ PC Gaming'
+                }
+              ]
+            : []
+        }
         highlights={
           catalogConfig.key === 'laptop'
             ? [
@@ -166,13 +201,13 @@ const ProductListPage = () => {
         <Spin spinning={loading}>
           {paginatedProducts.length > 0 ? (
             <>
-              <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
+              <div className="product-list-grid" style={{ marginBottom: '32px' }}>
                 {paginatedProducts.map((product) => (
-                  <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
+                  <div className="product-list-grid__item" key={product.id}>
                     <ProductCard product={product} />
-                  </Col>
+                  </div>
                 ))}
-              </Row>
+              </div>
 
               {totalPages > 1 && (
                 <div style={{ textAlign: 'center', marginTop: '32px' }}>

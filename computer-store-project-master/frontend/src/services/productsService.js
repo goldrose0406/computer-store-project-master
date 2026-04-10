@@ -1,3 +1,5 @@
+import { normalizeProductCategory } from '../utils/productCategories';
+
 const API_BASE_URL = 'http://localhost:5000/api';
 
 const parseSpecs = (specs) => {
@@ -18,6 +20,7 @@ const parseSpecs = (specs) => {
 
 const normalizeProduct = (product = {}) => ({
   ...product,
+  category: normalizeProductCategory(product.category),
   price: Number(product.price) || 0,
   originalPrice: Number(product.originalPrice) || Number(product.price) || 0,
   specs: parseSpecs(product.specs)

@@ -12,7 +12,9 @@ const ProductBanner = ({
     'Giá cạnh tranh, cấu hình hợp lý',
     'Chất lượng tốt, bảo hành đầy đủ'
   ],
-  ctaLabel = 'Xem Sản Phẩm'
+  ctaLabel = 'Xem Sản Phẩm',
+  heroImage = '',
+  infoBoxes = []
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -207,116 +209,152 @@ const ProductBanner = ({
 
             <Col xs={24} lg={12}>
               <div className="hero-carousel" style={{ position: 'relative' }}>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
-                  {[0, 1, 2].map((index) => {
-                    const current = getDisplayItems()[index];
-                    const widths = ['22%', '45%', '28%'];
-                    const heights = ['320px', '380px', '350px'];
-                    const fontSizes = ['11px', '14px', '12px'];
-
-                    return (
-                      <div
-                        key={current.id}
-                        style={{
-                          flex: `0 0 ${widths[index]}`,
-                          height: heights[index],
-                          borderRadius: '8px',
-                          overflow: 'hidden',
-                          background: '#1a1f3a',
-                          position: 'relative',
-                          opacity: index === 1 ? 1 : 0.8,
-                          border: index === 1 ? '2px solid #ec4899' : 'none'
-                        }}
-                      >
-                        <video
-                          src={current.video}
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                        <div
-                          style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
-                            padding: index === 1 ? '16px 12px' : '12px 8px',
-                            color: '#fff'
-                          }}
-                        >
-                          <p style={{ fontSize: fontSizes[index], margin: '0 0 4px 0', fontWeight: 'bold' }}>
-                            {current.title}
-                          </p>
-                          <p style={{ fontSize: '10px', margin: 0, color: '#ccc' }}>{current.specs}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <button
-                  onClick={prevSlide}
-                  style={{
-                    position: 'absolute',
-                    left: '-50px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    border: 'none',
-                    color: '#fff',
-                    fontSize: '24px',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <LeftOutlined />
-                </button>
-
-                <button
-                  onClick={nextSlide}
-                  style={{
-                    position: 'absolute',
-                    right: '-50px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    border: 'none',
-                    color: '#fff',
-                    fontSize: '24px',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <RightOutlined />
-                </button>
-
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
-                  {carouselItems.map((item, idx) => (
-                    <button
-                      key={item.id}
-                      onClick={() => setCurrentSlide(idx)}
+                {heroImage ? (
+                  <div
+                    className="product-banner-hero-image-wrap"
+                    style={{
+                      maxWidth: '620px',
+                      margin: '0 auto'
+                    }}
+                  >
+                    <img
+                      className="product-banner-hero-image"
+                      src={heroImage}
+                      alt={title}
                       style={{
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: '50%',
-                        border: 'none',
-                        background: idx === currentSlide ? '#ec4899' : '#555',
-                        cursor: 'pointer',
-                        transition: '0.3s'
+                        display: 'block',
+                        width: '100%',
+                        height: 'auto',
+                        maxHeight: '560px',
+                        objectFit: 'contain',
+                        margin: '0 auto'
                       }}
                     />
-                  ))}
-                </div>
+                  </div>
+                ) : (
+                  <>
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
+                      {[0, 1, 2].map((index) => {
+                        const current = getDisplayItems()[index];
+                        const widths = ['22%', '45%', '28%'];
+                        const heights = ['320px', '380px', '350px'];
+                        const fontSizes = ['11px', '14px', '12px'];
+
+                        return (
+                          <div
+                            key={current.id}
+                            style={{
+                              flex: `0 0 ${widths[index]}`,
+                              height: heights[index],
+                              borderRadius: '8px',
+                              overflow: 'hidden',
+                              background: '#1a1f3a',
+                              position: 'relative',
+                              opacity: index === 1 ? 1 : 0.8,
+                              border: index === 1 ? '2px solid #ec4899' : 'none'
+                            }}
+                          >
+                            <video
+                              src={current.video}
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                            <div
+                              style={{
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
+                                padding: index === 1 ? '16px 12px' : '12px 8px',
+                                color: '#fff'
+                              }}
+                            >
+                              <p style={{ fontSize: fontSizes[index], margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                                {current.title}
+                              </p>
+                              <p style={{ fontSize: '10px', margin: 0, color: '#ccc' }}>{current.specs}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      onClick={prevSlide}
+                      style={{
+                        position: 'absolute',
+                        left: '-50px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'rgba(255, 255, 255, 0.2)',
+                        border: 'none',
+                        color: '#fff',
+                        fontSize: '24px',
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <LeftOutlined />
+                    </button>
+
+                    <button
+                      onClick={nextSlide}
+                      style={{
+                        position: 'absolute',
+                        right: '-50px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'rgba(255, 255, 255, 0.2)',
+                        border: 'none',
+                        color: '#fff',
+                        fontSize: '24px',
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <RightOutlined />
+                    </button>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
+                      {carouselItems.map((item, idx) => (
+                        <button
+                          key={item.id}
+                          onClick={() => setCurrentSlide(idx)}
+                          style={{
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '50%',
+                            border: 'none',
+                            background: idx === currentSlide ? '#ec4899' : '#555',
+                            cursor: 'pointer',
+                            transition: '0.3s'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </Col>
           </Row>
+          {infoBoxes.length > 0 && (
+            <div className="product-banner-info-strip">
+              {infoBoxes.map((item) => (
+                <div className="product-banner-info-card" key={item.title}>
+                  <p className="product-banner-info-title">{item.title}</p>
+                  <p className="product-banner-info-text">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

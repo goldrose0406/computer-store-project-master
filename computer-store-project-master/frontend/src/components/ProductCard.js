@@ -1,16 +1,23 @@
 import React, { useContext } from 'react';
-import { Card, Button, Badge, Rate, Tag, message } from 'antd';
-import { ShoppingCartOutlined, HeartOutlined, HeartFilled } from '@ant-design/icons';
+import { Card, Button, Badge, message } from 'antd';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { formatProductCategory } from '../utils/productCategories';
 import '../styles/ProductCard.css';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
-  const [isFavorite, setIsFavorite] = React.useState(false);
 
-  const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+  const discount =
+    product.originalPrice > product.price
+      ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+      : 0;
+
+  const subtitle = [formatProductCategory(product.category), product.brand].filter(Boolean).join(' / ');
+  const specSummary = [product.specs?.cpu, product.specs?.ram].filter(Boolean).join(' / ');
+  const fallbackImage = `https://via.placeholder.com/640x640/f4f4f5/5b5b66?text=${encodeURIComponent(product.name || 'Product')}`;
 
   const handleProductClick = () => {
     navigate(`/product/${product.id}`, { state: { product } });
@@ -24,8 +31,12 @@ const ProductCard = ({ product }) => {
         <div className="product-image-container" onClick={handleProductClick}>
           <img
             alt={product.name}
-            src={product.image || 'https://via.placeholder.com/250x250?text=' + product.name}
+            src={product.image || fallbackImage}
             className="product-image"
+            loading="lazy"
+            onError={(event) => {
+              event.currentTarget.src = fallbackImage;
+            }}
           />
           {discount > 0 && (
             <Badge
@@ -37,67 +48,41 @@ const ProductCard = ({ product }) => {
         </div>
       }
       onClick={handleProductClick}
-      style={{ borderRadius: '8px', overflow: 'hidden' }}
     >
       <div className="product-info">
-        {/* Brand Tag */}
-        <Tag color="blue" style={{ marginBottom: '8px' }}>
-          {product.brand}
-        </Tag>
-
-        {/* Product Name */}
         <h3 className="product-name" title={product.name}>
           {product.name}
         </h3>
 
-        {/* Rating */}
-        <div className="product-rating" style={{ marginBottom: '8px' }}>
-          <Rate value={product.rating} disabled allowHalf style={{ fontSize: '12px' }} />
-          <span style={{ marginLeft: '8px', fontSize: '12px', color: '#999' }}>
-            ({product.reviews})
-          </span>
+        <div className="product-subtitle" title={subtitle}>
+          {subtitle || 'Danh muc san pham'}
         </div>
 
-        {/* Price */}
-        <div className="product-price" style={{ marginBottom: '12px' }}>
-          <span className="current-price" style={{ fontSize: '18px', fontWeight: 'bold', color: '#ff4d4f' }}>
-            {product.price.toLocaleString('vi-VN')} ₫
-          </span>
-          <br />
-          <span className="original-price" style={{ fontSize: '12px', color: '#999', textDecoration: 'line-through' }}>
-            {product.originalPrice.toLocaleString('vi-VN')} ₫
-          </span>
+        <div className="product-spec-summary" title={specSummary}>
+          {specSummary || 'Cau hinh dang cap nhat'}
         </div>
 
-        {/* Quick Specs */}
-        <div className="product-specs" style={{ fontSize: '12px', color: '#666', marginBottom: '12px' }}>
-          <p>💻 {product.specs?.cpu}</p>
-          <p>💾 RAM: {product.specs?.ram}</p>
+        <div className="product-price">
+          <div className="current-price">{product.price.toLocaleString('vi-VN')} ₫</div>
+          {product.originalPrice > product.price && (
+            <div className="original-price">{product.originalPrice.toLocaleString('vi-VN')} ₫</div>
+          )}
         </div>
 
-        {/* Action Buttons */}
-        <div className="product-actions" style={{ display: 'flex', gap: '8px' }}>
+        <div className="product-actions">
           <Button
             type="primary"
             icon={<ShoppingCartOutlined />}
             block
-            style={{ flex: 1 }}
+            className="product-card-button"
             onClick={(e) => {
               e.stopPropagation();
               addToCart(product);
               message.success(`Đã thêm ${product.name} vào giỏ hàng!`);
             }}
           >
-            Thêm giỏ
+            Thêm Vào Giỏ Hàng
           </Button>
-          <Button
-            type="default"
-            icon={isFavorite ? <HeartFilled style={{ color: '#ff4d4f' }} /> : <HeartOutlined />}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsFavorite(!isFavorite);
-            }}
-          />
         </div>
       </div>
     </Card>

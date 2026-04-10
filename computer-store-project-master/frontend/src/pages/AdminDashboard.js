@@ -7,31 +7,15 @@ import { useAuth } from '../context/AuthContext';
 import { ordersService } from '../services/ordersService';
 import { productsService } from '../services/productsService';
 import { authService } from '../services/authService';
+import {
+  PRODUCT_CATEGORY_OPTIONS,
+  formatProductCategory,
+  isProductCategoryMatch,
+  normalizeProductCategory
+} from '../utils/productCategories';
 import '../styles/AdminDashboard.css';
 
 const { Content } = Layout;
-const productCategoryOptions = [
-  { label: 'Laptop', value: 'laptop' },
-  { label: 'PC Gaming New', value: 'pc-gaming-new' },
-  { label: 'PC Gaming Old', value: 'pc-gaming-old' }
-];
-
-const productCategoryLabelMap = {
-  laptop: 'Laptop',
-  'pc-gaming-new': 'PC Gaming New',
-  'pc-gaming-old': 'PC Gaming Old',
-  'gaming-laptop': 'Gaming Laptop',
-  ultrabook: 'Ultrabook',
-  workstation: 'Workstation',
-  'budget-laptop': 'Budget Laptop'
-};
-
-const formatCategoryLabel = (category) =>
-  productCategoryLabelMap[category] ||
-  category
-    ?.split('-')
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
 
 const AdminDashboard = () => {
   const { user, token } = useAuth();
@@ -53,8 +37,26 @@ const AdminDashboard = () => {
   const [coverImagePreview, setCoverImagePreview] = useState('');
   const [galleryImageFileList, setGalleryImageFileList] = useState([]);
   const [galleryImagePreviews, setGalleryImagePreviews] = useState([]);
+  const [activeProductCategory, setActiveProductCategory] = useState(PRODUCT_CATEGORY_OPTIONS[0].value);
   const [form] = Form.useForm();
   const [productForm] = Form.useForm();
+
+  const resetProductModalState = () => {
+    productForm.resetFields();
+    setCoverImageFileList([]);
+    setCoverImagePreview('');
+    setGalleryImageFileList([]);
+    setGalleryImagePreviews([]);
+  };
+
+  const openCreateProductModal = (category = activeProductCategory) => {
+    const nextCategory = normalizeProductCategory(category) || PRODUCT_CATEGORY_OPTIONS[0].value;
+    setEditingProduct(null);
+    setActiveProductCategory(nextCategory);
+    resetProductModalState();
+    productForm.setFieldsValue({ category: nextCategory });
+    setIsAddProductModalOpen(true);
+  };
 
   // Tải dữ liệu
   useEffect(() => {
@@ -66,15 +68,9 @@ const AdminDashboard = () => {
   // Handle URL-based modal opening
   useEffect(() => {
     if (location.pathname === '/admin/products/add') {
-      setEditingProduct(null);
-      productForm.resetFields();
-      setCoverImageFileList([]);
-      setCoverImagePreview('');
-      setGalleryImageFileList([]);
-      setGalleryImagePreviews([]);
-      setIsAddProductModalOpen(true);
+      openCreateProductModal(activeProductCategory);
     }
-  }, [location.pathname, productForm]);
+  }, [location.pathname]);
 
   const loadData = async () => {
     setLoading(true);
@@ -160,7 +156,7 @@ const AdminDashboard = () => {
     const payload = {
       name: values.name,
       brand: values.brand,
-      category: values.category,
+      category: normalizeProductCategory(values.category || activeProductCategory),
       price: values.price,
       originalPrice: values.originalPrice,
       description: values.description,
@@ -176,6 +172,8 @@ const AdminDashboard = () => {
       }
     };
 
+    setActiveProductCategory(payload.category);
+
     try {
       if (editingProduct) {
         // Update existing product
@@ -184,9 +182,9 @@ const AdminDashboard = () => {
           message.success('Cập nhật sản phẩm thành công!');
           setIsAddProductModalOpen(false);
           setEditingProduct(null);
-          productForm.resetFields();
-          loadData();
-          navigate('/admin');
+          resetProductModalState();
+          await loadData();
+          navigate('/admin/products');
         } else {
           message.error(result.message);
         }
@@ -197,9 +195,9 @@ const AdminDashboard = () => {
           message.success('Thêm sản phẩm thành công!');
           setIsAddProductModalOpen(false);
           setEditingProduct(null);
-          productForm.resetFields();
-          loadData();
-          navigate('/admin');
+          resetProductModalState();
+          await loadData();
+          navigate('/admin/products');
         } else {
           message.error(result.message);
         }
@@ -210,11 +208,13 @@ const AdminDashboard = () => {
   };
 
   const handleEditProduct = (product) => {
+    const normalizedCategory = normalizeProductCategory(product.category);
     setEditingProduct(product);
+    setActiveProductCategory(normalizedCategory);
     productForm.setFieldsValue({
       name: product.name,
       brand: product.brand,
-      category: product.category,
+      category: normalizedCategory,
       price: product.price,
       originalPrice: product.originalPrice,
       description: product.description,
@@ -242,12 +242,10 @@ const AdminDashboard = () => {
   const handleCloseModal = () => {
     setIsAddProductModalOpen(false);
     setEditingProduct(null);
-    productForm.resetFields();
-    setCoverImageFileList([]);
-    setCoverImagePreview('');
-    setGalleryImageFileList([]);
-    setGalleryImagePreviews([]);
-    navigate('/admin');
+    resetProductModalState();
+    if (location.pathname === '/admin/products/add') {
+      navigate('/admin/products');
+    }
   };
 
   const handleDeleteProduct = async (productId) => {
@@ -431,7 +429,7 @@ const AdminDashboard = () => {
       title: 'Danh mục',
       dataIndex: 'category',
       key: 'category',
-      render: (category) => formatCategoryLabel(category)
+      render: (category) => formatProductCategory(category)
     },
     {
       title: 'Giá',
@@ -467,14 +465,9 @@ const AdminDashboard = () => {
 
   const totalRevenue = orders.reduce((acc, order) => acc + (order.totalPrice || 0), 0);
   const uniqueCustomers = new Set(orders.map(o => o.customerEmail)).size;
-  const adminProductCategories = Array.from(
-    new Set([
-      ...productCategoryOptions.map((option) => option.value),
-      ...products.map((product) => product.category).filter(Boolean)
-    ])
-  ).map((value) => ({
-    value,
-    label: formatCategoryLabel(value)
+  const adminProductCategories = PRODUCT_CATEGORY_OPTIONS.map((option) => ({
+    value: option.value,
+    label: option.label
   }));
 
   // Calculate data for charts
@@ -560,14 +553,14 @@ const AdminDashboard = () => {
   const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
 
   const renderProductsTable = (category) => {
-    const filteredProducts = products.filter((product) => product.category === category);
+    const filteredProducts = products.filter((product) => isProductCategoryMatch(product.category, category));
 
     return (
       <Table
         columns={productsColumns}
         dataSource={filteredProducts.map((product) => ({ ...product, key: product.id }))}
         pagination={{ pageSize: 10 }}
-        locale={{ emptyText: `Chưa có sản phẩm trong mục ${formatCategoryLabel(category)}` }}
+        locale={{ emptyText: `Chưa có sản phẩm trong mục ${formatProductCategory(category)}` }}
         responsive
         scroll={{ x: 800 }}
       />
@@ -580,23 +573,17 @@ const AdminDashboard = () => {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => {
-            setEditingProduct(null);
-            productForm.resetFields();
-            setCoverImageFileList([]);
-            setCoverImagePreview('');
-            setGalleryImageFileList([]);
-            setGalleryImagePreviews([]);
-            setIsAddProductModalOpen(true);
-          }}
+          onClick={() => openCreateProductModal(activeProductCategory)}
         >
-          Thêm sản phẩm mới
+          Thêm sản phẩm vào {formatProductCategory(activeProductCategory)}
         </Button>
       </div>
       <Tabs
+        activeKey={activeProductCategory}
+        onChange={setActiveProductCategory}
         items={adminProductCategories.map((option) => ({
           key: option.value,
-          label: `${option.label} (${products.filter((product) => product.category === option.value).length})`,
+          label: `${option.label} (${products.filter((product) => isProductCategoryMatch(product.category, option.value)).length})`,
           children: renderProductsTable(option.value)
         }))}
       />
@@ -1011,13 +998,9 @@ const AdminDashboard = () => {
                       <Button
                         type="primary"
                         icon={<PlusOutlined />}
-                        onClick={() => {
-                          setEditingProduct(null);
-                          productForm.resetFields();
-                          setIsAddProductModalOpen(true);
-                        }}
+                        onClick={() => openCreateProductModal(activeProductCategory)}
                       >
-                        Thêm sản phẩm mới
+                        Thêm sản phẩm vào {formatProductCategory(activeProductCategory)}
                       </Button>
                     </div>
                     <Table
@@ -1116,7 +1099,7 @@ const AdminDashboard = () => {
 
       {/* Add Product Modal */}
       <Modal
-        title={editingProduct ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
+        title={editingProduct ? "Chỉnh sửa sản phẩm" : `Thêm sản phẩm vào ${formatProductCategory(activeProductCategory)}`}
         open={isAddProductModalOpen}
         onCancel={handleCloseModal}
         onOk={() => productForm.submit()}
@@ -1140,7 +1123,8 @@ const AdminDashboard = () => {
           >
             <Select
               placeholder="Chọn nhóm sản phẩm"
-              options={productCategoryOptions}
+              options={PRODUCT_CATEGORY_OPTIONS}
+              onChange={setActiveProductCategory}
             />
           </Form.Item>
           <Form.Item name="price" label="Giá" rules={[{ required: true, type: 'number' }]}>

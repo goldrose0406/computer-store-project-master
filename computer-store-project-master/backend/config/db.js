@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 require('dotenv').config();
+const { LEGACY_LAPTOP_CATEGORIES } = require('../utils/productCategories');
 
 const dbPath = path.join(__dirname, '../computerstore.db');
 
@@ -171,6 +172,22 @@ const initDatabase = async () => {
       }
     } catch (err) {
       // Bỏ qua nếu column đã tồn tại
+    }
+
+    const legacyLaptopCategories = Array.from(LEGACY_LAPTOP_CATEGORIES).filter(
+      (category) => category !== 'laptop'
+    );
+
+    if (legacyLaptopCategories.length > 0) {
+      const placeholders = legacyLaptopCategories.map(() => '?').join(', ');
+      const migrationResult = await dbRun(
+        `UPDATE products SET category = 'laptop' WHERE category IN (${placeholders})`,
+        legacyLaptopCategories
+      );
+
+      if (migrationResult.changes > 0) {
+        console.log(`Normalized ${migrationResult.changes} legacy laptop products to category "laptop"`);
+      }
     }
 
     // Create default accounts
