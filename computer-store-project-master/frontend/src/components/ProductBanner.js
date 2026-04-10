@@ -22,7 +22,7 @@ const ProductBanner = ({
     {
       id: 1,
       title: 'PC GAMING GMN-A-5403B',
-      specs: 'i5 14400F - RTX 5060',
+      specs: 'i5 14400F – RTX 5060',
       video: 'https://pc79.vn/wp-content/uploads/2025/09/I5-14400F-5060-Broll.mp4'
     },
     {
@@ -59,28 +59,32 @@ const ProductBanner = ({
 
   const getDisplayItems = () => {
     const items = [];
-    for (let i = 0; i < 3; i += 1) {
+    for (let i = 0; i < 3; i++) {
       items.push(carouselItems[(currentSlide + i) % carouselItems.length]);
     }
     return items;
   };
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
+  };
 
   return (
     <div className="product-banner-section" style={{ position: 'relative', minHeight: '750px' }}>
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-          overflow: 'hidden'
-        }}
-      >
+      {/* YouTube Video Background */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        overflow: 'hidden'
+      }}>
         <iframe
           style={{
             position: 'absolute',
@@ -95,266 +99,315 @@ const ProductBanner = ({
           src="https://www.youtube.com/embed/-LA-mYbvFFg?autoplay=1&controls=0&showinfo=0&rel=0&loop=1&mute=1"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          title="Computer Store banner"
+          title="Computer Store PC Gaming"
           allowFullScreen
-        />
+        ></iframe>
       </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(to right, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.95) 40%, rgba(0, 0, 0, 0.9) 100%)',
-          zIndex: 1,
-          pointerEvents: 'none'
-        }}
-      />
+      {/* Dark Overlay */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'linear-gradient(to right, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.95) 40%, rgba(0, 0, 0, 0.9) 100%)',
+        zIndex: 1,
+        pointerEvents: 'none'
+      }}></div>
 
-      <div
-        className="banner-content-wrapper"
-        style={{ position: 'relative', zIndex: 2, height: '100%', minHeight: '750px', display: 'flex', alignItems: 'center' }}
-      >
+      {/* Banner Content */}
+      <div className="banner-content-wrapper" style={{ position: 'relative', zIndex: 2, height: '100%', minHeight: '750px', display: 'flex', alignItems: 'center' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%', padding: '0 40px' }}>
           <Row gutter={[48, 32]} align="middle">
+            {/* Left Content */}
             <Col xs={24} lg={12}>
               <div className="banner-content">
-                <div
-                  style={{
-                    display: 'inline-block',
-                    background: 'linear-gradient(135deg, #7c3aed, #ec4899)',
-                    padding: '8px 16px',
-                    borderRadius: '4px',
-                    marginBottom: '24px',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    color: '#fff'
-                  }}
-                >
-                  {badge}
+                <div style={{
+                  display: 'inline-block',
+                  background: 'linear-gradient(135deg, #7c3aed, #ec4899)',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  marginBottom: '24px',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  color: '#fff'
+                }}>
+                  Nhóm 10 Store
                 </div>
 
-                <h1
-                  style={{
-                    fontSize: '35px',
-                    fontWeight: 'bold',
-                    margin: '0 0 24px 0',
-                    lineHeight: '1.2',
-                    color: '#fff',
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'
-                  }}
-                >
-                  {title}
+                <h1 style={{
+                  fontSize: '35px',
+                  fontWeight: 'bold',
+                  margin: '0 0 24px 0',
+                  lineHeight: '1.2',
+                  color: '#fff',
+                  textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'
+                }}>
+                  Build PC Giá Tốt Tối Ưu Hiệu Năng
+                  <br />
+                  
                 </h1>
 
-                <p
-                  style={{
-                    fontSize: '14px',
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    lineHeight: '1.6',
-                    marginBottom: '24px',
-                    maxWidth: '550px'
-                  }}
-                >
-                  {description}
+                <p style={{
+                  fontSize: '14px',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  lineHeight: '1.6',
+                  marginBottom: '24px',
+                  maxWidth: '550px'
+                }}>
+                  Tại Computer Store, chúng tôi hiểu rằng một chiếc máy tính không chỉ cần mạnh – mà còn phải <strong>phù hợp với nhu cầu bạn, ngân sách bạn có, và trải nghiệm bạn mong muốn</strong>.
                 </p>
 
-                <ul
-                  style={{
-                    listStyle: 'none',
-                    padding: 0,
-                    margin: '24px 0',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px'
-                  }}
-                >
-                  {highlights.map((highlight) => (
-                    <li
-                      key={highlight}
-                      style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'rgba(255, 255, 255, 0.95)' }}
-                    >
-                      <img
-                        src="https://pc79.vn/wp-content/uploads/2025/06/crystal-15x15.png"
-                        alt="check"
-                        style={{ width: '15px', height: '15px' }}
-                      />
-                      {highlight}
-                    </li>
-                  ))}
+                {/* Features List */}
+                <ul style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: '24px 0',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px'
+                }}>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'rgba(255, 255, 255, 0.95)' }}>
+                    <img 
+                      src="https://pc79.vn/wp-content/uploads/2025/06/crystal-15x15.png" 
+                      alt="check" 
+                      style={{ width: '15px', height: '15px' }}
+                    />
+                    Hiệu năng tối ưu theo nhu cầu
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'rgba(255, 255, 255, 0.95)' }}>
+                    <img 
+                      src="https://pc79.vn/wp-content/uploads/2025/06/crystal-15x15.png" 
+                      alt="check" 
+                      style={{ width: '15px', height: '15px' }}
+                    />
+                    Giá cạnh tranh, cấu hình hợp lý
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'rgba(255, 255, 255, 0.95)' }}>
+                    <img 
+                      src="https://pc79.vn/wp-content/uploads/2025/06/crystal-15x15.png" 
+                      alt="check" 
+                      style={{ width: '15px', height: '15px' }}
+                    />
+                    Chất lượng tốt, bảo hành đầy đủ
+                  </li>
                 </ul>
 
-                <Button
-                  type="primary"
-                  size="large"
-                  style={{
-                    background: 'transparent',
-                    color: '#fff',
-                    border: '2px solid #fff',
-                    padding: '12px 32px',
-                    fontSize: '16px',
-                    height: 'auto',
-                    borderRadius: '10px',
-                    marginTop: '24px',
-                    fontWeight: '600'
-                  }}
-                  href="#products-list"
-                >
-                  {ctaLabel} <RightOutlined />
-                </Button>
+                {/* CTA Button */}
+                
               </div>
             </Col>
 
+            {/* Right Product Carousel */}
             <Col xs={24} lg={12}>
               <div className="hero-carousel" style={{ position: 'relative' }}>
-                {heroImage ? (
-                  <div
-                    className="product-banner-hero-image-wrap"
-                    style={{
-                      maxWidth: '620px',
-                      margin: '0 auto'
-                    }}
-                  >
-                    <img
-                      className="product-banner-hero-image"
-                      src={heroImage}
-                      alt={title}
+                {/* Carousel Container - 3 Videos */}
+                <div style={{
+                  display: 'flex',
+                  gap: '12px',
+                  alignItems: 'flex-end'
+                }}>
+                  {/* Left Video - Small */}
+                  <div style={{
+                    flex: '0 0 22%',
+                    height: '320px',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    background: '#1a1f3a',
+                    position: 'relative',
+                    opacity: 0.7
+                  }}>
+                    <video
+                      src={getDisplayItems()[0].video}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
                       style={{
-                        display: 'block',
                         width: '100%',
-                        height: 'auto',
-                        maxHeight: '560px',
-                        objectFit: 'contain',
-                        margin: '0 auto'
+                        height: '100%',
+                        objectFit: 'cover'
                       }}
                     />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
+                      padding: '12px 8px',
+                      color: '#fff'
+                    }}>
+                      <p style={{ fontSize: '11px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                        {getDisplayItems()[0].title.substring(0, 20)}
+                      </p>
+                      <p style={{ fontSize: '10px', margin: 0, color: '#aaa' }}>
+                        {getDisplayItems()[0].specs}
+                      </p>
+                    </div>
                   </div>
-                ) : (
-                  <>
-                    <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
-                      {[0, 1, 2].map((index) => {
-                        const current = getDisplayItems()[index];
-                        const widths = ['22%', '45%', '28%'];
-                        const heights = ['320px', '380px', '350px'];
-                        const fontSizes = ['11px', '14px', '12px'];
 
-                        return (
-                          <div
-                            key={current.id}
-                            style={{
-                              flex: `0 0 ${widths[index]}`,
-                              height: heights[index],
-                              borderRadius: '8px',
-                              overflow: 'hidden',
-                              background: '#1a1f3a',
-                              position: 'relative',
-                              opacity: index === 1 ? 1 : 0.8,
-                              border: index === 1 ? '2px solid #ec4899' : 'none'
-                            }}
-                          >
-                            <video
-                              src={current.video}
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                            />
-                            <div
-                              style={{
-                                position: 'absolute',
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
-                                padding: index === 1 ? '16px 12px' : '12px 8px',
-                                color: '#fff'
-                              }}
-                            >
-                              <p style={{ fontSize: fontSizes[index], margin: '0 0 4px 0', fontWeight: 'bold' }}>
-                                {current.title}
-                              </p>
-                              <p style={{ fontSize: '10px', margin: 0, color: '#ccc' }}>{current.specs}</p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      onClick={prevSlide}
+                  {/* Center Video - Large (Main) */}
+                  <div style={{
+                    flex: '0 0 45%',
+                    height: '380px',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    background: '#1a1f3a',
+                    position: 'relative',
+                    border: '2px solid #ec4899'
+                  }}>
+                    <video
+                      src={getDisplayItems()[1].video}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
                       style={{
-                        position: 'absolute',
-                        left: '-50px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        background: 'rgba(255, 255, 255, 0.2)',
-                        border: 'none',
-                        color: '#fff',
-                        fontSize: '24px',
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        cursor: 'pointer'
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
                       }}
-                    >
-                      <LeftOutlined />
-                    </button>
-
-                    <button
-                      onClick={nextSlide}
-                      style={{
-                        position: 'absolute',
-                        right: '-50px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        background: 'rgba(255, 255, 255, 0.2)',
-                        border: 'none',
-                        color: '#fff',
-                        fontSize: '24px',
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <RightOutlined />
-                    </button>
-
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
-                      {carouselItems.map((item, idx) => (
-                        <button
-                          key={item.id}
-                          onClick={() => setCurrentSlide(idx)}
-                          style={{
-                            width: '10px',
-                            height: '10px',
-                            borderRadius: '50%',
-                            border: 'none',
-                            background: idx === currentSlide ? '#ec4899' : '#555',
-                            cursor: 'pointer',
-                            transition: '0.3s'
-                          }}
-                        />
-                      ))}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
+                      padding: '16px 12px',
+                      color: '#fff'
+                    }}>
+                      <p style={{ fontSize: '14px', margin: '0 0 6px 0', fontWeight: 'bold' }}>
+                        {getDisplayItems()[1].title}
+                      </p>
+                      <p style={{ fontSize: '12px', margin: 0, color: '#ccc' }}>
+                        {getDisplayItems()[1].specs}
+                      </p>
                     </div>
-                  </>
-                )}
+                  </div>
+
+                  {/* Right Video - Medium */}
+                  <div style={{
+                    flex: '0 0 28%',
+                    height: '350px',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    background: '#1a1f3a',
+                    position: 'relative',
+                    opacity: 0.8
+                  }}>
+                    <video
+                      src={getDisplayItems()[2].video}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
+                      padding: '12px 8px',
+                      color: '#fff'
+                    }}>
+                      <p style={{ fontSize: '12px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                        {getDisplayItems()[2].title}
+                      </p>
+                      <p style={{ fontSize: '10px', margin: 0, color: '#aaa' }}>
+                        {getDisplayItems()[2].specs}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Navigation Buttons */}
+                <button
+                  onClick={prevSlide}
+                  style={{
+                    position: 'absolute',
+                    left: '-50px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    border: 'none',
+                    color: '#fff',
+                    fontSize: '24px',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'background 0.3s'
+                  }}
+                  onMouseOver={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.4)'}
+                  onMouseOut={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+                >
+                  <LeftOutlined />
+                </button>
+
+                <button
+                  onClick={nextSlide}
+                  style={{
+                    position: 'absolute',
+                    right: '-50px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    border: 'none',
+                    color: '#fff',
+                    fontSize: '24px',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'background 0.3s'
+                  }}
+                  onMouseOver={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.4)'}
+                  onMouseOut={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+                >
+                  <RightOutlined />
+                </button>
+
+                {/* Dots Navigation */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  marginTop: '16px'
+                }}>
+                  {carouselItems.map((item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        border: 'none',
+                        background: idx === currentSlide ? '#ec4899' : '#555',
+                        cursor: 'pointer',
+                        transition: '0.3s'
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             </Col>
           </Row>
-          {infoBoxes.length > 0 && (
-            <div className="product-banner-info-strip">
-              {infoBoxes.map((item) => (
-                <div className="product-banner-info-card" key={item.title}>
-                  <p className="product-banner-info-title">{item.title}</p>
-                  <p className="product-banner-info-text">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
