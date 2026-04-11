@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col } from 'antd';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import '../styles/ProductBanner.css';
 
@@ -17,6 +17,7 @@ const ProductBanner = ({
   infoBoxes = []
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const hasHeroImage = Boolean(heroImage);
 
   const carouselItems = [
     {
@@ -201,213 +202,248 @@ const ProductBanner = ({
 
             {/* Right Product Carousel */}
             <Col xs={24} lg={12}>
-              <div className="hero-carousel" style={{ position: 'relative' }}>
-                {/* Carousel Container - 3 Videos */}
-                <div style={{
-                  display: 'flex',
-                  gap: '12px',
-                  alignItems: 'flex-end'
-                }}>
-                  {/* Left Video - Small */}
+              {hasHeroImage ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '420px'
+                  }}
+                >
+                  <img
+                    src={heroImage}
+                    alt="PC Gaming New"
+                    style={{
+                      width: '100%',
+                      maxWidth: '560px',
+                      maxHeight: '520px',
+                      objectFit: 'contain',
+                      display: 'block',
+                      filter: 'drop-shadow(0 24px 45px rgba(0, 0, 0, 0.45))'
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="hero-carousel" style={{ position: 'relative' }}>
+                  {/* Carousel Container - 3 Videos */}
                   <div style={{
-                    flex: '0 0 22%',
-                    height: '320px',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    background: '#1a1f3a',
-                    position: 'relative',
-                    opacity: 0.7
+                    display: 'flex',
+                    gap: '12px',
+                    alignItems: 'flex-end'
                   }}>
-                    <video
-                      src={getDisplayItems()[0].video}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
+                    {/* Left Video - Small */}
                     <div style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
-                      padding: '12px 8px',
-                      color: '#fff'
+                      flex: '0 0 22%',
+                      height: '320px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      background: '#1a1f3a',
+                      position: 'relative',
+                      opacity: 0.7
                     }}>
-                      <p style={{ fontSize: '11px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
-                        {getDisplayItems()[0].title.substring(0, 20)}
-                      </p>
-                      <p style={{ fontSize: '10px', margin: 0, color: '#aaa' }}>
-                        {getDisplayItems()[0].specs}
-                      </p>
+                      <video
+                        src={getDisplayItems()[0].video}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
+                        padding: '12px 8px',
+                        color: '#fff'
+                      }}>
+                        <p style={{ fontSize: '11px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                          {getDisplayItems()[0].title.substring(0, 20)}
+                        </p>
+                        <p style={{ fontSize: '10px', margin: 0, color: '#aaa' }}>
+                          {getDisplayItems()[0].specs}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Center Video - Large (Main) */}
+                    <div style={{
+                      flex: '0 0 45%',
+                      height: '380px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      background: '#1a1f3a',
+                      position: 'relative',
+                      border: '2px solid #ec4899'
+                    }}>
+                      <video
+                        src={getDisplayItems()[1].video}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
+                        padding: '16px 12px',
+                        color: '#fff'
+                      }}>
+                        <p style={{ fontSize: '14px', margin: '0 0 6px 0', fontWeight: 'bold' }}>
+                          {getDisplayItems()[1].title}
+                        </p>
+                        <p style={{ fontSize: '12px', margin: 0, color: '#ccc' }}>
+                          {getDisplayItems()[1].specs}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Right Video - Medium */}
+                    <div style={{
+                      flex: '0 0 28%',
+                      height: '350px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      background: '#1a1f3a',
+                      position: 'relative',
+                      opacity: 0.8
+                    }}>
+                      <video
+                        src={getDisplayItems()[2].video}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
+                        padding: '12px 8px',
+                        color: '#fff'
+                      }}>
+                        <p style={{ fontSize: '12px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                          {getDisplayItems()[2].title}
+                        </p>
+                        <p style={{ fontSize: '10px', margin: 0, color: '#aaa' }}>
+                          {getDisplayItems()[2].specs}
+                        </p>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Center Video - Large (Main) */}
-                  <div style={{
-                    flex: '0 0 45%',
-                    height: '380px',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    background: '#1a1f3a',
-                    position: 'relative',
-                    border: '2px solid #ec4899'
-                  }}>
-                    <video
-                      src={getDisplayItems()[1].video}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                    <div style={{
+                  {/* Navigation Buttons */}
+                  <button
+                    onClick={prevSlide}
+                    style={{
                       position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
-                      padding: '16px 12px',
-                      color: '#fff'
-                    }}>
-                      <p style={{ fontSize: '14px', margin: '0 0 6px 0', fontWeight: 'bold' }}>
-                        {getDisplayItems()[1].title}
-                      </p>
-                      <p style={{ fontSize: '12px', margin: 0, color: '#ccc' }}>
-                        {getDisplayItems()[1].specs}
-                      </p>
-                    </div>
-                  </div>
+                      left: '-50px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      border: 'none',
+                      color: '#fff',
+                      fontSize: '24px',
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'background 0.3s'
+                    }}
+                    onMouseOver={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.4)'}
+                    onMouseOut={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+                  >
+                    <LeftOutlined />
+                  </button>
 
-                  {/* Right Video - Medium */}
-                  <div style={{
-                    flex: '0 0 28%',
-                    height: '350px',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    background: '#1a1f3a',
-                    position: 'relative',
-                    opacity: 0.8
-                  }}>
-                    <video
-                      src={getDisplayItems()[2].video}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                    <div style={{
+                  <button
+                    onClick={nextSlide}
+                    style={{
                       position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0))',
-                      padding: '12px 8px',
-                      color: '#fff'
-                    }}>
-                      <p style={{ fontSize: '12px', margin: '0 0 4px 0', fontWeight: 'bold' }}>
-                        {getDisplayItems()[2].title}
-                      </p>
-                      <p style={{ fontSize: '10px', margin: 0, color: '#aaa' }}>
-                        {getDisplayItems()[2].specs}
-                      </p>
-                    </div>
+                      right: '-50px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      border: 'none',
+                      color: '#fff',
+                      fontSize: '24px',
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'background 0.3s'
+                    }}
+                    onMouseOver={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.4)'}
+                    onMouseOut={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+                  >
+                    <RightOutlined />
+                  </button>
+
+                  {/* Dots Navigation */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    marginTop: '16px'
+                  }}>
+                    {carouselItems.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentSlide(idx)}
+                        style={{
+                          width: '10px',
+                          height: '10px',
+                          borderRadius: '50%',
+                          border: 'none',
+                          background: idx === currentSlide ? '#ec4899' : '#555',
+                          cursor: 'pointer',
+                          transition: '0.3s'
+                        }}
+                      />
+                    ))}
                   </div>
                 </div>
-
-                {/* Navigation Buttons */}
-                <button
-                  onClick={prevSlide}
-                  style={{
-                    position: 'absolute',
-                    left: '-50px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    border: 'none',
-                    color: '#fff',
-                    fontSize: '24px',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.3s'
-                  }}
-                  onMouseOver={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.4)'}
-                  onMouseOut={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
-                >
-                  <LeftOutlined />
-                </button>
-
-                <button
-                  onClick={nextSlide}
-                  style={{
-                    position: 'absolute',
-                    right: '-50px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    border: 'none',
-                    color: '#fff',
-                    fontSize: '24px',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.3s'
-                  }}
-                  onMouseOver={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.4)'}
-                  onMouseOut={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
-                >
-                  <RightOutlined />
-                </button>
-
-                {/* Dots Navigation */}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  marginTop: '16px'
-                }}>
-                  {carouselItems.map((item, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentSlide(idx)}
-                      style={{
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: '50%',
-                        border: 'none',
-                        background: idx === currentSlide ? '#ec4899' : '#555',
-                        cursor: 'pointer',
-                        transition: '0.3s'
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
+              )}
             </Col>
           </Row>
+
+          {hasHeroImage && infoBoxes.length > 0 && (
+            <div className="product-banner-info-strip">
+              {infoBoxes.map((item, index) => (
+                <div className="product-banner-info-card" key={`${item.title}-${index}`}>
+                  <p className="product-banner-info-title">{item.title}</p>
+                  <p className="product-banner-info-text">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
