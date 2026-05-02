@@ -5,17 +5,8 @@ const multer = require('multer');
 const uploadRoot = path.join(__dirname, '..', 'uploads', 'products');
 fs.mkdirSync(uploadRoot, { recursive: true });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadRoot),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const baseName = path
-      .basename(file.originalname, ext)
-      .replace(/[^a-zA-Z0-9-_]/g, '-')
-      .slice(0, 50);
-    cb(null, `${Date.now()}-${baseName}${ext}`);
-  }
-});
+// Memory storage for base64 conversion
+const storage = multer.memoryStorage();
 
 const uploadProductImage = multer({
   storage,
@@ -32,6 +23,18 @@ const uploadProductImage = multer({
   }
 });
 
+// Middleware to convert file buffer to base64
+const convertToBase64 = (req, res, next) => {
+  if (req.file) {
+    req.file.base64 = req.file.buffer.toString('base64');
+    req.file.mimeType = req.file.mimetype;
+    // Remove buffer to save memory
+    delete req.file.buffer;
+  }
+  next();
+};
+
 module.exports = {
-  uploadProductImage
+  uploadProductImage,
+  convertToBase64
 };

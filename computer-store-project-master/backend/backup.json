@@ -1,5 +1,6 @@
 {
-  "exportDate": "2026-05-02T02:27:14.319Z",
+  "exportDate": "2026-05-02T07:21:38.155Z",
+  "version": "2.0",
   "products": [
     {
       "id": 1,
@@ -13,7 +14,8 @@
       "image": "/images/products/macbook-pro-16.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 2,
@@ -27,7 +29,8 @@
       "image": "/images/products/asusvio15.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 3,
@@ -41,7 +44,8 @@
       "image": "/images/products/levovo14.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 4,
@@ -55,7 +59,8 @@
       "image": "/images/products/acer5.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 5,
@@ -69,7 +74,8 @@
       "image": "/images/products/msi66.jpg",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 6,
@@ -83,7 +89,8 @@
       "image": "/images/products/macairm2.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 7,
@@ -97,7 +104,8 @@
       "image": "/images/products/laptop-1.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 8,
@@ -111,7 +119,8 @@
       "image": "/images/products/laptop-2.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 9,
@@ -125,7 +134,8 @@
       "image": "/images/products/laptop-3.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 10,
@@ -139,7 +149,8 @@
       "image": "/images/products/laptop-4.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 11,
@@ -153,7 +164,8 @@
       "image": "/images/products/laptop-5.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 12,
@@ -167,7 +179,8 @@
       "image": "/images/products/laptop-6.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 13,
@@ -181,7 +194,8 @@
       "image": "/images/products/laptop-7.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 14,
@@ -195,7 +209,8 @@
       "image": "/images/products/laptop-8.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 15,
@@ -209,7 +224,8 @@
       "image": "/images/products/laptop-9.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 16,
@@ -223,7 +239,8 @@
       "image": "/images/products/laptop-10.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 17,
@@ -237,7 +254,8 @@
       "image": "/images/products/laptop-11.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 18,
@@ -251,7 +269,8 @@
       "image": "/images/products/laptop-12.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 19,
@@ -265,7 +284,8 @@
       "image": "/images/products/laptop-13.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 20,
@@ -279,7 +299,8 @@
       "image": "/images/products/laptop-14.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 21,
@@ -293,7 +314,8 @@
       "image": "/images/products/laptop-15.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 22,
@@ -307,7 +329,8 @@
       "image": "/images/products/laptop-16.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 23,
@@ -321,7 +344,8 @@
       "image": "/images/products/laptop-17.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 24,
@@ -335,7 +359,8 @@
       "image": "/images/products/laptop-18.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 25,
@@ -349,7 +374,8 @@
       "image": "/images/products/laptop-19.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 26,
@@ -363,7 +389,8 @@
       "image": "/images/products/laptop-20.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 27,
@@ -377,7 +404,8 @@
       "image": "/images/products/laptop-21.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 28,
@@ -391,7 +419,8 @@
       "image": "/images/products/laptop-22.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 29,
@@ -405,7 +434,8 @@
       "image": "/images/products/laptop-23.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 30,
@@ -419,7 +449,8 @@
       "image": "/images/products/laptop-24.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 31,
@@ -433,7 +464,8 @@
       "image": "/images/products/laptop-25.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 32,
@@ -447,7 +479,8 @@
       "image": "/images/products/laptop-26.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 33,
@@ -461,7 +494,8 @@
       "image": "/images/products/laptop-27.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 34,
@@ -475,7 +509,8 @@
       "image": "/images/products/laptop-28.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 35,
@@ -489,7 +524,8 @@
       "image": "/images/products/laptop-29.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 36,
@@ -503,7 +539,8 @@
       "image": "/images/products/laptop-30.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 37,
@@ -517,7 +554,8 @@
       "image": "/images/products/laptop-31.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 38,
@@ -531,7 +569,8 @@
       "image": "/images/products/laptop-32.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 39,
@@ -545,7 +584,8 @@
       "image": "/images/products/laptop-33.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 40,
@@ -559,7 +599,8 @@
       "image": "/images/products/laptop-34.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 41,
@@ -573,7 +614,8 @@
       "image": "/images/products/laptop-35.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 42,
@@ -587,7 +629,8 @@
       "image": "/images/products/laptop-36.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 43,
@@ -601,7 +644,8 @@
       "image": "/images/products/laptop-37.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 44,
@@ -615,7 +659,8 @@
       "image": "/images/products/laptop-38.webp",
       "createdAt": "2026-04-28 11:23:44",
       "updatedAt": "2026-04-28 11:23:44",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 45,
@@ -629,7 +674,8 @@
       "image": "/images/products/laptop-39.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 46,
@@ -643,7 +689,8 @@
       "image": "/images/products/laptop-40.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 47,
@@ -657,7 +704,8 @@
       "image": "/images/products/laptop-41.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 48,
@@ -671,7 +719,8 @@
       "image": "/images/products/laptop-42.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 49,
@@ -685,7 +734,8 @@
       "image": "/images/products/laptop-43.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 50,
@@ -699,7 +749,8 @@
       "image": "/images/products/laptop-44.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 51,
@@ -713,7 +764,8 @@
       "image": "/images/products/laptop-45.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 52,
@@ -727,7 +779,8 @@
       "image": "/images/products/laptop-46.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 53,
@@ -741,7 +794,8 @@
       "image": "/images/products/laptop-47.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 54,
@@ -755,7 +809,8 @@
       "image": "/images/products/laptop-48.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 55,
@@ -769,7 +824,8 @@
       "image": "/images/products/laptop-49.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 56,
@@ -783,7 +839,8 @@
       "image": "/images/products/laptop-50.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 57,
@@ -797,7 +854,8 @@
       "image": "/images/products/laptop-51.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 58,
@@ -811,7 +869,8 @@
       "image": "/images/products/laptop-52.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 59,
@@ -825,7 +884,8 @@
       "image": "/images/products/laptop-53.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 60,
@@ -839,7 +899,8 @@
       "image": "/images/products/laptop-54.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 61,
@@ -853,7 +914,8 @@
       "image": "/images/products/laptop-55.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 62,
@@ -867,7 +929,8 @@
       "image": "/images/products/laptop-56.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 63,
@@ -881,7 +944,8 @@
       "image": "/images/products/laptop-57.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 64,
@@ -895,7 +959,8 @@
       "image": "/images/products/laptop-58.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 65,
@@ -909,7 +974,8 @@
       "image": "/images/products/laptop-59.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 66,
@@ -923,7 +989,8 @@
       "image": "/images/products/laptop-60.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 67,
@@ -937,7 +1004,8 @@
       "image": "/images/products/laptop-61.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 68,
@@ -951,7 +1019,8 @@
       "image": "/images/products/laptop-62.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 69,
@@ -965,7 +1034,8 @@
       "image": "/images/products/laptop-63.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 70,
@@ -979,7 +1049,8 @@
       "image": "/images/products/laptop-64.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 71,
@@ -993,7 +1064,8 @@
       "image": "/images/products/laptop-65.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 72,
@@ -1007,7 +1079,8 @@
       "image": "/images/products/laptop-66.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 73,
@@ -1021,7 +1094,8 @@
       "image": "/images/products/laptop-67.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 74,
@@ -1035,7 +1109,8 @@
       "image": "/images/products/laptop-68.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 75,
@@ -1049,7 +1124,8 @@
       "image": "/images/products/laptop-69.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 76,
@@ -1063,7 +1139,8 @@
       "image": "/images/products/laptop-70.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 77,
@@ -1077,7 +1154,8 @@
       "image": "/images/products/laptop-71.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 78,
@@ -1091,7 +1169,8 @@
       "image": "/images/products/laptop-72.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 79,
@@ -1105,7 +1184,8 @@
       "image": "/images/products/laptop-73.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 80,
@@ -1119,7 +1199,8 @@
       "image": "/images/products/laptop-74.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 81,
@@ -1133,7 +1214,8 @@
       "image": "/images/products/laptop-75.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 82,
@@ -1147,7 +1229,8 @@
       "image": "/images/products/laptop-76.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 83,
@@ -1161,7 +1244,8 @@
       "image": "/images/products/laptop-77.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 84,
@@ -1175,7 +1259,8 @@
       "image": "/images/products/laptop-78.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 85,
@@ -1189,7 +1274,8 @@
       "image": "/images/products/laptop-79.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 86,
@@ -1203,7 +1289,8 @@
       "image": "/images/products/laptop-80.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 87,
@@ -1217,7 +1304,8 @@
       "image": "/images/products/laptop-81.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 88,
@@ -1231,7 +1319,8 @@
       "image": "/images/products/laptop-82.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 89,
@@ -1245,7 +1334,8 @@
       "image": "/images/products/laptop-83.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 90,
@@ -1259,7 +1349,8 @@
       "image": "/images/products/laptop-84.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 91,
@@ -1273,7 +1364,8 @@
       "image": "/images/products/laptop-85.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 92,
@@ -1287,7 +1379,8 @@
       "image": "/images/products/laptop-86.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 93,
@@ -1301,7 +1394,8 @@
       "image": "/images/products/laptop-87.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 94,
@@ -1315,7 +1409,8 @@
       "image": "/images/products/laptop-88.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 95,
@@ -1329,7 +1424,8 @@
       "image": "/images/products/laptop-89.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 96,
@@ -1343,7 +1439,8 @@
       "image": "/images/products/laptop-90.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 97,
@@ -1357,7 +1454,8 @@
       "image": "/images/products/laptop-91.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 98,
@@ -1371,7 +1469,8 @@
       "image": "/images/products/laptop-92.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 99,
@@ -1385,7 +1484,8 @@
       "image": "/images/products/laptop-93.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 100,
@@ -1399,7 +1499,8 @@
       "image": "/images/products/laptop-94.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 101,
@@ -1413,7 +1514,8 @@
       "image": "/images/products/laptop-95.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 102,
@@ -1427,7 +1529,8 @@
       "image": "/images/products/laptop-96.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 103,
@@ -1441,7 +1544,8 @@
       "image": "/images/products/laptop-97.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 104,
@@ -1455,7 +1559,8 @@
       "image": "/images/products/laptop-98.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 105,
@@ -1469,7 +1574,8 @@
       "image": "/images/products/laptop-99.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 106,
@@ -1483,7 +1589,8 @@
       "image": "/images/products/laptop-100.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 107,
@@ -1497,7 +1604,8 @@
       "image": "/images/products/laptop-101.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 108,
@@ -1511,7 +1619,8 @@
       "image": "/images/products/laptop-102.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 109,
@@ -1525,7 +1634,8 @@
       "image": "/images/products/laptop-103.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 110,
@@ -1539,7 +1649,8 @@
       "image": "/images/products/laptop-104.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 111,
@@ -1553,7 +1664,8 @@
       "image": "/images/products/laptop-105.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 112,
@@ -1567,7 +1679,8 @@
       "image": "/images/products/laptop-106.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 113,
@@ -1581,7 +1694,8 @@
       "image": "/images/products/laptop-107.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 114,
@@ -1595,7 +1709,8 @@
       "image": "/images/products/laptop-108.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 115,
@@ -1609,7 +1724,8 @@
       "image": "/images/products/laptop-109.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 116,
@@ -1623,7 +1739,8 @@
       "image": "/images/products/laptop-110.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 117,
@@ -1637,7 +1754,8 @@
       "image": "/images/products/laptop-111.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 118,
@@ -1651,7 +1769,8 @@
       "image": "/images/products/laptop-112.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 119,
@@ -1665,7 +1784,8 @@
       "image": "/images/products/laptop-113.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 120,
@@ -1679,7 +1799,8 @@
       "image": "/images/products/laptop-114.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 121,
@@ -1693,7 +1814,8 @@
       "image": "/images/products/laptop-115.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 122,
@@ -1707,7 +1829,8 @@
       "image": "/images/products/laptop-116.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 123,
@@ -1721,7 +1844,8 @@
       "image": "/images/products/laptop-117.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 124,
@@ -1735,7 +1859,8 @@
       "image": "/images/products/laptop-118.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 125,
@@ -1749,7 +1874,8 @@
       "image": "/images/products/laptop-119.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 126,
@@ -1763,7 +1889,8 @@
       "image": "/images/products/laptop-120.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 127,
@@ -1777,7 +1904,8 @@
       "image": "/images/products/laptop-121.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 128,
@@ -1791,7 +1919,8 @@
       "image": "/images/products/laptop-122.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 129,
@@ -1805,7 +1934,8 @@
       "image": "/images/products/laptop-123.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 130,
@@ -1819,7 +1949,8 @@
       "image": "/images/products/laptop-124.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 131,
@@ -1833,7 +1964,8 @@
       "image": "/images/products/laptop-125.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 132,
@@ -1847,7 +1979,8 @@
       "image": "/images/products/laptop-126.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 133,
@@ -1861,7 +1994,8 @@
       "image": "/images/products/laptop-127.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 134,
@@ -1875,7 +2009,8 @@
       "image": "/images/products/laptop-128.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 135,
@@ -1889,7 +2024,8 @@
       "image": "/images/products/laptop-129.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 136,
@@ -1903,7 +2039,8 @@
       "image": "/images/products/laptop-130.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 137,
@@ -1917,7 +2054,8 @@
       "image": "/images/products/laptop-131.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 138,
@@ -1931,7 +2069,8 @@
       "image": "/images/products/laptop-132.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 139,
@@ -1945,7 +2084,8 @@
       "image": "/images/products/laptop-133.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 140,
@@ -1959,7 +2099,8 @@
       "image": "/images/products/laptop-134.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 141,
@@ -1973,7 +2114,8 @@
       "image": "/images/products/laptop-135.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 142,
@@ -1987,7 +2129,8 @@
       "image": "/images/products/laptop-136.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 143,
@@ -2001,7 +2144,8 @@
       "image": "/images/products/laptop-137.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 144,
@@ -2015,7 +2159,8 @@
       "image": "/images/products/laptop-138.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 145,
@@ -2029,7 +2174,8 @@
       "image": "/images/products/laptop-139.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 146,
@@ -2043,7 +2189,8 @@
       "image": "/images/products/laptop-140.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 147,
@@ -2057,7 +2204,8 @@
       "image": "/images/products/laptop-141.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 148,
@@ -2071,7 +2219,8 @@
       "image": "/images/products/laptop-142.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 149,
@@ -2085,7 +2234,8 @@
       "image": "/images/products/laptop-143.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 150,
@@ -2099,7 +2249,8 @@
       "image": "/images/products/laptop-144.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 151,
@@ -2113,7 +2264,8 @@
       "image": "/images/products/laptop-145.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 152,
@@ -2127,7 +2279,8 @@
       "image": "/images/products/laptop-146.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 153,
@@ -2141,7 +2294,8 @@
       "image": "/images/products/laptop-147.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 154,
@@ -2155,7 +2309,8 @@
       "image": "/images/products/laptop-148.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 155,
@@ -2169,7 +2324,8 @@
       "image": "/images/products/laptop-149.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 156,
@@ -2183,7 +2339,8 @@
       "image": "/images/products/laptop-150.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 157,
@@ -2197,7 +2354,8 @@
       "image": "/images/products/laptop-151.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 158,
@@ -2211,7 +2369,8 @@
       "image": "/images/products/laptop-152.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 159,
@@ -2225,7 +2384,8 @@
       "image": "/images/products/laptop-153.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 160,
@@ -2239,7 +2399,8 @@
       "image": "/images/products/laptop-154.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 161,
@@ -2253,7 +2414,8 @@
       "image": "/images/products/laptop-155.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 162,
@@ -2267,7 +2429,8 @@
       "image": "/images/products/laptop-156.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 163,
@@ -2281,7 +2444,8 @@
       "image": "/images/products/laptop-157.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 164,
@@ -2295,7 +2459,8 @@
       "image": "/images/products/laptop-158.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 165,
@@ -2309,7 +2474,8 @@
       "image": "/images/products/laptop-159.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 166,
@@ -2323,7 +2489,8 @@
       "image": "/images/products/laptop-160.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 167,
@@ -2337,7 +2504,8 @@
       "image": "/images/products/laptop-161.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 168,
@@ -2351,7 +2519,8 @@
       "image": "/images/products/laptop-162.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 169,
@@ -2365,7 +2534,8 @@
       "image": "/images/products/laptop-163.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 170,
@@ -2379,7 +2549,8 @@
       "image": "/images/products/laptop-164.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 171,
@@ -2393,7 +2564,8 @@
       "image": "/images/products/laptop-165.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 172,
@@ -2407,7 +2579,8 @@
       "image": "/images/products/laptop-166.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 173,
@@ -2421,7 +2594,8 @@
       "image": "/images/products/laptop-167.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 174,
@@ -2435,7 +2609,8 @@
       "image": "/images/products/laptop-168.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 175,
@@ -2449,7 +2624,8 @@
       "image": "/images/products/laptop-169.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 176,
@@ -2463,7 +2639,8 @@
       "image": "/images/products/laptop-170.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 177,
@@ -2477,7 +2654,8 @@
       "image": "/images/products/laptop-171.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 178,
@@ -2491,7 +2669,8 @@
       "image": "/images/products/laptop-172.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 179,
@@ -2505,7 +2684,8 @@
       "image": "/images/products/laptop-173.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 180,
@@ -2519,7 +2699,8 @@
       "image": "/images/products/laptop-174.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 181,
@@ -2533,7 +2714,8 @@
       "image": "/images/products/laptop-175.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 182,
@@ -2547,7 +2729,8 @@
       "image": "/images/products/laptop-176.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 183,
@@ -2561,7 +2744,8 @@
       "image": "/images/products/laptop-177.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 184,
@@ -2575,7 +2759,8 @@
       "image": "/images/products/laptop-178.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 185,
@@ -2589,7 +2774,8 @@
       "image": "/images/products/laptop-179.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 186,
@@ -2603,7 +2789,8 @@
       "image": "/images/products/laptop-180.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 187,
@@ -2617,7 +2804,8 @@
       "image": "/images/products/laptop-181.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 188,
@@ -2631,7 +2819,8 @@
       "image": "/images/products/laptop-182.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 189,
@@ -2645,7 +2834,8 @@
       "image": "/images/products/laptop-183.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 190,
@@ -2659,7 +2849,8 @@
       "image": "/images/products/laptop-184.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 191,
@@ -2673,7 +2864,8 @@
       "image": "/images/products/laptop-185.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 192,
@@ -2687,7 +2879,8 @@
       "image": "/images/products/laptop-186.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 193,
@@ -2701,7 +2894,8 @@
       "image": "/images/products/laptop-187.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 194,
@@ -2715,7 +2909,8 @@
       "image": "/images/products/laptop-188.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 195,
@@ -2729,7 +2924,8 @@
       "image": "/images/products/laptop-189.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 196,
@@ -2743,7 +2939,8 @@
       "image": "/images/products/laptop-190.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 197,
@@ -2757,7 +2954,8 @@
       "image": "/images/products/laptop-191.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 198,
@@ -2771,7 +2969,8 @@
       "image": "/images/products/laptop-192.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 199,
@@ -2785,7 +2984,8 @@
       "image": "/images/products/laptop-193.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 200,
@@ -2799,7 +2999,8 @@
       "image": "/images/products/laptop-194.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 201,
@@ -2813,7 +3014,8 @@
       "image": "/images/products/laptop-195.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 202,
@@ -2827,7 +3029,8 @@
       "image": "/images/products/laptop-196.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 203,
@@ -2841,7 +3044,8 @@
       "image": "/images/products/laptop-197.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 204,
@@ -2855,7 +3059,8 @@
       "image": "/images/products/laptop-198.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 205,
@@ -2869,7 +3074,8 @@
       "image": "/images/products/laptop-199.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 206,
@@ -2883,7 +3089,8 @@
       "image": "/images/products/laptop-200.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 207,
@@ -2897,7 +3104,8 @@
       "image": "/images/products/laptop-201.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 208,
@@ -2911,7 +3119,8 @@
       "image": "/images/products/laptop-202.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 209,
@@ -2925,7 +3134,8 @@
       "image": "/images/products/laptop-203.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 210,
@@ -2939,7 +3149,8 @@
       "image": "/images/products/laptop-204.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 211,
@@ -2953,7 +3164,8 @@
       "image": "/images/products/laptop-205.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 212,
@@ -2967,7 +3179,8 @@
       "image": "/images/products/laptop-206.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 213,
@@ -2981,7 +3194,8 @@
       "image": "/images/products/laptop-207.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 214,
@@ -2995,7 +3209,8 @@
       "image": "/images/products/laptop-208.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 215,
@@ -3009,7 +3224,8 @@
       "image": "/images/products/laptop-209.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 216,
@@ -3023,7 +3239,8 @@
       "image": "/images/products/laptop-210.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 217,
@@ -3037,7 +3254,8 @@
       "image": "/images/products/laptop-211.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 218,
@@ -3051,7 +3269,8 @@
       "image": "/images/products/laptop-212.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 219,
@@ -3065,7 +3284,8 @@
       "image": "/images/products/laptop-213.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 220,
@@ -3079,7 +3299,8 @@
       "image": "/images/products/laptop-214.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 221,
@@ -3093,7 +3314,8 @@
       "image": "/images/products/laptop-215.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 222,
@@ -3107,7 +3329,8 @@
       "image": "/images/products/laptop-216.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 223,
@@ -3121,7 +3344,8 @@
       "image": "/images/products/laptop-217.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 224,
@@ -3135,7 +3359,8 @@
       "image": "/images/products/laptop-218.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 225,
@@ -3149,7 +3374,8 @@
       "image": "/images/products/laptop-219.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 226,
@@ -3163,7 +3389,8 @@
       "image": "/images/products/laptop-220.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 227,
@@ -3177,7 +3404,8 @@
       "image": "/images/products/laptop-221.webp",
       "createdAt": "2026-04-28 11:23:45",
       "updatedAt": "2026-04-28 11:23:45",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 228,
@@ -3191,7 +3419,8 @@
       "image": "/images/products/laptop-222.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 229,
@@ -3205,7 +3434,8 @@
       "image": "/images/products/laptop-223.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 230,
@@ -3219,7 +3449,8 @@
       "image": "/images/products/laptop-224.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 231,
@@ -3233,7 +3464,8 @@
       "image": "/images/products/laptop-225.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 232,
@@ -3247,7 +3479,8 @@
       "image": "/images/products/laptop-226.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 233,
@@ -3261,7 +3494,8 @@
       "image": "/images/products/laptop-227.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 234,
@@ -3275,7 +3509,8 @@
       "image": "/images/products/laptop-228.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 235,
@@ -3289,7 +3524,8 @@
       "image": "/images/products/laptop-229.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 236,
@@ -3303,7 +3539,8 @@
       "image": "/images/products/laptop-230.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 237,
@@ -3317,7 +3554,8 @@
       "image": "/images/products/laptop-231.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 238,
@@ -3331,7 +3569,8 @@
       "image": "/images/products/laptop-232.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 239,
@@ -3345,7 +3584,8 @@
       "image": "/images/products/laptop-233.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 240,
@@ -3359,7 +3599,8 @@
       "image": "/images/products/laptop-234.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 241,
@@ -3373,7 +3614,8 @@
       "image": "/images/products/laptop-235.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 242,
@@ -3387,7 +3629,8 @@
       "image": "/images/products/laptop-236.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 243,
@@ -3401,7 +3644,8 @@
       "image": "/images/products/laptop-237.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 244,
@@ -3415,7 +3659,8 @@
       "image": "/images/products/laptop-238.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 245,
@@ -3429,7 +3674,8 @@
       "image": "/images/products/laptop-239.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 246,
@@ -3443,7 +3689,8 @@
       "image": "/images/products/laptop-240.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 247,
@@ -3457,7 +3704,8 @@
       "image": "/images/products/laptop-241.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 248,
@@ -3471,7 +3719,8 @@
       "image": "/images/products/laptop-242.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 249,
@@ -3485,7 +3734,8 @@
       "image": "/images/products/laptop-243.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 250,
@@ -3499,7 +3749,8 @@
       "image": "/images/products/laptop-244.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 251,
@@ -3513,7 +3764,8 @@
       "image": "/images/products/laptop-245.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 252,
@@ -3527,7 +3779,8 @@
       "image": "/images/products/laptop-246.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 253,
@@ -3541,7 +3794,8 @@
       "image": "/images/products/laptop-247.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 254,
@@ -3555,7 +3809,8 @@
       "image": "/images/products/laptop-248.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 255,
@@ -3569,7 +3824,8 @@
       "image": "/images/products/laptop-249.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 256,
@@ -3583,7 +3839,8 @@
       "image": "/images/products/laptop-250.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 257,
@@ -3597,7 +3854,8 @@
       "image": "/images/products/laptop-251.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 258,
@@ -3611,7 +3869,8 @@
       "image": "/images/products/laptop-252.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 259,
@@ -3625,7 +3884,8 @@
       "image": "/images/products/laptop-253.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 260,
@@ -3639,7 +3899,8 @@
       "image": "/images/products/laptop-254.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 261,
@@ -3653,7 +3914,8 @@
       "image": "/images/products/laptop-255.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 262,
@@ -3667,7 +3929,8 @@
       "image": "/images/products/laptop-256.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 263,
@@ -3681,7 +3944,8 @@
       "image": "/images/products/laptop-257.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 264,
@@ -3695,7 +3959,8 @@
       "image": "/images/products/laptop-258.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 265,
@@ -3709,7 +3974,8 @@
       "image": "/images/products/laptop-259.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 266,
@@ -3723,7 +3989,8 @@
       "image": "/images/products/laptop-260.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 267,
@@ -3737,7 +4004,8 @@
       "image": "/images/products/laptop-261.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 268,
@@ -3751,7 +4019,8 @@
       "image": "/images/products/laptop-262.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 269,
@@ -3765,7 +4034,8 @@
       "image": "/images/products/laptop-263.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 270,
@@ -3779,7 +4049,8 @@
       "image": "/images/products/laptop-264.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 271,
@@ -3793,7 +4064,8 @@
       "image": "/images/products/laptop-265.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 272,
@@ -3807,7 +4079,8 @@
       "image": "/images/products/laptop-266.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 273,
@@ -3821,7 +4094,8 @@
       "image": "/images/products/laptop-267.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 274,
@@ -3835,7 +4109,8 @@
       "image": "/images/products/laptop-268.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 275,
@@ -3849,7 +4124,8 @@
       "image": "/images/products/laptop-269.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 276,
@@ -3863,7 +4139,8 @@
       "image": "/images/products/laptop-270.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 277,
@@ -3877,7 +4154,8 @@
       "image": "/images/products/laptop-271.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 278,
@@ -3891,7 +4169,8 @@
       "image": "/images/products/laptop-272.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 279,
@@ -3905,7 +4184,8 @@
       "image": "/images/products/laptop-273.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 280,
@@ -3919,7 +4199,8 @@
       "image": "/images/products/laptop-274.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 281,
@@ -3933,7 +4214,8 @@
       "image": "/images/products/laptop-275.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 282,
@@ -3947,7 +4229,8 @@
       "image": "/images/products/laptop-276.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 283,
@@ -3961,7 +4244,8 @@
       "image": "/images/products/laptop-277.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 284,
@@ -3975,7 +4259,8 @@
       "image": "/images/products/laptop-278.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 285,
@@ -3989,7 +4274,8 @@
       "image": "/images/products/laptop-279.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 286,
@@ -4003,7 +4289,8 @@
       "image": "/images/products/laptop-280.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 287,
@@ -4017,7 +4304,8 @@
       "image": "/images/products/laptop-281.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 288,
@@ -4031,7 +4319,8 @@
       "image": "/images/products/laptop-282.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 289,
@@ -4045,7 +4334,8 @@
       "image": "/images/products/laptop-283.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 290,
@@ -4059,7 +4349,8 @@
       "image": "/images/products/laptop-284.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 291,
@@ -4073,7 +4364,8 @@
       "image": "/images/products/laptop-285.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 292,
@@ -4087,7 +4379,8 @@
       "image": "/images/products/laptop-286.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 293,
@@ -4101,7 +4394,8 @@
       "image": "/images/products/laptop-287.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 294,
@@ -4115,7 +4409,8 @@
       "image": "/images/products/laptop-288.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 295,
@@ -4129,7 +4424,8 @@
       "image": "/images/products/laptop-289.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 296,
@@ -4143,7 +4439,8 @@
       "image": "/images/products/laptop-290.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 297,
@@ -4157,7 +4454,8 @@
       "image": "/images/products/laptop-291.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 298,
@@ -4171,7 +4469,8 @@
       "image": "/images/products/laptop-292.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 299,
@@ -4185,7 +4484,8 @@
       "image": "/images/products/laptop-293.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 300,
@@ -4199,7 +4499,8 @@
       "image": "/images/products/laptop-294.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 301,
@@ -4213,7 +4514,8 @@
       "image": "/images/products/laptop-295.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 302,
@@ -4227,7 +4529,8 @@
       "image": "/images/products/laptop-296.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 303,
@@ -4241,7 +4544,8 @@
       "image": "/images/products/laptop-297.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 304,
@@ -4255,7 +4559,8 @@
       "image": "/images/products/laptop-298.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 305,
@@ -4269,7 +4574,8 @@
       "image": "/images/products/laptop-299.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 306,
@@ -4283,7 +4589,8 @@
       "image": "/images/products/laptop-300.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 307,
@@ -4297,7 +4604,8 @@
       "image": "/images/products/laptop-301.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 308,
@@ -4311,7 +4619,8 @@
       "image": "/images/products/laptop-302.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 309,
@@ -4325,7 +4634,8 @@
       "image": "/images/products/laptop-303.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 310,
@@ -4339,7 +4649,8 @@
       "image": "/images/products/laptop-304.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 311,
@@ -4353,7 +4664,8 @@
       "image": "/images/products/laptop-305.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 312,
@@ -4367,7 +4679,8 @@
       "image": "/images/products/laptop-306.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 313,
@@ -4381,7 +4694,8 @@
       "image": "/images/products/laptop-307.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 314,
@@ -4395,7 +4709,8 @@
       "image": "/images/products/laptop-308.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 315,
@@ -4409,7 +4724,8 @@
       "image": "/images/products/laptop-309.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 316,
@@ -4423,7 +4739,8 @@
       "image": "/images/products/laptop-310.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 317,
@@ -4437,7 +4754,8 @@
       "image": "/images/products/laptop-311.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 318,
@@ -4451,7 +4769,8 @@
       "image": "/images/products/laptop-312.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 319,
@@ -4465,7 +4784,8 @@
       "image": "/images/products/laptop-313.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 320,
@@ -4479,7 +4799,8 @@
       "image": "/images/products/laptop-314.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 321,
@@ -4493,7 +4814,8 @@
       "image": "/images/products/laptop-315.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 322,
@@ -4507,7 +4829,8 @@
       "image": "/images/products/laptop-316.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 323,
@@ -4521,7 +4844,8 @@
       "image": "/images/products/laptop-317.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 324,
@@ -4535,7 +4859,8 @@
       "image": "/images/products/laptop-318.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 325,
@@ -4549,7 +4874,8 @@
       "image": "/images/products/laptop-319.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 326,
@@ -4563,7 +4889,8 @@
       "image": "/images/products/laptop-320.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 327,
@@ -4577,7 +4904,8 @@
       "image": "/images/products/laptop-321.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 328,
@@ -4591,7 +4919,8 @@
       "image": "/images/products/laptop-322.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 329,
@@ -4605,7 +4934,8 @@
       "image": "/images/products/laptop-323.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 330,
@@ -4619,7 +4949,8 @@
       "image": "/images/products/laptop-324.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 331,
@@ -4633,7 +4964,8 @@
       "image": "/images/products/laptop-325.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 332,
@@ -4647,7 +4979,8 @@
       "image": "/images/products/laptop-326.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 333,
@@ -4661,7 +4994,8 @@
       "image": "/images/products/laptop-327.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 334,
@@ -4675,7 +5009,8 @@
       "image": "/images/products/laptop-328.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 335,
@@ -4689,7 +5024,8 @@
       "image": "/images/products/laptop-329.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 336,
@@ -4703,7 +5039,8 @@
       "image": "/images/products/laptop-330.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 337,
@@ -4717,7 +5054,8 @@
       "image": "/images/products/laptop-331.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 338,
@@ -4731,7 +5069,8 @@
       "image": "/images/products/laptop-332.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 339,
@@ -4745,7 +5084,8 @@
       "image": "/images/products/laptop-333.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 340,
@@ -4759,7 +5099,8 @@
       "image": "/images/products/laptop-334.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 341,
@@ -4773,7 +5114,8 @@
       "image": "/images/products/laptop-335.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 342,
@@ -4787,7 +5129,8 @@
       "image": "/images/products/laptop-336.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 343,
@@ -4801,7 +5144,8 @@
       "image": "/images/products/laptop-337.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 344,
@@ -4815,7 +5159,8 @@
       "image": "/images/products/laptop-338.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 345,
@@ -4829,7 +5174,8 @@
       "image": "/images/products/laptop-339.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 346,
@@ -4843,7 +5189,8 @@
       "image": "/images/products/laptop-340.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 347,
@@ -4857,7 +5204,8 @@
       "image": "/images/products/laptop-341.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 348,
@@ -4871,7 +5219,8 @@
       "image": "/images/products/laptop-342.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 349,
@@ -4885,7 +5234,8 @@
       "image": "/images/products/laptop-343.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 350,
@@ -4899,7 +5249,8 @@
       "image": "/images/products/laptop-344.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 351,
@@ -4913,7 +5264,8 @@
       "image": "/images/products/laptop-345.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 352,
@@ -4927,7 +5279,8 @@
       "image": "/images/products/laptop-346.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 353,
@@ -4941,7 +5294,8 @@
       "image": "/images/products/laptop-347.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 354,
@@ -4955,7 +5309,8 @@
       "image": "/images/products/laptop-348.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 355,
@@ -4969,7 +5324,8 @@
       "image": "/images/products/laptop-349.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 356,
@@ -4983,7 +5339,8 @@
       "image": "/images/products/laptop-350.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 357,
@@ -4997,7 +5354,8 @@
       "image": "/images/products/laptop-351.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 358,
@@ -5011,7 +5369,8 @@
       "image": "/images/products/laptop-352.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 359,
@@ -5025,7 +5384,8 @@
       "image": "/images/products/laptop-353.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 360,
@@ -5039,7 +5399,8 @@
       "image": "/images/products/laptop-354.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 361,
@@ -5053,7 +5414,8 @@
       "image": "/images/products/laptop-355.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 362,
@@ -5067,7 +5429,8 @@
       "image": "/images/products/laptop-356.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 363,
@@ -5081,7 +5444,8 @@
       "image": "/images/products/laptop-357.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 364,
@@ -5095,7 +5459,8 @@
       "image": "/images/products/laptop-358.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 365,
@@ -5109,7 +5474,8 @@
       "image": "/images/products/laptop-359.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 366,
@@ -5123,7 +5489,8 @@
       "image": "/images/products/laptop-360.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 367,
@@ -5137,7 +5504,8 @@
       "image": "/images/products/laptop-361.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 368,
@@ -5151,7 +5519,8 @@
       "image": "/images/products/laptop-362.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 369,
@@ -5165,7 +5534,8 @@
       "image": "/images/products/laptop-363.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 370,
@@ -5179,7 +5549,8 @@
       "image": "/images/products/laptop-364.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 371,
@@ -5193,7 +5564,8 @@
       "image": "/images/products/laptop-365.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 372,
@@ -5207,7 +5579,8 @@
       "image": "/images/products/laptop-366.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 373,
@@ -5221,7 +5594,8 @@
       "image": "/images/products/laptop-367.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 374,
@@ -5235,7 +5609,8 @@
       "image": "/images/products/laptop-368.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 375,
@@ -5249,7 +5624,8 @@
       "image": "/images/products/laptop-369.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 376,
@@ -5263,7 +5639,8 @@
       "image": "/images/products/laptop-370.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 377,
@@ -5277,7 +5654,8 @@
       "image": "/images/products/laptop-371.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 378,
@@ -5291,7 +5669,8 @@
       "image": "/images/products/laptop-372.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 379,
@@ -5305,7 +5684,8 @@
       "image": "/images/products/laptop-373.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 380,
@@ -5319,7 +5699,8 @@
       "image": "/images/products/laptop-374.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 381,
@@ -5333,7 +5714,8 @@
       "image": "/images/products/laptop-375.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 382,
@@ -5347,7 +5729,8 @@
       "image": "/images/products/laptop-376.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 383,
@@ -5361,7 +5744,8 @@
       "image": "/images/products/laptop-377.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 384,
@@ -5375,7 +5759,8 @@
       "image": "/images/products/laptop-378.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 385,
@@ -5389,7 +5774,8 @@
       "image": "/images/products/laptop-379.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 386,
@@ -5403,7 +5789,8 @@
       "image": "/images/products/laptop-380.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 387,
@@ -5417,7 +5804,8 @@
       "image": "/images/products/laptop-381.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 388,
@@ -5431,7 +5819,8 @@
       "image": "/images/products/laptop-382.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 389,
@@ -5445,7 +5834,8 @@
       "image": "/images/products/laptop-383.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 390,
@@ -5459,7 +5849,8 @@
       "image": "/images/products/laptop-384.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 391,
@@ -5473,7 +5864,8 @@
       "image": "/images/products/laptop-385.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 392,
@@ -5487,7 +5879,8 @@
       "image": "/images/products/laptop-386.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 393,
@@ -5501,7 +5894,8 @@
       "image": "/images/products/laptop-387.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 394,
@@ -5515,7 +5909,8 @@
       "image": "/images/products/laptop-388.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 395,
@@ -5529,7 +5924,8 @@
       "image": "/images/products/laptop-389.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 396,
@@ -5543,7 +5939,8 @@
       "image": "/images/products/laptop-390.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 397,
@@ -5557,7 +5954,8 @@
       "image": "/images/products/laptop-391.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 398,
@@ -5571,7 +5969,8 @@
       "image": "/images/products/laptop-392.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 399,
@@ -5585,7 +5984,8 @@
       "image": "/images/products/laptop-393.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 400,
@@ -5599,7 +5999,8 @@
       "image": "/images/products/laptop-394.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 401,
@@ -5613,7 +6014,8 @@
       "image": "/images/products/laptop-395.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 402,
@@ -5627,7 +6029,8 @@
       "image": "/images/products/laptop-396.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 403,
@@ -5641,7 +6044,8 @@
       "image": "/images/products/laptop-397.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 404,
@@ -5655,7 +6059,8 @@
       "image": "/images/products/laptop-398.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 405,
@@ -5669,7 +6074,8 @@
       "image": "/images/products/laptop-399.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 406,
@@ -5683,7 +6089,8 @@
       "image": "/images/products/laptop-400.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 407,
@@ -5697,7 +6104,8 @@
       "image": "/images/products/laptop-401.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 408,
@@ -5711,7 +6119,8 @@
       "image": "/images/products/laptop-402.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 409,
@@ -5725,7 +6134,8 @@
       "image": "/images/products/laptop-403.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 410,
@@ -5739,7 +6149,8 @@
       "image": "/images/products/laptop-404.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 411,
@@ -5753,7 +6164,8 @@
       "image": "/images/products/laptop-405.webp",
       "createdAt": "2026-04-28 11:23:46",
       "updatedAt": "2026-04-28 11:23:46",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 412,
@@ -5767,7 +6179,8 @@
       "image": "/images/products/laptop-406.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 413,
@@ -5781,7 +6194,8 @@
       "image": "/images/products/laptop-407.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 414,
@@ -5795,7 +6209,8 @@
       "image": "/images/products/laptop-408.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 415,
@@ -5809,7 +6224,8 @@
       "image": "/images/products/laptop-409.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 416,
@@ -5823,7 +6239,8 @@
       "image": "/images/products/laptop-410.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 417,
@@ -5837,7 +6254,8 @@
       "image": "/images/products/laptop-411.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 418,
@@ -5851,7 +6269,8 @@
       "image": "/images/products/laptop-412.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 419,
@@ -5865,7 +6284,8 @@
       "image": "/images/products/laptop-413.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 420,
@@ -5879,7 +6299,8 @@
       "image": "/images/products/laptop-414.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 421,
@@ -5893,7 +6314,8 @@
       "image": "/images/products/laptop-415.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 422,
@@ -5907,7 +6329,8 @@
       "image": "/images/products/laptop-416.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 423,
@@ -5921,7 +6344,8 @@
       "image": "/images/products/laptop-417.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 424,
@@ -5935,7 +6359,8 @@
       "image": "/images/products/laptop-418.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 425,
@@ -5949,7 +6374,8 @@
       "image": "/images/products/laptop-419.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 426,
@@ -5963,7 +6389,8 @@
       "image": "/images/products/laptop-420.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 427,
@@ -5977,7 +6404,8 @@
       "image": "/images/products/laptop-421.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 428,
@@ -5991,7 +6419,8 @@
       "image": "/images/products/laptop-422.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 429,
@@ -6005,7 +6434,8 @@
       "image": "/images/products/laptop-423.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 430,
@@ -6019,7 +6449,8 @@
       "image": "/images/products/laptop-424.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 431,
@@ -6033,7 +6464,8 @@
       "image": "/images/products/laptop-425.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 432,
@@ -6047,7 +6479,8 @@
       "image": "/images/products/laptop-426.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 433,
@@ -6061,7 +6494,8 @@
       "image": "/images/products/laptop-427.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 434,
@@ -6075,7 +6509,8 @@
       "image": "/images/products/laptop-428.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 435,
@@ -6089,7 +6524,8 @@
       "image": "/images/products/laptop-429.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 436,
@@ -6103,7 +6539,8 @@
       "image": "/images/products/laptop-430.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 437,
@@ -6117,7 +6554,8 @@
       "image": "/images/products/laptop-431.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 438,
@@ -6131,7 +6569,8 @@
       "image": "/images/products/laptop-432.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 439,
@@ -6145,7 +6584,8 @@
       "image": "/images/products/laptop-433.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 440,
@@ -6159,7 +6599,8 @@
       "image": "/images/products/laptop-434.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 441,
@@ -6173,7 +6614,8 @@
       "image": "/images/products/laptop-435.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 442,
@@ -6187,7 +6629,8 @@
       "image": "/images/products/laptop-436.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 443,
@@ -6201,7 +6644,8 @@
       "image": "/images/products/laptop-437.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 444,
@@ -6215,7 +6659,8 @@
       "image": "/images/products/laptop-438.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 445,
@@ -6229,7 +6674,8 @@
       "image": "/images/products/laptop-439.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 446,
@@ -6243,7 +6689,8 @@
       "image": "/images/products/laptop-440.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 447,
@@ -6257,7 +6704,8 @@
       "image": "/images/products/laptop-441.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 448,
@@ -6271,7 +6719,8 @@
       "image": "/images/products/laptop-442.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 449,
@@ -6285,7 +6734,8 @@
       "image": "/images/products/laptop-443.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 450,
@@ -6299,7 +6749,8 @@
       "image": "/images/products/laptop-444.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 451,
@@ -6313,7 +6764,8 @@
       "image": "/images/products/laptop-445.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 452,
@@ -6327,7 +6779,8 @@
       "image": "/images/products/laptop-446.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 453,
@@ -6341,7 +6794,8 @@
       "image": "/images/products/laptop-447.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 454,
@@ -6355,7 +6809,8 @@
       "image": "/images/products/laptop-448.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 455,
@@ -6369,7 +6824,8 @@
       "image": "/images/products/laptop-449.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 456,
@@ -6383,7 +6839,8 @@
       "image": "/images/products/laptop-450.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 457,
@@ -6397,7 +6854,8 @@
       "image": "/images/products/laptop-451.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 458,
@@ -6411,7 +6869,8 @@
       "image": "/images/products/laptop-452.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 459,
@@ -6425,7 +6884,8 @@
       "image": "/images/products/laptop-453.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 460,
@@ -6439,7 +6899,8 @@
       "image": "/images/products/laptop-454.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 461,
@@ -6453,7 +6914,8 @@
       "image": "/images/products/laptop-455.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 462,
@@ -6467,7 +6929,8 @@
       "image": "/images/products/laptop-456.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 463,
@@ -6481,7 +6944,8 @@
       "image": "/images/products/laptop-457.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 464,
@@ -6495,7 +6959,8 @@
       "image": "/images/products/laptop-458.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 465,
@@ -6509,7 +6974,8 @@
       "image": "/images/products/laptop-459.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 466,
@@ -6523,7 +6989,8 @@
       "image": "/images/products/laptop-460.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 467,
@@ -6537,7 +7004,8 @@
       "image": "/images/products/laptop-461.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 468,
@@ -6551,7 +7019,8 @@
       "image": "/images/products/laptop-462.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 469,
@@ -6565,7 +7034,8 @@
       "image": "/images/products/laptop-463.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 470,
@@ -6579,7 +7049,8 @@
       "image": "/images/products/laptop-464.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 471,
@@ -6593,7 +7064,8 @@
       "image": "/images/products/laptop-465.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 472,
@@ -6607,7 +7079,8 @@
       "image": "/images/products/laptop-466.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 473,
@@ -6621,7 +7094,8 @@
       "image": "/images/products/laptop-467.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 474,
@@ -6635,7 +7109,8 @@
       "image": "/images/products/laptop-468.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 475,
@@ -6649,7 +7124,8 @@
       "image": "/images/products/laptop-469.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 476,
@@ -6663,7 +7139,8 @@
       "image": "/images/products/laptop-470.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 477,
@@ -6677,7 +7154,8 @@
       "image": "/images/products/laptop-471.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 478,
@@ -6691,7 +7169,8 @@
       "image": "/images/products/laptop-472.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 479,
@@ -6705,7 +7184,8 @@
       "image": "/images/products/laptop-473.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 480,
@@ -6719,7 +7199,8 @@
       "image": "/images/products/laptop-474.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 481,
@@ -6733,7 +7214,8 @@
       "image": "/images/products/laptop-475.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 482,
@@ -6747,7 +7229,8 @@
       "image": "/images/products/laptop-476.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 483,
@@ -6761,7 +7244,8 @@
       "image": "/images/products/laptop-477.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 484,
@@ -6775,7 +7259,8 @@
       "image": "/images/products/laptop-478.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 485,
@@ -6789,7 +7274,8 @@
       "image": "/images/products/laptop-479.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 486,
@@ -6803,7 +7289,8 @@
       "image": "/images/products/laptop-480.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 487,
@@ -6817,7 +7304,8 @@
       "image": "/images/products/laptop-481.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 488,
@@ -6831,7 +7319,8 @@
       "image": "/images/products/laptop-482.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 489,
@@ -6845,7 +7334,8 @@
       "image": "/images/products/laptop-483.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 490,
@@ -6859,7 +7349,8 @@
       "image": "/images/products/laptop-484.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 491,
@@ -6873,7 +7364,8 @@
       "image": "/images/products/laptop-485.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 492,
@@ -6887,7 +7379,8 @@
       "image": "/images/products/laptop-486.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 493,
@@ -6901,7 +7394,8 @@
       "image": "/images/products/laptop-487.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 494,
@@ -6915,7 +7409,8 @@
       "image": "/images/products/laptop-488.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 495,
@@ -6929,7 +7424,8 @@
       "image": "/images/products/laptop-489.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 496,
@@ -6943,7 +7439,8 @@
       "image": "/images/products/laptop-490.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 497,
@@ -6957,7 +7454,8 @@
       "image": "/images/products/laptop-491.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 498,
@@ -6971,7 +7469,8 @@
       "image": "/images/products/laptop-492.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 499,
@@ -6985,7 +7484,8 @@
       "image": "/images/products/laptop-493.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 500,
@@ -6999,7 +7499,8 @@
       "image": "/images/products/laptop-494.webp",
       "createdAt": "2026-04-28 11:23:47",
       "updatedAt": "2026-04-28 11:23:47",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 507,
@@ -7013,7 +7514,8 @@
       "image": "/images/sanpham/MSI/test.png",
       "createdAt": "2026-05-01 08:30:00",
       "updatedAt": "2026-05-01 08:30:00",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 508,
@@ -7027,7 +7529,8 @@
       "image": "/images/sanpham/MSI/test.png",
       "createdAt": "2026-05-01 08:35:00",
       "updatedAt": "2026-05-01 08:35:00",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 510,
@@ -7041,7 +7544,8 @@
       "image": "http://localhost:5000/uploads/products/1777624808842-macbookneo-8-256.jpg",
       "createdAt": "2026-05-01 08:40:08",
       "updatedAt": "2026-05-01 08:40:08",
-      "stock": 998
+      "stock": 998,
+      "image_base64": null
     },
     {
       "id": 514,
@@ -7055,7 +7559,8 @@
       "image": "http://localhost:5000/uploads/products/1777628153539-macbook_13_17.webp",
       "createdAt": "2026-05-01 09:35:53",
       "updatedAt": "2026-05-01 09:35:53",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 515,
@@ -7069,7 +7574,8 @@
       "image": "http://localhost:5000/uploads/products/1777628704349-macbook_6__7.webp",
       "createdAt": "2026-05-01 09:45:04",
       "updatedAt": "2026-05-01 09:45:04",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
     },
     {
       "id": 516,
@@ -7083,7 +7589,98 @@
       "image": "http://localhost:5000/uploads/products/1777629063649-macbook_2__21_1.webp",
       "createdAt": "2026-05-01 09:51:03",
       "updatedAt": "2026-05-01 09:51:03",
-      "stock": 999
+      "stock": 999,
+      "image_base64": null
+    },
+    {
+      "id": 517,
+      "name": "Test Product with Base64 Image",
+      "brand": "TestBrand",
+      "category": "Laptop",
+      "price": 999.99,
+      "originalPrice": 1299.99,
+      "description": "This product has a Base64 image stored in database",
+      "specs": null,
+      "image": null,
+      "createdAt": "2026-05-02 02:51:54",
+      "updatedAt": "2026-05-02 02:51:54",
+      "stock": 999,
+      "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8VAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k="
+    },
+    {
+      "id": 518,
+      "name": "Test Product with Base64 Image",
+      "brand": "TestBrand",
+      "category": "Laptop",
+      "price": 999.99,
+      "originalPrice": 1299.99,
+      "description": "This product has a Base64 image stored in database",
+      "specs": null,
+      "image": null,
+      "createdAt": "2026-05-02 02:52:05",
+      "updatedAt": "2026-05-02 02:52:05",
+      "stock": 999,
+      "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8VAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k="
+    },
+    {
+      "id": 519,
+      "name": "Test Product with Base64 Image",
+      "brand": "TestBrand",
+      "category": "Laptop",
+      "price": 999.99,
+      "originalPrice": 1299.99,
+      "description": "This product has a Base64 image stored in database",
+      "specs": null,
+      "image": null,
+      "createdAt": "2026-05-02 02:52:16",
+      "updatedAt": "2026-05-02 02:52:16",
+      "stock": 999,
+      "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8VAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k="
+    },
+    {
+      "id": 520,
+      "name": "Test Laptop MSI Gaming",
+      "brand": "MSI",
+      "category": "laptop-gaming",
+      "price": 25000000,
+      "originalPrice": 28000000,
+      "description": "Test product for verification",
+      "specs": "{\"cpu\":\"Intel Core i7-12700H\",\"ram\":\"16GB DDR5\",\"storage\":\"512GB SSD\",\"gpu\":\"NVIDIA RTX 3070\",\"mainboard\":\"MSI Z690\",\"psu\":\"650W\"}",
+      "image": "/images/sanpham/MSI/test.png",
+      "createdAt": "2026-05-02 07:21:13",
+      "updatedAt": "2026-05-02 07:21:13",
+      "stock": 999,
+      "image_base64": null
+    },
+    {
+      "id": 521,
+      "name": "Test Product with Base64 Image",
+      "brand": "TestBrand",
+      "category": "Laptop",
+      "price": 999.99,
+      "originalPrice": 1299.99,
+      "description": "This product has a Base64 image stored in database",
+      "specs": null,
+      "image": null,
+      "createdAt": "2026-05-02 07:21:19",
+      "updatedAt": "2026-05-02 07:21:19",
+      "stock": 999,
+      "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8VAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k="
+    },
+    {
+      "id": 522,
+      "name": "Test Product with Base64 Image",
+      "brand": "TestBrand",
+      "category": "Laptop",
+      "price": 999.99,
+      "originalPrice": 1299.99,
+      "description": "This product has a Base64 image stored in database",
+      "specs": null,
+      "image": null,
+      "createdAt": "2026-05-02 07:21:38",
+      "updatedAt": "2026-05-02 07:21:38",
+      "stock": 999,
+      "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8VAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k="
     }
   ],
   "users": [
@@ -7102,12 +7699,20 @@
       "role": "staff",
       "isAdmin": 0,
       "createdAt": "2026-04-28 11:23:44"
+    },
+    {
+      "id": 3,
+      "name": "Ayda",
+      "email": "aydaaydo590@gmail.com",
+      "role": "customer",
+      "isAdmin": 0,
+      "createdAt": "2026-05-02 02:49:11"
     }
   ],
   "orders": [
     {
       "id": 1,
-      "userId": 1,
+      "userId": null,
       "customerName": "Admin",
       "customerEmail": "admin@computerstore.com",
       "customerPhone": "0387677822",

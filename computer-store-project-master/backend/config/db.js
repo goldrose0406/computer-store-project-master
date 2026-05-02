@@ -2,7 +2,6 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 require('dotenv').config();
 const { LEGACY_LAPTOP_CATEGORIES } = require('../utils/productCategories');
-const { restoreDatabase } = require('./restore');
 
 const dbPath = path.join(__dirname, '../computerstore.db');
 
@@ -171,8 +170,16 @@ const initDatabase = async () => {
         await dbRun(`ALTER TABLE products ADD COLUMN stock INTEGER DEFAULT 999`);
         console.log('✅ Stock column added to products table');
       }
+
+      // Check for image_base64 column
+      const hasImageBase64Column = tableInfo.some(col => col.name === 'image_base64');
+      if (!hasImageBase64Column) {
+        await dbRun(`ALTER TABLE products ADD COLUMN image_base64 LONGTEXT`);
+        console.log('✅ Image_base64 column added to products table');
+      }
     } catch (err) {
       // Bỏ qua nếu column đã tồn tại
+      console.error('ℹ️  Column check error (this is usually OK):', err.message);
     }
 
     const legacyLaptopCategories = Array.from(LEGACY_LAPTOP_CATEGORIES).filter(
@@ -230,6 +237,7 @@ const initDatabase = async () => {
 
     // Restore products from backup.json nếu tồn tại
     console.log('📥 Đang kiểm tra backup dữ liệu...');
+    const { restoreDatabase } = require('./restore');
     await restoreDatabase();
 
   } catch (error) {

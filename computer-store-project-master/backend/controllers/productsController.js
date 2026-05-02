@@ -21,12 +21,49 @@ const productsController = {
         return res.status(400).json({ message: 'Image file is required' });
       }
 
-      const imageUrl = `${req.protocol}://${req.get('host')}/uploads/products/${req.file.filename}`;
+      // Get the product ID from the request (optional for temporary storage)
+      const { productId } = req.body;
 
-      return res.status(201).json({
-        message: 'Image uploaded successfully',
-        imageUrl
-      });
+      // Create base64 data URI
+      const base64Data = `data:${req.file.mimeType};base64,${req.file.base64}`;
+
+      // If productId is provided, save to database
+      if (productId && !isNaN(productId)) {
+        const connection = await pool.getConnection();
+        try {
+          // Check if product exists
+          const [products] = await connection.execute(
+            'SELECT id FROM products WHERE id = ?',
+            [productId]
+          );
+
+          if (products.length === 0) {
+            return res.status(404).json({ message: 'Product not found' });
+          }
+
+          // Update product with base64 image
+          await connection.execute(
+            `UPDATE products SET image_base64 = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?`,
+            [base64Data, productId]
+          );
+
+          return res.status(200).json({
+            message: 'Image uploaded successfully',
+            productId: productId,
+            imageBase64: base64Data
+          });
+        } finally {
+          connection.release();
+        }
+      } else {
+        // Return base64 data for temporary use (client-side preview)
+        return res.status(201).json({
+          message: 'Image processed successfully',
+          imageUrl: base64Data,
+          mimeType: req.file.mimeType,
+          size: req.file.size
+        });
+      }
     } catch (error) {
       console.error('Upload product image error:', error);
       return res.status(500).json({ message: 'Server error', error: error.message });
@@ -202,7 +239,7 @@ const productsController = {
         return res.status(403).json({ message: 'Admin access required' });
       }
 
-      const { name, brand, category, price, originalPrice, description, specs, image } = req.body;
+      const { name, brand, category, price, originalPrice, description, specs, image, image_base64 } = req.body;
       const normalizedCategory = normalizeProductCategory(category);
 
       // Validation
@@ -222,8 +259,8 @@ const productsController = {
 
       try {
         const [result] = await connection.execute(
-          `INSERT INTO products (name, brand, category, price, originalPrice, description, specs, image)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          `INSERT INTO products (name, brand, category, price, originalPrice, description, specs, image, image_base64)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           [
             name,
             brand,
@@ -232,7 +269,8 @@ const productsController = {
             originalPrice || price,
             description || null,
             specs ? JSON.stringify(specs) : null,
-            image || null
+            image || null,
+            image_base64 || null
           ]
         );
 
@@ -245,7 +283,13 @@ const productsController = {
             brand,
             category: normalizedCategory,
             price,
-            originalPrice: originalPrice || price
+            originalPrice: originalPrice || price,
+            description: description || null,
+            specs: specs || null,
+            image: image || null,
+            image_base64: image_base64 || null,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
           }
         });
       } finally {
@@ -265,7 +309,7 @@ const productsController = {
       }
 
       const { id } = req.params;
-      const { name, brand, category, price, originalPrice, description, specs, image } = req.body;
+      const { name, brand, category, price, originalPrice, description, specs, image, image_base64 } = req.body;
       const normalizedCategory = category !== undefined ? normalizeProductCategory(category) : undefined;
 
       // Validate ID
@@ -326,6 +370,10 @@ const productsController = {
         if (image !== undefined) {
           updates.push('image = ?');
           values.push(image);
+        }
+        if (image_base64 !== undefined) {
+          updates.push('image_base64 = ?');
+          values.push(image_base64);
         }
 
         if (updates.length === 0) {

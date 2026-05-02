@@ -152,6 +152,26 @@ const AdminDashboard = () => {
     }
   };
 
+  // Kiểm tra kích thước ảnh trước khi upload
+  const handleBeforeImageUpload = (file) => {
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+    
+    if (file.size > MAX_FILE_SIZE) {
+      message.error(`⚠️ Ảnh vượt quá giới hạn! Kích thước: ${fileSizeMB}MB > 5MB. Vui lòng chọn ảnh nhỏ hơn.`);
+      return false;
+    }
+    
+    // Kiểm tra định dạng file
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      message.error('❌ Định dạng ảnh không hỗ trợ. Vui lòng chọn JPG, PNG hoặc WEBP.');
+      return false;
+    }
+    
+    return false; // Vẫn trả về false để xử lý upload thủ công
+  };
+
   const handleAddProduct = async (values) => {
     console.log('📝 handleAddProduct called with values:', values);
     console.log('🔑 Token available:', !!token);
@@ -1318,7 +1338,7 @@ const AdminDashboard = () => {
           <Form.Item label="Ảnh bìa sản phẩm">
             <Upload
               accept=".jpg,.jpeg,.png,.webp"
-              beforeUpload={() => false}
+              beforeUpload={handleBeforeImageUpload}
               maxCount={1}
               fileList={coverImageFileList}
               onChange={({ fileList }) => {
@@ -1349,7 +1369,7 @@ const AdminDashboard = () => {
           <Form.Item label="Ảnh chi tiết sản phẩm tối đa 5 hình">
             <Upload
               accept=".jpg,.jpeg,.png,.webp"
-              beforeUpload={() => false}
+              beforeUpload={handleBeforeImageUpload}
               maxCount={5}
               multiple
               listType="picture"

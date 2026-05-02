@@ -18,26 +18,45 @@ const restoreDatabase = async () => {
     
     let restoredProducts = 0;
     let restoredUsers = 0;
+    let productsWithImages = 0;
     
-    // Restore sản phẩm
+    // Restore sản phẩm (including base64 images)
     if (backup.products && backup.products.length > 0) {
       for (const product of backup.products) {
         try {
-          await connection.execute(
-            `INSERT OR IGNORE INTO products (id, name, brand, category, price, originalPrice, description, specs, image, createdAt, updatedAt)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [
-              product.id, product.name, product.brand, product.category,
-              product.price, product.originalPrice, product.description,
-              product.specs, product.image, product.createdAt, product.updatedAt
-            ]
-          );
+          // Check if image_base64 column exists (for version 2.0+ backups)
+          if (product.image_base64) {
+            await connection.execute(
+              `INSERT OR IGNORE INTO products (id, name, brand, category, price, originalPrice, description, specs, image, image_base64, createdAt, updatedAt)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+              [
+                product.id, product.name, product.brand, product.category,
+                product.price, product.originalPrice, product.description,
+                product.specs, product.image, product.image_base64, product.createdAt, product.updatedAt
+              ]
+            );
+            if (product.image_base64) productsWithImages++;
+          } else {
+            // Backward compatibility for older backups without image_base64
+            await connection.execute(
+              `INSERT OR IGNORE INTO products (id, name, brand, category, price, originalPrice, description, specs, image, createdAt, updatedAt)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+              [
+                product.id, product.name, product.brand, product.category,
+                product.price, product.originalPrice, product.description,
+                product.specs, product.image, product.createdAt, product.updatedAt
+              ]
+            );
+          }
           restoredProducts++;
         } catch (e) {
           // Bỏ qua lỗi duplicate
         }
       }
       console.log(`✅ Khôi phục ${restoredProducts} sản phẩm`);
+      if (productsWithImages > 0) {
+        console.log(`   🖼️  ${productsWithImages} sản phẩm có ảnh base64`);
+      }
     }
     
     // Restore users (chỉ non-admin, vì admin đã được tạo)

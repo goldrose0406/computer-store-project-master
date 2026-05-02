@@ -1,7 +1,7 @@
 const express = require('express');
 const productsController = require('../controllers/productsController');
 const { verifyToken, verifyAdmin } = require('../middleware/auth');
-const { uploadProductImage } = require('../middleware/upload');
+const { uploadProductImage, convertToBase64 } = require('../middleware/upload');
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get('/stock-check/:id', productsController.getStockCheck);
 router.get('/:id', productsController.getProductById);
 
 // Admin only routes
-router.post('/upload-image', verifyToken, verifyAdmin, uploadProductImage.single('image'), productsController.uploadProductImage);
+router.post('/upload-image', verifyToken, verifyAdmin, uploadProductImage.single('image'), convertToBase64, productsController.uploadProductImage);
 router.post('/', verifyToken, verifyAdmin, productsController.createProduct);
 router.patch('/:id', verifyToken, verifyAdmin, productsController.updateProduct);
 router.delete('/:id', verifyToken, verifyAdmin, productsController.deleteProduct);

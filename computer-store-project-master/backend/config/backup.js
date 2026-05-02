@@ -6,13 +6,14 @@ const backupDatabase = async () => {
   try {
     const connection = await pool.getConnection();
     
-    // Export sản phẩm
+    // Export sản phẩm (including base64 images)
     const [products] = await connection.execute('SELECT * FROM products');
     const [users] = await connection.execute('SELECT id, name, email, role, isAdmin, createdAt FROM users');
     const [orders] = await connection.execute('SELECT * FROM orders');
     
     const backup = {
       exportDate: new Date().toISOString(),
+      version: '2.0', // Updated to version 2.0 for base64 support
       products: products,
       users: users,
       orders: orders
@@ -23,7 +24,7 @@ const backupDatabase = async () => {
     
     connection.release();
     console.log('✅ Backup created:', backupPath);
-    console.log(`   Products: ${products.length}`);
+    console.log(`   Products: ${products.length} (with base64 images)`);
     console.log(`   Users: ${users.length}`);
     console.log(`   Orders: ${orders.length}`);
     return true;
