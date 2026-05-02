@@ -34,8 +34,10 @@ export const productsService = {
       if (filters.category) query.append('category', filters.category);
       if (filters.brand) query.append('brand', filters.brand);
       if (filters.search) query.append('search', filters.search);
-      if (filters.priceMin) query.append('priceMin', filters.priceMin);
-      if (filters.priceMax) query.append('priceMax', filters.priceMax);
+      if (filters.priceMin !== undefined && filters.priceMin !== '') query.append('priceMin', filters.priceMin);
+      if (filters.priceMax !== undefined && filters.priceMax !== '' !== undefined && filters.priceMax !== '') query.append('priceMax', filters.priceMax);
+      if (filters.sortBy) query.append('sortBy', filters.sortBy);
+      if (filters.sortOrder) query.append('sortOrder', filters.sortOrder);
       if (filters.page) query.append('page', filters.page);
       if (filters.limit) query.append('limit', filters.limit);
 

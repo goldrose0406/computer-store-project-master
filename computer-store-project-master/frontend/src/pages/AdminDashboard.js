@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, Upload, message, Spin, Tag, Progress } from 'antd';
+import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, Upload, message, Spin, Tag, Progress, DatePicker, Descriptions, Popconfirm } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
@@ -27,12 +27,24 @@ const AdminDashboard = () => {
   const [customers, setCustomers] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [orderSearch, setOrderSearch] = useState('');
+  const [orderStartDate, setOrderStartDate] = useState(null);
+  const [orderEndDate, setOrderEndDate] = useState(null);
+  const [orderStatusFilter, setOrderStatusFilter] = useState('all');
+  const [orderSortBy, setOrderSortBy] = useState('createdAt');
+  const [orderSortOrder, setOrderSortOrder] = useState('desc');
+  const [orderPage, setOrderPage] = useState(1);
+  const [orderLimit, setOrderLimit] = useState(10);
+  const [orderPagination, setOrderPagination] = useState({ total: 0, page: 1, limit: 10 });
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [isEditRoleModalOpen, setIsEditRoleModalOpen] = useState(false);
   const [selectedUserForRole, setSelectedUserForRole] = useState(null);
   const [newRole, setNewRole] = useState(null);
   const [updatingRole, setUpdatingRole] = useState(false);
+  const [isOrderDetailsModalOpen, setIsOrderDetailsModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orderStatusHistory, setOrderStatusHistory] = useState([]);
   const [coverImageFileList, setCoverImageFileList] = useState([]);
   const [coverImagePreview, setCoverImagePreview] = useState('');
   const [galleryImageFileList, setGalleryImageFileList] = useState([]);
@@ -72,35 +84,50 @@ const AdminDashboard = () => {
     }
   }, [location.pathname]);
 
+  const fetchOrders = async (filterOptions = {}) => {
+    const ordersResult = await ordersService.getAllOrders(token, {
+      search: filterOptions.search || orderSearch,
+      startDate: filterOptions.startDate || orderStartDate?.format?.('YYYY-MM-DD') || orderStartDate,
+      endDate: filterOptions.endDate || orderEndDate?.format?.('YYYY-MM-DD') || orderEndDate,
+      status: filterOptions.status || (orderStatusFilter !== 'all' ? orderStatusFilter : undefined),
+      sortBy: filterOptions.sortBy || orderSortBy,
+      sortOrder: filterOptions.sortOrder || orderSortOrder,
+      page: filterOptions.page || orderPage,
+      limit: filterOptions.limit || orderLimit
+    });
+
+    if (ordersResult.success) {
+      setOrders(ordersResult.orders || []);
+      setOrderPagination(ordersResult.pagination || { total: 0, page: filterOptions.page || orderPage, limit: filterOptions.limit || orderLimit });
+    }
+
+    return ordersResult;
+  };
   const loadData = async () => {
     setLoading(true);
     try {
       // Tải đơn hàng
-      const ordersResult = await ordersService.getAllOrders(token);
-      if (ordersResult.success) {
-        setOrders(ordersResult.orders);
-        
-        // Extract unique customers from orders
-        const uniqueCustomers = [];
-        const customerEmails = new Set();
-        
-        if (Array.isArray(ordersResult.orders)) {
-          ordersResult.orders.forEach(order => {
-            if (order.customerEmail && !customerEmails.has(order.customerEmail)) {
-              customerEmails.add(order.customerEmail);
-              uniqueCustomers.push({
-                id: order.userId || order.customerEmail,
-                email: order.customerEmail,
-                name: order.customerName,
-                phone: order.customerPhone,
-                address: order.customerAddress,
-                createdAt: order.createdAt
-              });
-            }
-          });
-        }
-        setCustomers(uniqueCustomers);
+      const ordersResult = await fetchOrders({ page: orderPage, limit: orderLimit });
+
+      // Extract unique customers from orders
+      const uniqueCustomers = [];
+      const customerEmails = new Set();
+      if (ordersResult.success && Array.isArray(ordersResult.orders)) {
+        ordersResult.orders.forEach(order => {
+          if (order.customerEmail && !customerEmails.has(order.customerEmail)) {
+            customerEmails.add(order.customerEmail);
+            uniqueCustomers.push({
+              id: order.userId || order.customerEmail,
+              email: order.customerEmail,
+              name: order.customerName,
+              phone: order.customerPhone,
+              address: order.customerAddress,
+              createdAt: order.createdAt
+            });
+          }
+        });
       }
+      setCustomers(uniqueCustomers);
 
       // Tải sản phẩm
       const productsResult = await productsService.getAllProducts({ limit: 'all' });
@@ -126,16 +153,22 @@ const AdminDashboard = () => {
   };
 
   const handleAddProduct = async (values) => {
+    console.log('📝 handleAddProduct called with values:', values);
+    console.log('🔑 Token available:', !!token);
+    
     let coverImageUrl = coverImagePreview;
     let galleryImageUrls = [...galleryImagePreviews];
 
     if (coverImageFileList[0]?.originFileObj) {
+      console.log('📤 Uploading cover image...');
       const uploadResult = await productsService.uploadProductImage(coverImageFileList[0].originFileObj, token);
       if (!uploadResult.success) {
+        console.error('❌ Cover image upload failed:', uploadResult.message);
         message.error(uploadResult.message);
         return;
       }
       coverImageUrl = uploadResult.imageUrl;
+      console.log('✅ Cover image uploaded:', coverImageUrl);
     }
 
     const newGalleryFiles = galleryImageFileList.filter((file) => file.originFileObj);
@@ -177,8 +210,10 @@ const AdminDashboard = () => {
     try {
       if (editingProduct) {
         // Update existing product
+        console.log('📝 Updating existing product ID:', editingProduct.id);
         const result = await productsService.updateProduct(editingProduct.id, payload, token);
         if (result.success) {
+          console.log('✅ Product updated successfully');
           message.success('Cập nhật sản phẩm thành công!');
           setIsAddProductModalOpen(false);
           setEditingProduct(null);
@@ -186,12 +221,16 @@ const AdminDashboard = () => {
           await loadData();
           navigate('/admin/products');
         } else {
+          console.error('❌ Product update failed:', result.message);
           message.error(result.message);
         }
       } else {
         // Create new product
+        console.log('📝 Creating new product with payload:', payload);
         const result = await productsService.createProduct(payload, token);
+        console.log('📥 createProduct response:', result);
         if (result.success) {
+          console.log('✅ Product created successfully');
           message.success('Thêm sản phẩm thành công!');
           setIsAddProductModalOpen(false);
           setEditingProduct(null);
@@ -199,10 +238,12 @@ const AdminDashboard = () => {
           await loadData();
           navigate('/admin/products');
         } else {
+          console.error('❌ Product creation failed:', result.message);
           message.error(result.message);
         }
       }
     } catch (error) {
+      console.error('❌ Exception during product save:', error);
       message.error('Lỗi: ' + error.message);
     }
   };
@@ -268,11 +309,40 @@ const AdminDashboard = () => {
       if (result.success) {
         message.success('Cập nhật trạng thái thành công!');
         loadData();
+        // Reload order details if modal is open
+        if (selectedOrder && selectedOrder.id === orderId) {
+          handleViewOrderDetails(orderId);
+        }
       } else {
         message.error(result.message);
       }
     } catch (error) {
       message.error('Lỗi: ' + error.message);
+    }
+  };
+
+  const handleViewOrderDetails = async (orderId) => {
+    try {
+      setLoading(true);
+      const result = await ordersService.getOrderDetails(orderId, token);
+      if (!result.success) {
+        message.error(result.message || 'Lỗi khi lấy chi tiết đơn hàng');
+        return;
+      }
+
+      setSelectedOrder(result.order);
+
+      // Get order status history
+      const historyResult = await ordersService.getOrderStatusHistory(orderId, token);
+      if (historyResult.success) {
+        setOrderStatusHistory(historyResult.history);
+      }
+
+      setIsOrderDetailsModalOpen(true);
+    } catch (error) {
+      message.error('Lỗi: ' + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -378,18 +448,27 @@ const AdminDashboard = () => {
       title: 'Hành động',
       key: 'action',
       render: (_, record) => (
-        <Select
-          defaultValue={record.status}
-          onChange={(value) => handleUpdateOrderStatus(record.id, value)}
-          style={{ width: '120px' }}
-          options={[
-            { label: 'Chờ xử lý', value: 'pending' },
-            { label: 'Đang xử lý', value: 'processing' },
-            { label: 'Đã gửi', value: 'shipped' },
-            { label: 'Đã giao', value: 'delivered' },
-            { label: 'Đã hủy', value: 'cancelled' }
-          ]}
-        />
+        <Space>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => handleViewOrderDetails(record.id)}
+          >
+            Xem chi tiết
+          </Button>
+          <Select
+            defaultValue={record.status}
+            onChange={(value) => handleUpdateOrderStatus(record.id, value)}
+            style={{ width: '120px' }}
+            options={[
+              { label: 'Chờ xử lý', value: 'pending' },
+              { label: 'Đang xử lý', value: 'processing' },
+              { label: 'Đã gửi', value: 'shipped' },
+              { label: 'Đã giao', value: 'delivered' },
+              { label: 'Đã hủy', value: 'cancelled' }
+            ]}
+          />
+        </Space>
       )
     }
   ];
@@ -449,14 +528,22 @@ const AdminDashboard = () => {
           >
             Sửa
           </Button>
-          <Button 
-            icon={<DeleteOutlined />} 
-            danger 
-            size="small" 
-            onClick={() => handleDeleteProduct(record.id)}
+          <Popconfirm
+            title="Xóa sản phẩm"
+            description={`Bạn có chắc chắn muốn xóa sản phẩm "${record.name}" không?`}
+            onConfirm={() => handleDeleteProduct(record.id)}
+            okText="Xóa"
+            cancelText="Hủy"
+            okType="danger"
           >
-            Xóa
-          </Button>
+            <Button 
+              icon={<DeleteOutlined />} 
+              danger 
+              size="small"
+            >
+              Xóa
+            </Button>
+          </Popconfirm>
         </Space>
       ),
       width: 140
@@ -668,25 +755,120 @@ const AdminDashboard = () => {
           <div style={{ marginBottom: '32px' }}>
             <h1 style={{ fontSize: '28px', marginBottom: '0' }}>📋 Quản lý đơn hàng</h1>
           </div>
+          <Card style={{ marginBottom: '20px' }}>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} md={8}>
+                <Input
+                  placeholder="Tìm kiếm theo mã đơn, khách hàng hoặc email"
+                  value={orderSearch}
+                  onChange={(e) => setOrderSearch(e.target.value)}
+                  allowClear
+                />
+              </Col>
+              <Col xs={24} md={8}>
+                <DatePicker.RangePicker
+                  value={[orderStartDate, orderEndDate]}
+                  onChange={(dates) => {
+                    setOrderStartDate(dates?.[0] || null);
+                    setOrderEndDate(dates?.[1] || null);
+                  }}
+                  style={{ width: '100%' }}
+                />
+              </Col>
+              <Col xs={24} md={8}>
+                <Select
+                  value={orderStatusFilter}
+                  onChange={setOrderStatusFilter}
+                  style={{ width: '100%' }}
+                  options={[
+                    { label: 'Tất cả trạng thái', value: 'all' },
+                    { label: 'Chờ xử lý', value: 'pending' },
+                    { label: 'Đang xử lý', value: 'processing' },
+                    { label: 'Đã gửi', value: 'shipped' },
+                    { label: 'Đã giao', value: 'delivered' },
+                    { label: 'Đã hủy', value: 'cancelled' }
+                  ]}
+                />
+              </Col>
+              <Col xs={24} md={8}>
+                <Select
+                  value={`${orderSortBy}_${orderSortOrder}`}
+                  onChange={(value) => {
+                    const [field, order] = value.split('_');
+                    setOrderSortBy(field);
+                    setOrderSortOrder(order);
+                  }}
+                  style={{ width: '100%' }}
+                  options={[
+                    { label: 'Ngày tạo giảm dần', value: 'createdAt_desc' },
+                    { label: 'Ngày tạo tăng dần', value: 'createdAt_asc' },
+                    { label: 'Giá trị giảm dần', value: 'totalPrice_desc' },
+                    { label: 'Giá trị tăng dần', value: 'totalPrice_asc' }
+                  ]}
+                />
+              </Col>
+              <Col xs={24} md={16}>
+                <Space wrap>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setOrderPage(1);
+                      fetchOrders({ page: 1, limit: orderLimit });
+                    }}
+                  >
+                    Áp dụng bộ lọc
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setOrderSearch('');
+                      setOrderStartDate(null);
+                      setOrderEndDate(null);
+                      setOrderStatusFilter('all');
+                      setOrderSortBy('createdAt');
+                      setOrderSortOrder('desc');
+                      setOrderPage(1);
+                      fetchOrders({ search: '', startDate: null, endDate: null, status: undefined, sortBy: 'createdAt', sortOrder: 'desc', page: 1, limit: orderLimit });
+                    }}
+                  >
+                    Đặt lại
+                  </Button>
+                </Space>
+              </Col>
+              <Col xs={24} md={8} style={{ textAlign: 'right' }}>
+                <Space>
+                  <Button
+                    type="default"
+                    onClick={handleExportOrdersExcel}
+                  >
+                    📥 Xuất Excel
+                  </Button>
+                  <Button
+                    type="default"
+                    onClick={handleExportOrdersPDF}
+                  >
+                    📄 Xuất PDF
+                  </Button>
+                </Space>
+              </Col>
+            </Row>
+          </Card>
+
           <Card>
-            <div style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
-              <Button
-                type="default"
-                onClick={handleExportOrdersExcel}
-              >
-                📥 Xuất Excel
-              </Button>
-              <Button
-                type="default"
-                onClick={handleExportOrdersPDF}
-              >
-                📄 Xuất PDF
-              </Button>
-            </div>
             <Table
               columns={ordersColumns}
               dataSource={orders.map(order => ({ ...order, key: order.id }))}
-              pagination={{ pageSize: 10 }}
+              pagination={{
+                current: orderPage,
+                pageSize: orderLimit,
+                total: orderPagination.total,
+                showSizeChanger: true,
+                pageSizeOptions: ['10', '20', '50'],
+                onChange: (page, pageSize) => {
+                  setOrderPage(page);
+                  setOrderLimit(pageSize);
+                  fetchOrders({ page, limit: pageSize });
+                }
+              }}
               responsive
               scroll={{ x: 800 }}
             />
@@ -1270,6 +1452,192 @@ const AdminDashboard = () => {
                 style={{ width: '100%' }}
               />
             </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* Order Details Modal */}
+      <Modal
+        title={`Chi tiết đơn hàng #${selectedOrder?.id}`}
+        open={isOrderDetailsModalOpen}
+        onCancel={() => {
+          setIsOrderDetailsModalOpen(false);
+          setSelectedOrder(null);
+          setOrderStatusHistory([]);
+        }}
+        width={1000}
+        footer={null}
+      >
+        {selectedOrder && (
+          <div>
+            {/* Basic Info */}
+            <Card title="📋 Thông tin đơn hàng" style={{ marginBottom: '16px' }}>
+              <Row gutter={[16, 16]}>
+                <Col xs={24} md={12}>
+                  <Descriptions column={1} bordered size="small">
+                    <Descriptions.Item label="Trạng thái">
+                      <Tag color={{
+                        'pending': 'orange',
+                        'processing': 'blue',
+                        'shipped': 'cyan',
+                        'delivered': 'green',
+                        'cancelled': 'red'
+                      }[selectedOrder.status]}>
+                        {{
+                          'pending': 'Chờ xử lý',
+                          'processing': 'Đang xử lý',
+                          'shipped': 'Đã gửi',
+                          'delivered': 'Đã giao',
+                          'cancelled': 'Đã hủy'
+                        }[selectedOrder.status]}
+                      </Tag>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Ngày tạo">
+                      {new Date(selectedOrder.createdAt).toLocaleString('vi-VN')}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Cập nhật cuối">
+                      {new Date(selectedOrder.updatedAt).toLocaleString('vi-VN')}
+                    </Descriptions.Item>
+                  </Descriptions>
+                </Col>
+                <Col xs={24} md={12}>
+                  <Descriptions column={1} bordered size="small">
+                    <Descriptions.Item label="Tên khách" span={2}>
+                      {selectedOrder.customerName}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Email" span={2}>
+                      {selectedOrder.customerEmail}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Điện thoại" span={2}>
+                      {selectedOrder.customerPhone}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Địa chỉ" span={2}>
+                      {selectedOrder.customerAddress}
+                    </Descriptions.Item>
+                  </Descriptions>
+                </Col>
+              </Row>
+            </Card>
+
+            {/* Products */}
+            <Card title="🛒 Sản phẩm đã đặt" style={{ marginBottom: '16px' }}>
+              <Table
+                columns={[
+                  {
+                    title: 'Tên sản phẩm',
+                    dataIndex: 'name',
+                    key: 'name'
+                  },
+                  {
+                    title: 'Đơn giá',
+                    dataIndex: 'price',
+                    key: 'price',
+                    render: (price) => `${price?.toLocaleString('vi-VN')} ₫`
+                  },
+                  {
+                    title: 'Số lượng',
+                    dataIndex: 'quantity',
+                    key: 'quantity'
+                  },
+                  {
+                    title: 'Thành tiền',
+                    key: 'total',
+                    render: (_, record) => `${(record.price * record.quantity).toLocaleString('vi-VN')} ₫`
+                  }
+                ]}
+                dataSource={selectedOrder.products}
+                pagination={false}
+                rowKey="id"
+                size="small"
+              />
+              <div style={{ marginTop: '16px', textAlign: 'right', fontSize: '16px' }}>
+                <strong>Tổng cộng: </strong>
+                <span style={{ color: '#ff4d4f', fontWeight: 'bold', fontSize: '18px' }}>
+                  {selectedOrder.totalPrice?.toLocaleString('vi-VN')} ₫
+                </span>
+              </div>
+            </Card>
+
+            {/* Status History */}
+            <Card title="📊 Lịch sử trạng thái">
+              {orderStatusHistory.length > 0 ? (
+                <Table
+                  columns={[
+                    {
+                      title: 'Thời gian',
+                      dataIndex: 'createdAt',
+                      key: 'createdAt',
+                      render: (date) => new Date(date).toLocaleString('vi-VN'),
+                      width: 180
+                    },
+                    {
+                      title: 'Trạng thái cũ',
+                      dataIndex: 'oldStatus',
+                      key: 'oldStatus',
+                      render: (status) => status ? (
+                        <Tag color={{
+                          'pending': 'orange',
+                          'processing': 'blue',
+                          'shipped': 'cyan',
+                          'delivered': 'green',
+                          'cancelled': 'red'
+                        }[status]}>
+                          {{
+                            'pending': 'Chờ xử lý',
+                            'processing': 'Đang xử lý',
+                            'shipped': 'Đã gửi',
+                            'delivered': 'Đã giao',
+                            'cancelled': 'Đã hủy'
+                          }[status]}
+                        </Tag>
+                      ) : <span style={{ color: '#999' }}>Trạng thái ban đầu</span>
+                    },
+                    {
+                      title: 'Trạng thái mới',
+                      dataIndex: 'newStatus',
+                      key: 'newStatus',
+                      render: (status) => (
+                        <Tag color={{
+                          'pending': 'orange',
+                          'processing': 'blue',
+                          'shipped': 'cyan',
+                          'delivered': 'green',
+                          'cancelled': 'red'
+                        }[status]}>
+                          {{
+                            'pending': 'Chờ xử lý',
+                            'processing': 'Đang xử lý',
+                            'shipped': 'Đã gửi',
+                            'delivered': 'Đã giao',
+                            'cancelled': 'Đã hủy'
+                          }[status]}
+                        </Tag>
+                      )
+                    },
+                    {
+                      title: 'Người thay đổi',
+                      dataIndex: 'changedByName',
+                      key: 'changedByName',
+                      render: (name) => name || 'Hệ thống'
+                    },
+                    {
+                      title: 'Ghi chú',
+                      dataIndex: 'notes',
+                      key: 'notes',
+                      render: (notes) => notes || '-'
+                    }
+                  ]}
+                  dataSource={orderStatusHistory}
+                  pagination={false}
+                  rowKey="id"
+                  size="small"
+                />
+              ) : (
+                <p style={{ textAlign: 'center', color: '#999', padding: '20px' }}>
+                  Chưa có lịch sử thay đổi trạng thái
+                </p>
+              )}
+            </Card>
           </div>
         )}
       </Modal>

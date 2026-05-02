@@ -2,6 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 require('dotenv').config();
 const { LEGACY_LAPTOP_CATEGORIES } = require('../utils/productCategories');
+const { restoreDatabase } = require('./restore');
 
 const dbPath = path.join(__dirname, '../computerstore.db');
 
@@ -226,6 +227,10 @@ const initDatabase = async () => {
         throw err;
       }
     }
+
+    // Restore products from backup.json nếu tồn tại
+    console.log('📥 Đang kiểm tra backup dữ liệu...');
+    await restoreDatabase();
 
   } catch (error) {
     console.error('❌ Database initialization error:', error.message);

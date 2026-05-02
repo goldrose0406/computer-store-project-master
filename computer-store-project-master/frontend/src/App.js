@@ -15,6 +15,7 @@ import ProductListPage from './pages/ProductListPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import OrderDetailPage from './pages/OrderDetailPage';
 import MyOrdersPage from './pages/MyOrdersPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -76,6 +77,11 @@ function AppContent() {
 
             {/* My Orders */}
             <Route path="/my-orders" element={<MyOrdersPage />} />
+            <Route path="/order/:orderId" element={
+              <ProtectedRoute>
+                <OrderDetailPage />
+              </ProtectedRoute>
+            } />
 
             {/* Auth Routes */}
             <Route path="/login" element={<LoginPage />} />

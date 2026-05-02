@@ -24,9 +24,19 @@ export const ordersService = {
     }
   },
 
-  getMyOrders: async (token) => {
+  getMyOrders: async (token, filters = {}) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders/my-orders`, {
+      const query = new URLSearchParams();
+      if (filters.search) query.append('search', filters.search);
+      if (filters.startDate) query.append('startDate', filters.startDate);
+      if (filters.endDate) query.append('endDate', filters.endDate);
+      if (filters.status) query.append('status', filters.status);
+      if (filters.sortBy) query.append('sortBy', filters.sortBy);
+      if (filters.sortOrder) query.append('sortOrder', filters.sortOrder);
+      if (filters.page) query.append('page', filters.page);
+      if (filters.limit) query.append('limit', filters.limit);
+
+      const response = await fetch(`${API_BASE_URL}/orders/my-orders?${query}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +50,11 @@ export const ordersService = {
         return { success: false, message: data.message || 'Failed to fetch orders' };
       }
 
-      return { success: true, orders: data.orders || [] };
+      return {
+        success: true,
+        orders: data.orders || [],
+        pagination: data.pagination || null
+      };
     } catch (error) {
       return { success: false, message: error.message };
     }
@@ -68,9 +82,19 @@ export const ordersService = {
     }
   },
 
-  getAllOrders: async (token) => {
+  getAllOrders: async (token, filters = {}) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders`, {
+      const query = new URLSearchParams();
+      if (filters.search) query.append('search', filters.search);
+      if (filters.startDate) query.append('startDate', filters.startDate);
+      if (filters.endDate) query.append('endDate', filters.endDate);
+      if (filters.status) query.append('status', filters.status);
+      if (filters.sortBy) query.append('sortBy', filters.sortBy);
+      if (filters.sortOrder) query.append('sortOrder', filters.sortOrder);
+      if (filters.page) query.append('page', filters.page);
+      if (filters.limit) query.append('limit', filters.limit);
+
+      const response = await fetch(`${API_BASE_URL}/orders?${query}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +108,11 @@ export const ordersService = {
         return { success: false, message: data.message || 'Failed to fetch orders' };
       }
 
-      return { success: true, orders: data.orders || [] };
+      return {
+        success: true,
+        orders: data.orders || [],
+        pagination: data.pagination || null
+      };
     } catch (error) {
       return { success: false, message: error.message };
     }
@@ -108,6 +136,28 @@ export const ordersService = {
       }
 
       return { success: true, message: data.message };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  },
+
+  getOrderStatusHistory: async (orderId, token) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status-history`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return { success: false, message: data.message || 'Failed to fetch order status history' };
+      }
+
+      return { success: true, history: data.history || [] };
     } catch (error) {
       return { success: false, message: error.message };
     }

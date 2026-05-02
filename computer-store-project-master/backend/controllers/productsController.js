@@ -76,7 +76,7 @@ const productsController = {
   // Lấy tất cả sản phẩm (public)
   getAllProducts: async (req, res) => {
     try {
-      const { category, brand, priceMin, priceMax, search, page = 1, limit = 20 } = req.query;
+      const { category, brand, priceMin, priceMax, search, sortBy, sortOrder, page = 1, limit = 20 } = req.query;
       
       // Pagination params
       const pageNum = Math.max(1, parseInt(page) || 1);
@@ -109,13 +109,13 @@ const productsController = {
         params.push(`%${search}%`, `%${search}%`);
       }
 
-      if (priceMin) {
+      if (priceMin !== undefined && priceMin !== '') {
         query += ' AND price >= ?';
         countQuery += ' AND price >= ?';
         params.push(parseFloat(priceMin));
       }
 
-      if (priceMax) {
+      if (priceMax !== undefined && priceMax !== '') {
         query += ' AND price <= ?';
         countQuery += ' AND price <= ?';
         params.push(parseFloat(priceMax));
@@ -128,7 +128,10 @@ const productsController = {
         const [countResult] = await connection.execute(countQuery, params);
         const total = countResult[0].total;
         
-        query += ' ORDER BY id DESC';
+        const validSortColumns = ['id', 'price', 'name', 'createdAt'];
+        const sortColumn = validSortColumns.includes(sortBy) ? sortBy : 'id';
+        const sortDirection = ['ASC', 'DESC'].includes((sortOrder || '').toUpperCase()) ? sortOrder.toUpperCase() : 'DESC';
+        query += ` ORDER BY ${sortColumn} ${sortDirection}`;
 
         if (limitNum !== null) {
           query += ' LIMIT ? OFFSET ?';

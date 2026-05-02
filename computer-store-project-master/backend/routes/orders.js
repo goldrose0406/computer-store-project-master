@@ -9,6 +9,7 @@ router.post('/create', verifyToken, ordersController.createOrder);
 
 // Protected routes - cần login
 router.get('/my-orders', verifyToken, ordersController.getMyOrders);
+router.get('/:orderId/status-history', verifyToken, ordersController.getOrderStatusHistory);
 router.get('/:orderId', verifyToken, ordersController.getOrderDetails);
 
 // Admin only routes

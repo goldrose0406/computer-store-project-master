@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Row, Col, Card, Select, Button, Empty, Pagination, Spin, message } from 'antd';
+import { Row, Col, Card, Select, Button, Empty, Pagination, Spin, message, Input, InputNumber, Space } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { productsService } from '../services/productsService';
 import ProductCard from '../components/ProductCard';
@@ -22,8 +22,21 @@ const ProductListPage = () => {
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState('default');
   const [filterBrand, setFilterBrand] = useState('all');
+  
+  // Tạm thời filter (không trigger search)
+  const [tempSearchQuery, setTempSearchQuery] = useState('');
+  const [tempPriceMin, setTempPriceMin] = useState('');
+  const [tempPriceMax, setTempPriceMax] = useState('');
+  const [tempSortBy, setTempSortBy] = useState('default');
+  
+  // Thực tế filter (trigger search)
+  const [searchQuery, setSearchQuery] = useState('');
+  const [priceMin, setPriceMin] = useState('');
+  const [priceMax, setPriceMax] = useState('');
+  
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const [itemsPerPage, setItemsPerPage] = useState(15);
+  const [productPagination, setProductPagination] = useState({ total: 0, page: 1, limit: 15 });
 
   useEffect(() => {
     if (!PRODUCT_CATALOGS[catalog]) {
@@ -31,25 +44,51 @@ const ProductListPage = () => {
     }
   }, [catalog, navigate]);
 
+  // Hàm áp dụng filter
+  const handleApplyFilters = () => {
+    setSearchQuery(tempSearchQuery);
+    setPriceMin(tempPriceMin);
+    setPriceMax(tempPriceMax);
+    setSortBy(tempSortBy);
+    setCurrentPage(1);
+  };
+
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
-      const result = await productsService.getAllProducts({ category: catalogConfig.key, limit: 'all' });
+      const query = {
+        category: catalogConfig.key,
+        brand: filterBrand !== 'all' ? filterBrand : undefined,
+        search: searchQuery || undefined,
+        priceMin: priceMin || undefined,
+        priceMax: priceMax || undefined,
+        page: currentPage,
+        limit: itemsPerPage,
+        sortBy: sortBy === 'price-asc' || sortBy === 'price-desc' ? 'price' : undefined,
+        sortOrder: sortBy === 'price-asc' ? 'ASC' : sortBy === 'price-desc' ? 'DESC' : undefined
+      };
+
+      const result = await productsService.getAllProducts(query);
 
       if (result.success) {
         const backendProducts = (result.products || []).map((product) => ({
           ...product,
           category: normalizeProductCategory(product.category)
         }));
+
         const categoryProducts =
           backendProducts.length > 0 ? backendProducts : getSampleProductsByCategory(catalogConfig.key);
+
         setProducts(categoryProducts);
-        setCurrentPage(1);
+        setProductPagination(result.pagination || { total: categoryProducts.length, page: currentPage, limit: itemsPerPage });
       } else if (catalogConfig.key === 'laptop') {
         message.error(result.message);
         setProducts([]);
+        setProductPagination({ total: 0, page: currentPage, limit: itemsPerPage });
       } else {
-        setProducts(getSampleProductsByCategory(catalogConfig.key));
+        const sampleProducts = getSampleProductsByCategory(catalogConfig.key);
+        setProducts(sampleProducts);
+        setProductPagination({ total: sampleProducts.length, page: 1, limit: itemsPerPage });
         setCurrentPage(1);
       }
 
@@ -57,37 +96,15 @@ const ProductListPage = () => {
     };
 
     loadProducts();
-  }, [catalogConfig.key]);
+  }, [catalogConfig.key, filterBrand, searchQuery, priceMin, priceMax, sortBy, currentPage, itemsPerPage]);
 
   const brands = useMemo(
     () => [...new Set(products.map((product) => product.brand).filter(Boolean))],
     [products]
   );
 
-  const filteredProducts = useMemo(() => {
-    let list = [...products];
-
-    if (filterBrand !== 'all') {
-      list = list.filter((product) => product.brand === filterBrand);
-    }
-
-    switch (sortBy) {
-      case 'price-asc':
-        list.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-desc':
-        list.sort((a, b) => b.price - a.price);
-        break;
-      default:
-        break;
-    }
-
-    return list;
-  }, [products, filterBrand, sortBy]);
-
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = filteredProducts.slice(startIdx, startIdx + itemsPerPage);
+  const totalPages = Math.ceil(productPagination.total / itemsPerPage);
+  const paginatedProducts = products;
 
   return (
     <div className="product-list-page">
@@ -151,12 +168,67 @@ const ProductListPage = () => {
 
         <Card style={{ marginBottom: '32px', background: '#fafafa' }}>
           <Row gutter={[24, 24]}>
-            <Col xs={24} sm={12} md={8}>
+            <Col xs={24} sm={12} md={6}>
+              <div>
+                <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Tìm kiếm</label>
+                <Input
+                  value={tempSearchQuery}
+                  onChange={(e) => setTempSearchQuery(e.target.value)}
+                  placeholder="Tên sản phẩm hoặc mô tả"
+                  onPressEnter={handleApplyFilters}
+                />
+              </div>
+            </Col>
+            <Col xs={24} sm={12} md={6}>
+              <div>
+                <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Khoảng giá</label>
+                <Space.Compact style={{ width: '100%' }}>
+                  <InputNumber
+                    placeholder="Min"
+                    min={0}
+                    style={{ width: '50%' }}
+                    value={tempPriceMin}
+                    formatter={(value) => value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                    parser={(value) => value?.replace(/\./g, '')}
+                    onChange={(value) => setTempPriceMin(value)}
+                  />
+                  <InputNumber
+                    placeholder="Max"
+                    min={0}
+                    style={{ width: '50%' }}
+                    value={tempPriceMax}
+                    formatter={(value) => value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                    parser={(value) => value?.replace(/\./g, '')}
+                    onChange={(value) => setTempPriceMax(value)}
+                  />
+                </Space.Compact>
+              </div>
+            </Col>
+            <Col xs={24} sm={12} md={6}>
+              <div>
+                <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Thương hiệu</label>
+                <Select
+                  value={filterBrand}
+                  onChange={(value) => {
+                    setFilterBrand(value);
+                    setCurrentPage(1);
+                  }}
+                  style={{ width: '100%' }}
+                  options={[
+                    { label: 'Tất cả', value: 'all' },
+                    ...brands.map((brand) => ({ label: brand, value: brand }))
+                  ]}
+                />
+              </div>
+            </Col>
+            <Col xs={24} sm={12} md={6}>
               <div>
                 <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Sắp xếp</label>
                 <Select
-                  value={sortBy}
-                  onChange={setSortBy}
+                  value={tempSortBy}
+                  onChange={(value) => {
+                    setTempSortBy(value);
+                  }}
                   style={{ width: '100%' }}
                   options={[
                     { label: 'Mặc định', value: 'default' },
@@ -166,58 +238,62 @@ const ProductListPage = () => {
                 />
               </div>
             </Col>
-            <Col xs={24} sm={12} md={8}>
-              <div>
-                <label style={{ fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Thương hiệu</label>
-                <Select
-                  value={filterBrand}
-                  onChange={setFilterBrand}
-                  style={{ width: '100%' }}
-                  options={[
-                    { label: 'Tất cả', value: 'all' },
-                    ...brands.map((brand) => ({ label: brand, value: brand }))
-                  ]}
-                />
-              </div>
-            </Col>
-            <Col xs={24} sm={12} md={8} style={{ display: 'flex', alignItems: 'flex-end' }}>
-              <Button
-                block
-                onClick={() => {
-                  setSortBy('default');
-                  setFilterBrand('all');
-                  setCurrentPage(1);
-                }}
-              >
-                Đặt lại bộ lọc
-              </Button>
+            <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Space>
+                <Button
+                  type="primary"
+                  onClick={handleApplyFilters}
+                >
+                  🔍 Tìm kiếm
+                </Button>
+                <Button
+                  onClick={() => {
+                    setTempSearchQuery('');
+                    setTempPriceMin('');
+                    setTempPriceMax('');
+                    setTempSortBy('default');
+                    setSearchQuery('');
+                    setPriceMin('');
+                    setPriceMax('');
+                    setFilterBrand('all');
+                    setSortBy('default');
+                    setCurrentPage(1);
+                  }}
+                >
+                  Đặt lại bộ lọc
+                </Button>
+              </Space>
             </Col>
           </Row>
         </Card>
 
         <div style={{ marginBottom: '16px', color: '#666' }}>
-          <strong>{filteredProducts.length}</strong> sản phẩm tìm thấy trong mục{' '}
+          <strong>{productPagination.total}</strong> sản phẩm tìm thấy trong mục{' '}
           <strong>{catalogConfig.title}</strong>
         </div>
 
         <Spin spinning={loading}>
-          {paginatedProducts.length > 0 ? (
+          {products.length > 0 ? (
             <>
               <div className="product-list-grid" style={{ marginBottom: '32px' }}>
-                {paginatedProducts.map((product) => (
+                {products.map((product) => (
                   <div className="product-list-grid__item" key={product.id}>
                     <ProductCard product={product} />
                   </div>
                 ))}
               </div>
 
-              {totalPages > 1 && (
+              {productPagination.total > itemsPerPage && (
                 <div style={{ textAlign: 'center', marginTop: '32px' }}>
                   <Pagination
                     current={currentPage}
-                    total={filteredProducts.length}
+                    total={productPagination.total}
                     pageSize={itemsPerPage}
-                    onChange={setCurrentPage}
+                    onChange={(page, pageSize) => {
+                      setCurrentPage(page);
+                      setItemsPerPage(pageSize);
+                    }}
+                    pageSizeOptions={[10, 15, 20, 30]}
                   />
                 </div>
               )}
@@ -226,6 +302,7 @@ const ProductListPage = () => {
             <Empty description="Không tìm thấy sản phẩm" style={{ marginTop: '40px' }} />
           )}
         </Spin>
+
       </div>
     </div>
   );
