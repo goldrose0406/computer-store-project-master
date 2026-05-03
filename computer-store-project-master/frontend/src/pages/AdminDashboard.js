@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import { Layout, Row, Col, Card, Table, Button, Space, Statistic, Tabs, Modal, Form, Input, InputNumber, Select, Upload, message, Spin, Tag, Progress, DatePicker, Descriptions, Popconfirm } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 import { ordersService } from '../services/ordersService';
 import { productsService } from '../services/productsService';
 import { authService } from '../services/authService';
+import { transactionsService } from '../services/transactionsService';
 import {
   PRODUCT_CATEGORY_OPTIONS,
   formatProductCategory,
@@ -26,6 +28,8 @@ const AdminDashboard = () => {
   const [products, setProducts] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [transactionSummary, setTransactionSummary] = useState({ totalIncome: 0, totalExpense: 0, balance: 0 });
   const [loading, setLoading] = useState(true);
   const [orderSearch, setOrderSearch] = useState('');
   const [orderStartDate, setOrderStartDate] = useState(null);
@@ -37,6 +41,9 @@ const AdminDashboard = () => {
   const [orderLimit, setOrderLimit] = useState(10);
   const [orderPagination, setOrderPagination] = useState({ total: 0, page: 1, limit: 10 });
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+  const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState(null);
+  const [transactionTypeFilter, setTransactionTypeFilter] = useState('all');
   const [editingProduct, setEditingProduct] = useState(null);
   const [isEditRoleModalOpen, setIsEditRoleModalOpen] = useState(false);
   const [selectedUserForRole, setSelectedUserForRole] = useState(null);
@@ -52,6 +59,7 @@ const AdminDashboard = () => {
   const [activeProductCategory, setActiveProductCategory] = useState(PRODUCT_CATEGORY_OPTIONS[0].value);
   const [form] = Form.useForm();
   const [productForm] = Form.useForm();
+  const [transactionForm] = Form.useForm();
 
   const resetProductModalState = () => {
     productForm.resetFields();
@@ -103,6 +111,26 @@ const AdminDashboard = () => {
 
     return ordersResult;
   };
+
+  const fetchTransactions = async (filterOptions = {}) => {
+    const result = await transactionsService.getTransactions(token, {
+      type: filterOptions.type || transactionTypeFilter,
+      limit: 100,
+      sortBy: 'transactionDate',
+      sortOrder: 'DESC'
+    });
+
+    if (result.success) {
+      setTransactions(result.transactions || []);
+      setTransactionSummary(result.summary || { totalIncome: 0, totalExpense: 0, balance: 0 });
+    } else {
+      setTransactions([]);
+      setTransactionSummary({ totalIncome: 0, totalExpense: 0, balance: 0 });
+    }
+
+    return result;
+  };
+
   const loadData = async () => {
     setLoading(true);
     try {
@@ -133,6 +161,7 @@ const AdminDashboard = () => {
       const productsResult = await productsService.getAllProducts({ limit: 'all' });
       if (productsResult.success) {
         setProducts(productsResult.products);
+        await fetchTransactions({ type: transactionTypeFilter });
       }
 
       // Tải tất cả users (khách hàng đã đăng kí)
@@ -440,6 +469,66 @@ const AdminDashboard = () => {
     }
   };
 
+  const openCreateTransactionModal = () => {
+    setEditingTransaction(null);
+    transactionForm.resetFields();
+    transactionForm.setFieldsValue({
+      type: 'income',
+      transactionDate: dayjs()
+    });
+    setIsTransactionModalOpen(true);
+  };
+
+  const openEditTransactionModal = (transaction) => {
+    setEditingTransaction(transaction);
+    transactionForm.setFieldsValue({
+      ...transaction,
+      transactionDate: transaction.transactionDate ? dayjs(transaction.transactionDate) : dayjs()
+    });
+    setIsTransactionModalOpen(true);
+  };
+
+  const handleSaveTransaction = async (values) => {
+    const payload = {
+      ...values,
+      transactionDate: values.transactionDate?.format?.('YYYY-MM-DD') || values.transactionDate
+    };
+
+    try {
+      const result = editingTransaction
+        ? await transactionsService.updateTransaction(editingTransaction.id, payload, token)
+        : await transactionsService.createTransaction(payload, token);
+
+      if (!result.success) {
+        message.error(result.message || 'Không thể lưu khoản thu/chi');
+        return;
+      }
+
+      message.success(editingTransaction ? 'Đã cập nhật khoản thu/chi' : 'Đã thêm khoản thu/chi');
+      setIsTransactionModalOpen(false);
+      setEditingTransaction(null);
+      transactionForm.resetFields();
+      await fetchTransactions({ type: transactionTypeFilter });
+    } catch (error) {
+      message.error('Lỗi: ' + error.message);
+    }
+  };
+
+  const handleDeleteTransaction = async (transactionId) => {
+    try {
+      const result = await transactionsService.deleteTransaction(transactionId, token);
+      if (!result.success) {
+        message.error(result.message || 'Không thể xóa khoản thu/chi');
+        return;
+      }
+
+      message.success('Đã xóa khoản thu/chi');
+      await fetchTransactions({ type: transactionTypeFilter });
+    } catch (error) {
+      message.error('Lỗi: ' + error.message);
+    }
+  };
+
   // Orders Table Columns
   const ordersColumns = [
     {
@@ -589,6 +678,96 @@ const AdminDashboard = () => {
     }
   ];
 
+  const transactionColumns = [
+    {
+      title: 'Ngày',
+      dataIndex: 'transactionDate',
+      key: 'transactionDate',
+      render: (date) => new Date(date).toLocaleDateString('vi-VN'),
+      width: 120
+    },
+    {
+      title: 'Loại',
+      dataIndex: 'type',
+      key: 'type',
+      render: (type) => (
+        <Tag color={type === 'income' ? 'green' : 'red'}>
+          {type === 'income' ? 'Thu' : 'Chi'}
+        </Tag>
+      ),
+      width: 90
+    },
+    {
+      title: 'Tiêu đề',
+      dataIndex: 'title',
+      key: 'title'
+    },
+    {
+      title: 'Danh mục',
+      dataIndex: 'category',
+      key: 'category',
+      width: 150
+    },
+    {
+      title: 'Số tiền',
+      dataIndex: 'amount',
+      key: 'amount',
+      render: (amount, record) => (
+        <span style={{ color: record.type === 'income' ? '#16a34a' : '#dc2626', fontWeight: 700 }}>
+          {record.type === 'income' ? '+' : '-'}{Number(amount || 0).toLocaleString('vi-VN')} VND
+        </span>
+      ),
+      width: 170
+    },
+    {
+      title: 'Ghi chú',
+      dataIndex: 'description',
+      key: 'description',
+      render: (description) => description || '-'
+    },
+    {
+      title: 'Nguồn',
+      dataIndex: 'source',
+      key: 'source',
+      render: (source, record) => (
+        <Tag color={source === 'order' ? 'blue' : 'default'}>
+          {source === 'order' ? `Đơn hàng #${record.orderId}` : 'Thủ công'}
+        </Tag>
+      ),
+      width: 130
+    },
+    {
+      title: 'Hành động',
+      key: 'action',
+      render: (_, record) => (
+        <Space>
+          <Button
+            icon={<EditOutlined />}
+            size="small"
+            disabled={record.source === 'order'}
+            onClick={() => openEditTransactionModal(record)}
+          >
+            Sửa
+          </Button>
+          <Popconfirm
+            title="Xóa khoản thu/chi"
+            description={`Bạn có chắc chắn muốn xóa "${record.title}" không?`}
+            okText="Xóa"
+            cancelText="Hủy"
+            okButtonProps={{ danger: true }}
+            onConfirm={() => handleDeleteTransaction(record.id)}
+            disabled={record.source === 'order'}
+          >
+            <Button icon={<DeleteOutlined />} danger size="small" disabled={record.source === 'order'}>
+              Xóa
+            </Button>
+          </Popconfirm>
+        </Space>
+      ),
+      width: 150
+    }
+  ];
+
   const totalRevenue = orders.reduce((acc, order) => acc + (order.totalPrice || 0), 0);
   const uniqueCustomers = new Set(orders.map(o => o.customerEmail)).size;
   const adminProductCategories = PRODUCT_CATEGORY_OPTIONS.map((option) => ({
@@ -699,6 +878,72 @@ const AdminDashboard = () => {
     </Card>
   );
 
+  const renderTransactionsManager = () => (
+    <Card>
+      <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col xs={24} md={8}>
+          <Card size="small">
+            <Statistic
+              title="Tổng thu"
+              value={transactionSummary.totalIncome}
+              valueStyle={{ color: '#16a34a' }}
+              formatter={(value) => `${Number(value || 0).toLocaleString('vi-VN')} VND`}
+            />
+          </Card>
+        </Col>
+        <Col xs={24} md={8}>
+          <Card size="small">
+            <Statistic
+              title="Tổng chi"
+              value={transactionSummary.totalExpense}
+              valueStyle={{ color: '#dc2626' }}
+              formatter={(value) => `${Number(value || 0).toLocaleString('vi-VN')} VND`}
+            />
+          </Card>
+        </Col>
+        <Col xs={24} md={8}>
+          <Card size="small">
+            <Statistic
+              title="Số dư"
+              value={transactionSummary.balance}
+              valueStyle={{ color: Number(transactionSummary.balance || 0) >= 0 ? '#1677ff' : '#dc2626' }}
+              formatter={(value) => `${Number(value || 0).toLocaleString('vi-VN')} VND`}
+            />
+          </Card>
+        </Col>
+      </Row>
+
+      <div style={{ marginBottom: 16, display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        <Space wrap>
+          <Button type="primary" icon={<PlusOutlined />} onClick={openCreateTransactionModal}>
+            Thêm khoản thu/chi
+          </Button>
+          <Select
+            value={transactionTypeFilter}
+            style={{ width: 150 }}
+            options={[
+              { label: 'Tất cả', value: 'all' },
+              { label: 'Khoản thu', value: 'income' },
+              { label: 'Khoản chi', value: 'expense' }
+            ]}
+            onChange={async (value) => {
+              setTransactionTypeFilter(value);
+              await fetchTransactions({ type: value });
+            }}
+          />
+        </Space>
+      </div>
+
+      <Table
+        columns={transactionColumns}
+        dataSource={transactions.map((transaction) => ({ ...transaction, key: transaction.id }))}
+        pagination={{ pageSize: 10 }}
+        responsive
+        scroll={{ x: 900 }}
+      />
+    </Card>
+  );
+
   // Render different views based on pathname
   const renderContent = () => {
     const pathname = location.pathname;
@@ -711,7 +956,7 @@ const AdminDashboard = () => {
       return (
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ marginBottom: '32px' }}>
-            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>Quan ly san pham</h1>
+            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>Quản lý sản phẩm</h1>
           </div>
           <div style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
             <Button type="default" onClick={handleExportProductsExcel}>
@@ -719,6 +964,17 @@ const AdminDashboard = () => {
             </Button>
           </div>
           {renderProductsManager()}
+        </div>
+      );
+    }
+
+    if (pathname === '/admin/transactions') {
+      return (
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontSize: '28px', marginBottom: '0' }}>Quản lý thu/chi</h1>
+          </div>
+          {renderTransactionsManager()}
         </div>
       );
     }
@@ -1240,6 +1496,11 @@ const AdminDashboard = () => {
                 )
               },
               {
+                key: 'transactions',
+                label: 'Thu/Chi',
+                children: renderTransactionsManager()
+              },
+              {
                 key: 'customers',
                 label: '👥 Quản lý khách hàng',
                 children: (
@@ -1493,6 +1754,65 @@ const AdminDashboard = () => {
               </Form.Item>
             </Col>
           </Row>
+        </Form>
+      </Modal>
+
+      <Modal
+        title={editingTransaction ? 'Sửa khoản thu/chi' : 'Thêm khoản thu/chi'}
+        open={isTransactionModalOpen}
+        onCancel={() => {
+          setIsTransactionModalOpen(false);
+          setEditingTransaction(null);
+          transactionForm.resetFields();
+        }}
+        onOk={() => transactionForm.submit()}
+        okText={editingTransaction ? 'Cập nhật' : 'Thêm mới'}
+        cancelText="Hủy"
+        width={640}
+      >
+        <Form
+          form={transactionForm}
+          layout="vertical"
+          onFinish={handleSaveTransaction}
+        >
+          <Row gutter={12}>
+            <Col xs={24} md={12}>
+              <Form.Item name="type" label="Loại" rules={[{ required: true, message: 'Chọn loại thu/chi' }]}>
+                <Select
+                  options={[
+                    { label: 'Khoản thu', value: 'income' },
+                    { label: 'Khoản chi', value: 'expense' }
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item name="transactionDate" label="Ngày ghi nhận" rules={[{ required: true, message: 'Chọn ngày' }]}>
+                <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item name="title" label="Tiêu đề" rules={[{ required: true, message: 'Nhập tiêu đề' }]}>
+            <Input placeholder="VD: Thu ban laptop / Chi nhap hang" />
+          </Form.Item>
+
+          <Row gutter={12}>
+            <Col xs={24} md={12}>
+              <Form.Item name="amount" label="Số tiền" rules={[{ required: true, message: 'Nhập số tiền' }]}>
+                <InputNumber min={1} style={{ width: '100%' }} placeholder="0" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item name="category" label="Danh mục" rules={[{ required: true, message: 'Nhập danh mục' }]}>
+                <Input placeholder="VD: Ban hang, Nhap hang, Van hanh" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item name="description" label="Ghi chú">
+            <Input.TextArea rows={3} placeholder="Ghi chú thêm nếu có" />
+          </Form.Item>
         </Form>
       </Modal>
 

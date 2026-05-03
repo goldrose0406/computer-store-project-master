@@ -137,6 +137,41 @@ const initDatabase = async () => {
     `);
     console.log('✅ Orders table created/exists');
 
+    await dbRun(`
+      CREATE TABLE IF NOT EXISTS transactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER NOT NULL,
+        type TEXT NOT NULL CHECK(type IN ('income', 'expense')),
+        title VARCHAR(255) NOT NULL,
+        amount REAL NOT NULL CHECK(amount > 0),
+        category VARCHAR(100) NOT NULL,
+        description TEXT,
+        transactionDate DATE NOT NULL DEFAULT CURRENT_DATE,
+        source TEXT DEFAULT 'manual',
+        orderId INTEGER,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+      )
+    `);
+    console.log('Transactions table created/exists');
+
+    try {
+      await dbRun(`ALTER TABLE transactions ADD COLUMN source TEXT DEFAULT 'manual'`);
+    } catch (err) {
+      if (!err.message.includes('duplicate column name')) {
+        throw err;
+      }
+    }
+
+    try {
+      await dbRun(`ALTER TABLE transactions ADD COLUMN orderId INTEGER`);
+    } catch (err) {
+      if (!err.message.includes('duplicate column name')) {
+        throw err;
+      }
+    }
+
     // Create products table
     await dbRun(`
       CREATE TABLE IF NOT EXISTS products (

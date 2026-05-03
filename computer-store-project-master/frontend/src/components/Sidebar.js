@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { DashboardOutlined, ShoppingOutlined, UserOutlined, FileTextOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
+import { DashboardOutlined, ShoppingOutlined, UserOutlined, FileTextOutlined, SettingOutlined, HomeOutlined, DollarOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 const { Sider } = Layout;
@@ -43,6 +43,12 @@ const Sidebar = ({ collapsed = false }) => {
       icon: <UserOutlined />,
       label: 'Khách hàng',
       onClick: () => navigate('/admin/users')
+    },
+    {
+      key: 'transactions',
+      icon: <DollarOutlined />,
+      label: 'Thu/Chi',
+      onClick: () => navigate('/admin/transactions')
     },
     {
       key: 'settings',

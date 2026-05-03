@@ -12,6 +12,7 @@ const authRoutes = require('./routes/auth');
 const ordersRoutes = require('./routes/orders');
 const productsRoutes = require('./routes/products');
 const reportsRoutes = require('./routes/reports');
+const transactionsRoutes = require('./routes/transactions');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -50,6 +51,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/transactions', transactionsRoutes);
 
 // Root route
 app.get('/', (req, res) => {

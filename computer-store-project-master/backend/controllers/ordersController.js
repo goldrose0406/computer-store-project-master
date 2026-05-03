@@ -1,5 +1,6 @@
 const { pool } = require('../config/db');
 const { sendOrderConfirmation } = require('../services/emailService');
+const { syncDeliveredOrderTransactions } = require('../services/transactionsSyncService');
 
 const sanitizeText = (value) => {
   if (value === undefined || value === null) {
@@ -468,6 +469,8 @@ const ordersController = {
            VALUES (?, ?, ?, ?, ?)`,
           [orderId, oldStatus, status, req.user.id, notes || null]
         );
+
+        await syncDeliveredOrderTransactions();
 
         return res.status(200).json({
           message: 'Order status updated',
