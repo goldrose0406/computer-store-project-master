@@ -103,7 +103,7 @@ const Navbar = () => {
     >
       <div className="site-navbar__top">
         <Link to="/" className="site-navbar__logo-link">
-          <span className="site-navbar__logo-badge">Nhóm 10 Store</span>
+          <span className="site-navbar__logo-badge">CyberGear</span>
         </Link>
 
         <div className="site-navbar__search">

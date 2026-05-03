@@ -26,7 +26,7 @@ export const SAMPLE_GAMING_PRODUCTS = [
   {
     id: 'sample-pc-new-1',
     name: 'PC Gaming New RTX 4060',
-    brand: 'Nhóm 10 Build',
+    brand: 'CyberGear Build',
     category: 'pc-gaming-new',
     price: 26990000,
     originalPrice: 28990000,
@@ -46,7 +46,7 @@ export const SAMPLE_GAMING_PRODUCTS = [
   {
     id: 'sample-pc-old-1',
     name: 'PC Gaming Old RX 6600',
-    brand: 'Nhóm 10 Value',
+    brand: 'CyberGear Value',
     category: 'pc-gaming-old',
     price: 14890000,
     originalPrice: 16990000,

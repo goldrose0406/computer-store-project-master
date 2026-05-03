@@ -93,5 +93,27 @@ export const authService = {
       console.error('❌ Network/Parse error in getAllUsers:', error);
       return { success: false, message: error.message };
     }
+  },
+
+  deleteUser: async (userId, token) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/users/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return { success: false, message: data.message || 'Failed to delete user' };
+      }
+
+      return { success: true, message: data.message, deletedUser: data.deletedUser };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
   }
 };

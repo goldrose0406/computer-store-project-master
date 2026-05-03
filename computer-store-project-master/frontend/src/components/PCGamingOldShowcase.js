@@ -97,7 +97,7 @@ const PCGamingOldShowcase = () => {
           <h2 className="pc-gaming-old-showcase__title">TOP 3 CẤU HÌNH PC GAMING CŨ NỔI BẬT</h2>
           <p className="pc-gaming-old-showcase__description">
             3 cấu hình PC Gaming nổi bật, tối ưu hiệu năng trên giá thành theo 3 phân khúc và nhu
-            cầu, được 100+ khách hàng lựa chọn tại Nhóm 10 Store.
+            cầu, được 100+ khách hàng lựa chọn tại CyberGear.
           </p>
         </header>
 
@@ -135,7 +135,7 @@ const PCGamingOldShowcase = () => {
 
         <section className="pc-gaming-old-showcase__promo">
           <header className="pc-gaming-old-showcase__promo-header">
-            <p className="pc-gaming-old-showcase__promo-eyebrow">KHI BUILD PC GAMING LIKE NEW TẠI NHÓM 10 STORE</p>
+            <p className="pc-gaming-old-showcase__promo-eyebrow">KHI BUILD PC GAMING LIKE NEW TẠI CYBERGEAR</p>
             <h3 className="pc-gaming-old-showcase__promo-title">NHẬN NGAY NHỮNG ƯU ĐÃI HẤP DẪN</h3>
           </header>
 

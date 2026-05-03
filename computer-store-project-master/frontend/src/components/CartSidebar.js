@@ -26,7 +26,7 @@ const CartSidebar = () => {
             width: '100%',
             height: '100%',
             background: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 999,
+            zIndex: 2000,
           }}
           onClick={() => setIsCartOpen(false)}
         />
@@ -42,7 +42,7 @@ const CartSidebar = () => {
           height: '100vh',
           background: '#fff',
           boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.15)',
-          zIndex: 1000,
+          zIndex: 2001,
           transform: isCartOpen ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.3s ease',
           display: 'flex',

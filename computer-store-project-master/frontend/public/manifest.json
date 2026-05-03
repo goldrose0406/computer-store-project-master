@@ -1,19 +1,19 @@
 {
-  "short_name": "LaptopStore",
-  "name": "Laptop Store",
+  "short_name": "CyberGear",
+  "name": "CyberGear",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "images.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
-      "src": "logolaptopweb.jpg",
-      "type": "image/jpeg",
+      "src": "images.png",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logolaptopweb.jpg",
+      "src": "images.png",
       "type": "image/png",
       "sizes": "512x512"
     }

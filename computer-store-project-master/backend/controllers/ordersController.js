@@ -27,10 +27,10 @@ const ordersController = {
       const notes = sanitizeText(rawBody.notes);
       const products = rawBody.products;
       const totalPrice = Number(rawBody.totalPrice);
-      const userId = req.user?.id;
+      let userId = req.user?.id;
 
       // Validate - phải có user (token bắt buộc)
-      if (!userId) {
+      if (!userId && !req.user?.email) {
         return res.status(401).json({ message: 'Authentication required' });
       }
 
@@ -67,6 +67,18 @@ const ordersController = {
 
       try {
         // ✅ CHECK STOCK FOR EACH PRODUCT
+        if (!userId && req.user?.email) {
+          const [users] = await connection.execute(
+            'SELECT id FROM users WHERE email = ?',
+            [req.user.email]
+          );
+          userId = users[0]?.id;
+        }
+
+        if (!userId) {
+          return res.status(401).json({ message: 'Authentication required' });
+        }
+
         const outOfStockProducts = [];
         
         for (const item of products) {
@@ -111,6 +123,7 @@ const ordersController = {
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
           [userId, customerName, customerEmail, customerPhone, customerAddress, JSON.stringify(products), totalPrice, totalItems, notes || null]
         );
+        const orderId = result.lastID || result.insertId;
 
         // ✅ DEDUCT STOCK FROM PRODUCTS
         for (const item of products) {
@@ -122,7 +135,7 @@ const ordersController = {
 
         // ✅ SEND ORDER CONFIRMATION EMAIL
         await sendOrderConfirmation(customerEmail, {
-          orderId: result.insertId,
+          orderId,
           customerName,
           products,
           totalPrice,
@@ -131,9 +144,9 @@ const ordersController = {
 
         return res.status(201).json({
           message: 'Order created successfully',
-          orderId: result.insertId,
+          orderId,
           order: {
-            id: result.insertId,
+            id: orderId,
             customerName,
             customerEmail,
             totalPrice,
@@ -172,7 +185,7 @@ const ordersController = {
       const limitNum = Math.max(1, parseInt(limit, 10) || 20);
       const offset = (pageNum - 1) * limitNum;
 
-      let query = 'SELECT id, userId, customerName, customerEmail, totalPrice, totalItems, status, createdAt FROM orders WHERE 1=1';
+      let query = 'SELECT id, userId, customerName, customerEmail, totalPrice, totalItems, status, products, createdAt FROM orders WHERE 1=1';
       let countQuery = 'SELECT COUNT(*) as total FROM orders WHERE 1=1';
       const params = [];
 

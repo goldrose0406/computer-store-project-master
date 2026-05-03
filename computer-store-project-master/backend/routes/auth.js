@@ -28,4 +28,7 @@ router.get('/users', verifyToken, verifyAdmin, authController.getAllUsers);
 // PUT /api/auth/users/:userId/role (Admin only - đổi role user)
 router.put('/users/:userId/role', verifyToken, verifyAdmin, authController.updateUserRole);
 
+// DELETE /api/auth/users/:userId (Admin only - xóa user)
+router.delete('/users/:userId', verifyToken, verifyAdmin, authController.deleteUser);
+
 module.exports = router;

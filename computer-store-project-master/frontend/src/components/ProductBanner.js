@@ -4,7 +4,7 @@ import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import '../styles/ProductBanner.css';
 
 const ProductBanner = ({
-  badge = 'Nhóm 10 Store',
+  badge = 'CyberGear',
   title = 'Build PC Giá Tốt Tối Ưu Hiệu Năng',
   description = 'Tại Computer Store, chúng tôi luôn cố gắng đưa ra cấu hình hợp lý, dễ chọn và đúng với nhu cầu thực tế của bạn.',
   highlights = [
@@ -24,19 +24,19 @@ const ProductBanner = ({
       id: 1,
       title: 'PC GAMING GMN-A-5403B',
       specs: 'i5 14400F – RTX 5060',
-      video: 'https://pc79.vn/wp-content/uploads/2025/09/I5-14400F-5060-Broll.mp4'
+      video: 'https://pc79.vn/wp-content/uploads/2025/06/JONSBO-D32-PRO-intro.mp4'
     },
     {
       id: 2,
       title: 'HI-END PC',
       specs: 'I7 14700K RTX 5070Ti',
-      video: 'https://pc79.vn/wp-content/uploads/2025/09/LIANLI-O11-VISION-COMPACT-intro.mp4'
+      video: 'https://pc79.vn/wp-content/uploads/2025/06/JONSBO-D32-PRO-intro.mp4'
     },
     {
       id: 3,
       title: 'HI-END PC',
       specs: '9800X3D RTX 5080',
-      video: 'https://pc79.vn/wp-content/uploads/2025/09/PHANTEK-intro.mp4'
+      video: 'https://pc79.vn/wp-content/uploads/2025/06/PC-FULL-AORUS-intro.mp4'
     },
     {
       id: 4,
@@ -134,7 +134,7 @@ const ProductBanner = ({
                   fontWeight: 'bold',
                   color: '#fff'
                 }}>
-                  Nhóm 10 Store
+                  CyberGear
                 </div>
 
                 <h1 style={{

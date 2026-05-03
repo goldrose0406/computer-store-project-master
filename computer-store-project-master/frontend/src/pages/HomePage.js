@@ -60,21 +60,21 @@ const HomePage = () => {
       id: 1,
       title: 'PC GAMING GMN-A-5403B',
       specs: 'i5 14400F – RTX 5060',
-      video: 'https://pc79.vn/wp-content/uploads/2025/09/I5-14400F-5060-Broll.mp4',
+      video: 'https://pc79.vn/wp-content/uploads/2025/06/JONSBO-D32-PRO-intro.mp4',
       link: '#'
     },
     {
       id: 2,
       title: 'HI-END PC',
       specs: 'I7 14700K RTX 5070Ti',
-      video: 'https://pc79.vn/wp-content/uploads/2025/09/LIANLI-O11-VISION-COMPACT-intro.mp4',
+      video: 'https://pc79.vn/wp-content/uploads/2025/06/King-95-Pro-White-intro.mp4',
       link: '#'
     },
     {
       id: 3,
       title: 'HI-END PC',
       specs: '9800X3D RTX 5080',
-      video: 'https://pc79.vn/wp-content/uploads/2025/09/PHANTEK-intro.mp4',
+      video: 'https://pc79.vn/wp-content/uploads/2025/06/PC-FULL-AORUS-intro.mp4',
       link: '#'
     },
     {
@@ -186,7 +186,7 @@ const HomePage = () => {
                   fontSize: '14px',
                   fontWeight: 'bold'
                 }}>
-                  Nhóm 10 Store
+                  CyberGear
                 </div>
 
                 {/* Main Heading */}

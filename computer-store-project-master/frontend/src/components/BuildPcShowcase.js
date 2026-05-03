@@ -24,7 +24,7 @@ function BuildPcShowcase() {
     <section className="build-pc-showcase">
       <div className="build-pc-showcase__inner">
         <div className="build-pc-showcase__content">
-          <h2 className="build-pc-showcase__title">BUILD PC GIÁ TỐT TẠI NHÓM 10 STORE</h2>
+          <h2 className="build-pc-showcase__title">BUILD PC GIÁ TỐT TẠI CYBERGEAR</h2>
           <p className="build-pc-showcase__subtitle">
             Nếu công nghệ là sự đam mê của bạn - chúng ta cùng nhau chung hành trình
           </p>

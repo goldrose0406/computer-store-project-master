@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
 const { pool } = require('../config/db');
 const { sendResetCode, sendPasswordChangeConfirmation } = require('../services/emailService');
 
@@ -50,14 +52,15 @@ const authController = {
         const hashedPassword = await bcryptjs.hash(password, 10);
 
         // Tạo user với role mặc định là 'customer'
-        await connection.execute(
+        const [result] = await connection.execute(
           'INSERT INTO users (name, email, password, role, isAdmin) VALUES (?, ?, ?, ?, ?)',
           [name, email, hashedPassword, 'customer', false]
         );
+        const userId = result.lastID || result.insertId;
 
         // Tạo token
         const token = jwt.sign(
-          { email, name, role: 'customer', isAdmin: false },
+          { id: userId, email, name, role: 'customer', isAdmin: false },
           process.env.JWT_SECRET,
           { expiresIn: process.env.JWT_EXPIRE || '7d' }
         );
@@ -65,7 +68,7 @@ const authController = {
         return res.status(201).json({
           message: 'Register successful',
           token,
-          user: { name, email, role: 'customer', isAdmin: false }
+          user: { id: userId, name, email, role: 'customer', isAdmin: false }
         });
       } finally {
         connection.release();
@@ -237,6 +240,88 @@ const authController = {
       }
     } catch (error) {
       console.error('Update user role error:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
+
+  // Xóa user (Admin only)
+  deleteUser: async (req, res) => {
+    try {
+      if (!req.user?.isAdmin) {
+        return res.status(403).json({ message: 'Admin access required' });
+      }
+
+      const { userId } = req.params;
+
+      if (!userId || isNaN(userId)) {
+        return res.status(400).json({ message: 'Invalid user ID' });
+      }
+
+      if (Number(req.user.id) === Number(userId)) {
+        return res.status(400).json({ message: 'You cannot delete your own account' });
+      }
+
+      const connection = await pool.getConnection();
+
+      try {
+        const [users] = await connection.execute(
+          'SELECT id, name, email, role, isAdmin FROM users WHERE id = ?',
+          [userId]
+        );
+
+        if (users.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        const targetUser = users[0];
+
+        if (targetUser.isAdmin) {
+          const [adminCountResult] = await connection.execute(
+            'SELECT COUNT(*) as total FROM users WHERE isAdmin = 1 OR role = ?',
+            ['admin']
+          );
+
+          if ((adminCountResult[0]?.total || 0) <= 1) {
+            return res.status(400).json({ message: 'Cannot delete the last admin account' });
+          }
+        }
+
+        const [result] = await connection.execute(
+          'DELETE FROM users WHERE id = ?',
+          [userId]
+        );
+
+        if ((result.changes || result.affectedRows || 0) === 0) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        const backupPath = path.join(__dirname, '../backup.json');
+        if (fs.existsSync(backupPath)) {
+          try {
+            const backup = JSON.parse(fs.readFileSync(backupPath, 'utf8'));
+            if (Array.isArray(backup.users)) {
+              backup.users = backup.users.filter((backupUser) => Number(backupUser.id) !== Number(userId));
+              fs.writeFileSync(backupPath, `${JSON.stringify(backup, null, 2)}\n`, 'utf8');
+            }
+          } catch (backupError) {
+            console.error('Failed to update backup after deleting user:', backupError.message);
+          }
+        }
+
+        return res.status(200).json({
+          message: 'User deleted successfully',
+          userId,
+          deletedUser: {
+            id: targetUser.id,
+            name: targetUser.name,
+            email: targetUser.email
+          }
+        });
+      } finally {
+        connection.release();
+      }
+    } catch (error) {
+      console.error('Delete user error:', error);
       return res.status(500).json({ message: 'Server error', error: error.message });
     }
   },

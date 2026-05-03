@@ -2,9 +2,13 @@ import React, { createContext, useState, useCallback, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
+const TOKEN_KEY = 'token';
+localStorage.removeItem(TOKEN_KEY);
+sessionStorage.removeItem(TOKEN_KEY);
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -12,39 +16,16 @@ export const AuthProvider = ({ children }) => {
 
   const API_URL = 'http://localhost:5000/api/auth';
 
-  // Kiểm tra token khi component mount
+  const saveAuthSession = useCallback((authToken, authUser) => {
+    setToken(authToken);
+    setUser(authUser);
+  }, []);
+
+  // Không lưu token trong browser storage để tránh tự đăng nhập lại tài khoản cũ khi npm start.
   useEffect(() => {
-    const checkToken = async () => {
-      const savedToken = localStorage.getItem('token');
-      if (savedToken) {
-        try {
-          const response = await fetch(`${API_URL}/verify`, {
-            headers: {
-              'Authorization': `Bearer ${savedToken}`
-            }
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            setUser(data.user);
-            setToken(savedToken);
-          } else {
-            // Token không hợp lệ
-            localStorage.removeItem('token');
-            setToken(null);
-            setUser(null);
-          }
-        } catch (err) {
-          console.error('Token verification error:', err);
-          localStorage.removeItem('token');
-          setToken(null);
-          setUser(null);
-        }
-      }
-      setLoading(false);
-    };
-
-    checkToken();
+    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    setLoading(false);
   }, []);
 
   // Đăng ký
@@ -66,16 +47,34 @@ export const AuthProvider = ({ children }) => {
         return { success: false, message: data.message };
       }
 
-      localStorage.setItem('token', data.token);
-      setToken(data.token);
-      setUser(data.user);
-      return { success: true, user: data.user };
+      if (data.token && data.user?.id) {
+        saveAuthSession(data.token, data.user);
+        return { success: true, user: data.user };
+      }
+
+      const loginResponse = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const loginData = await loginResponse.json();
+
+      if (!loginResponse.ok) {
+        setError(loginData.message || 'Registration successful, but login failed');
+        return { success: false, message: loginData.message };
+      }
+
+      saveAuthSession(loginData.token, loginData.user);
+      return { success: true, user: loginData.user };
     } catch (err) {
       const message = 'Registration error: ' + err.message;
       setError(message);
       return { success: false, message };
     }
-  }, []);
+  }, [saveAuthSession]);
 
   // Đăng nhập
   const login = useCallback(async (email, password) => {
@@ -96,20 +95,19 @@ export const AuthProvider = ({ children }) => {
         return { success: false, message: data.message };
       }
 
-      localStorage.setItem('token', data.token);
-      setToken(data.token);
-      setUser(data.user);
+      saveAuthSession(data.token, data.user);
       return { success: true, user: data.user };
     } catch (err) {
       const message = 'Login error: ' + err.message;
       setError(message);
       return { success: false, message };
     }
-  }, []);
+  }, [saveAuthSession]);
 
   // Đăng xuất
   const logout = useCallback(() => {
-    localStorage.removeItem('token');
+    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
     setToken(null);
     setUser(null);
     setError(null);

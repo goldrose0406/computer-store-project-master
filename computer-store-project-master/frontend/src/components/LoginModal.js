@@ -45,9 +45,10 @@ const LoginModal = () => {
     try {
       const result = await register(values.name, values.email, values.password, values.confirmPassword);
       if (result.success) {
-        message.success('Đăng ký thành công! Vui lòng đăng nhập.');
-        setActiveTab('login');
+        message.success('Đăng ký thành công!');
+        setLoginModalOpen(false);
         form.resetFields();
+        setActiveTab('login');
         setRegisterError('');
       } else {
         setRegisterError(result.message);

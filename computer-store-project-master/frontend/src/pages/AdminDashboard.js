@@ -421,6 +421,25 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleDeleteUser = async (targetUser) => {
+    if (!targetUser?.id) {
+      message.error('Không tìm thấy tài khoản cần xóa');
+      return;
+    }
+
+    try {
+      const result = await authService.deleteUser(targetUser.id, token);
+      if (result.success) {
+        message.success(`Đã xóa tài khoản "${targetUser.name || targetUser.email}"`);
+        await loadData();
+      } else {
+        message.error(result.message || 'Xóa tài khoản thất bại');
+      }
+    } catch (error) {
+      message.error('Lỗi: ' + error.message);
+    }
+  };
+
   // Orders Table Columns
   const ordersColumns = [
     {
@@ -597,37 +616,7 @@ const AdminDashboard = () => {
       }));
   };
 
-  // 2. Brand distribution (Pie Chart)
-  const getBrandDistribution = () => {
-    const brandData = {};
-    
-    orders.forEach(order => {
-      if (order.products && typeof order.products === 'string') {
-        try {
-          const productsList = JSON.parse(order.products);
-          productsList.forEach(product => {
-            const productInfo = products.find(p => p.id === product.id);
-            if (productInfo) {
-              brandData[productInfo.brand] = (brandData[productInfo.brand] || 0) + (product.quantity || 1);
-            }
-          });
-        } catch (e) {
-          // Handle error
-        }
-      }
-    });
-
-    return Object.entries(brandData)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 6)
-      .map(([brand, count], index) => ({
-        name: brand,
-        value: count,
-        color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'][index % 6]
-      }));
-  };
-
-  // 3. Top 5 best-selling products (Bar Chart)
+  // 2. Top 5 best-selling products
   const getTopProducts = () => {
     const productSales = {};
     
@@ -636,8 +625,22 @@ const AdminDashboard = () => {
         try {
           const productsList = JSON.parse(order.products);
           productsList.forEach(product => {
-            const key = product.name || `Product ${product.id}`;
-            productSales[key] = (productSales[key] || 0) + (product.quantity || 1);
+            const productInfo = products.find(p => Number(p.id) === Number(product.id));
+            const productName = product.name || productInfo?.name || `Product ${product.id}`;
+            const key = product.id || productName;
+            const quantity = product.quantity || 1;
+            const price = product.price || productInfo?.price || 0;
+
+            if (!productSales[key]) {
+              productSales[key] = {
+                name: productName,
+                quantity: 0,
+                revenue: 0
+              };
+            }
+
+            productSales[key].quantity += quantity;
+            productSales[key].revenue += price * quantity;
           });
         } catch (e) {
           // Handle error
@@ -645,19 +648,18 @@ const AdminDashboard = () => {
       }
     });
 
-    return Object.entries(productSales)
-      .sort((a, b) => b[1] - a[1])
+    return Object.values(productSales)
+      .sort((a, b) => b.quantity - a.quantity)
       .slice(0, 5)
-      .map(([name, quantity]) => ({
+      .map(({ name, quantity, revenue }) => ({
         name: name.length > 20 ? name.substring(0, 20) + '...' : name,
-        quantity: quantity
+        quantity,
+        revenue
       }));
   };
 
   const revenueByMonth = getRevenueByMonth();
-  const brandData = getBrandDistribution();
   const topProducts = getTopProducts();
-  const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
 
   const renderProductsTable = (category) => {
     const filteredProducts = products.filter((product) => isProductCategoryMatch(product.category, category));
@@ -958,15 +960,35 @@ const AdminDashboard = () => {
                     title: 'Hành động',
                     key: 'action',
                     render: (_, record) => (
-                      <Button
-                        type="primary"
-                        size="small"
-                        onClick={() => handleOpenEditRoleModal(record)}
-                      >
-                        Đổi Role
-                      </Button>
+                      <Space>
+                        <Button
+                          type="primary"
+                          size="small"
+                          onClick={() => handleOpenEditRoleModal(record)}
+                        >
+                          Đổi Role
+                        </Button>
+                        <Popconfirm
+                          title="Xóa tài khoản"
+                          description={`Bạn có chắc chắn muốn xóa tài khoản "${record.name || record.email}" không?`}
+                          okText="Xóa"
+                          cancelText="Hủy"
+                          okButtonProps={{ danger: true }}
+                          onConfirm={() => handleDeleteUser(record)}
+                          disabled={Number(record.id) === Number(user?.id)}
+                        >
+                          <Button
+                            danger
+                            size="small"
+                            icon={<DeleteOutlined />}
+                            disabled={Number(record.id) === Number(user?.id)}
+                          >
+                            Xóa
+                          </Button>
+                        </Popconfirm>
+                      </Space>
                     ),
-                    width: 100
+                    width: 190
                   }
                 ]}
                 dataSource={allUsers.map(user => ({ ...user, key: user.id }))}
@@ -1049,119 +1071,121 @@ const AdminDashboard = () => {
           </Col>
         </Row>
 
-        {/* Charts Section - Simple HTML/CSS based charts */}
+        {/* Charts Section */}
         <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
-          {/* Revenue Trend Chart */}
           <Col xs={24} lg={12}>
             <Card title="📈 Xu hướng doanh thu (15 ngày gần nhất)" bordered={false}>
               {revenueByMonth.length > 0 ? (
-                <div style={{ padding: '20px 0' }}>
-                  {revenueByMonth.map((item, idx) => (
-                    <div key={idx} style={{ marginBottom: '12px' }}>
-                      <div style={{ fontSize: '12px', marginBottom: '4px', display: 'flex', justifyContent: 'space-between' }}>
-                        <span>{item.name}</span>
-                        <span style={{ fontWeight: 'bold', color: '#1890ff' }}>
-                          {(item.revenue / 1000000).toFixed(1)}M ₫
-                        </span>
-                      </div>
-                      <div style={{ 
-                        width: '100%', 
-                        height: '20px', 
-                        backgroundColor: '#f0f0f0', 
-                        borderRadius: '4px',
-                        overflow: 'hidden'
-                      }}>
-                        <div style={{
-                          height: '100%',
-                          width: `${Math.min((item.revenue / totalRevenue) * 100 || 0, 100)}%`,
-                          backgroundColor: '#1890ff',
-                          transition: 'width 0.3s'
-                        }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p style={{ textAlign: 'center', color: '#999' }}>Chưa có dữ liệu</p>
-              )}
-            </Card>
-          </Col>
+                <div style={{ padding: '18px 4px 8px' }}>
+                  <div style={{
+                    minHeight: 280,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    gap: 12,
+                    padding: '18px 12px 8px',
+                    borderRadius: 12,
+                    background: 'linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%)',
+                    border: '1px solid #e6f1ff'
+                  }}>
+                    {revenueByMonth.map((item, idx) => {
+                      const maxRevenue = Math.max(...revenueByMonth.map(day => day.revenue), 1);
+                      const height = Math.max((item.revenue / maxRevenue) * 220, 12);
+                      const colors = ['#1677ff', '#13c2c2', '#52c41a', '#faad14', '#eb2f96'];
 
-          {/* Brand Distribution Chart */}
-          <Col xs={24} lg={12}>
-            <Card title="🏷️ Tỷ lệ hãng bán chạy" bordered={false}>
-              {brandData.length > 0 ? (
-                <div style={{ padding: '20px 0' }}>
-                  {brandData.map((item, idx) => {
-                    const totalBrand = brandData.reduce((sum, b) => sum + b.value, 0);
-                    const percentage = ((item.value / totalBrand) * 100).toFixed(1);
-                    return (
-                      <div key={idx} style={{ marginBottom: '16px' }}>
-                        <div style={{ fontSize: '13px', marginBottom: '4px', display: 'flex', justifyContent: 'space-between', fontWeight: '500' }}>
-                          <span>{item.name}</span>
-                          <span>{percentage}%</span>
-                        </div>
-                        <div style={{
-                          width: '100%',
-                          height: '24px',
-                          backgroundColor: '#f0f0f0',
-                          borderRadius: '4px',
-                          overflow: 'hidden'
-                        }}>
+                      return (
+                        <div
+                          key={item.name}
+                          title={`${item.name}: ${item.revenue.toLocaleString('vi-VN')} ₫`}
+                          style={{
+                            flex: 1,
+                            minWidth: 22,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            gap: 8
+                          }}
+                        >
                           <div style={{
-                            height: '100%',
-                            width: `${percentage}%`,
-                            backgroundColor: item.color,
-                            transition: 'width 0.3s'
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: '#0f172a',
+                            whiteSpace: 'nowrap'
+                          }}>
+                            {(item.revenue / 1000000).toFixed(1)}M
+                          </div>
+                          <div style={{
+                            width: '100%',
+                            maxWidth: 34,
+                            height,
+                            borderRadius: '10px 10px 4px 4px',
+                            background: `linear-gradient(180deg, ${colors[idx % colors.length]} 0%, #7c3aed 100%)`,
+                            boxShadow: '0 10px 20px rgba(22, 119, 255, 0.18)',
+                            transition: 'height 0.35s ease, transform 0.2s ease'
                           }} />
+                          <div style={{
+                            fontSize: 11,
+                            color: '#64748b',
+                            transform: 'rotate(-35deg)',
+                            transformOrigin: 'center top',
+                            height: 34,
+                            whiteSpace: 'nowrap'
+                          }}>
+                            {item.name}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               ) : (
                 <p style={{ textAlign: 'center', color: '#999' }}>Chưa có dữ liệu</p>
               )}
             </Card>
           </Col>
-        </Row>
 
-        {/* Top Products Bar Chart */}
-        <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
-          <Col xs={24}>
+          <Col xs={24} lg={12}>
             <Card title="🔥 Top 5 sản phẩm bán chạy nhất" bordered={false}>
               {topProducts.length > 0 ? (
                 <div style={{ padding: '20px 0' }}>
                   {topProducts.map((item, idx) => {
-                    const maxQty = Math.max(...topProducts.map(p => p.quantity));
+                    const maxQty = Math.max(...topProducts.map(p => p.quantity), 1);
                     const percentage = (item.quantity / maxQty) * 100;
                     return (
-                      <div key={idx} style={{ marginBottom: '18px' }}>
-                        <div style={{ fontSize: '13px', marginBottom: '6px', display: 'flex', justifyContent: 'space-between', fontWeight: '500' }}>
-                          <span>#{idx + 1} {item.name}</span>
-                          <span style={{ color: '#52c41a', fontWeight: 'bold' }}>{item.quantity} sản phẩm</span>
+                      <div key={item.name} style={{ marginBottom: '18px' }}>
+                        <div style={{ fontSize: '13px', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', gap: 12, fontWeight: '500' }}>
+                          <span style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            #{idx + 1} {item.name}
+                          </span>
+                          <span style={{ color: '#16a34a', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
+                            {item.quantity} lượt mua
+                          </span>
                         </div>
                         <div style={{
                           width: '100%',
-                          height: '28px',
-                          backgroundColor: '#f0f0f0',
-                          borderRadius: '4px',
+                          height: '30px',
+                          backgroundColor: '#f1f5f9',
+                          borderRadius: '999px',
                           overflow: 'hidden'
                         }}>
                           <div style={{
                             height: '100%',
                             width: `${percentage}%`,
-                            backgroundColor: `hsl(${(idx * 60) % 360}, 70%, 50%)`,
-                            transition: 'width 0.3s',
+                            background: `linear-gradient(90deg, hsl(${idx * 55}, 80%, 48%), hsl(${idx * 55 + 30}, 85%, 58%))`,
+                            transition: 'width 0.35s ease',
                             display: 'flex',
                             alignItems: 'center',
-                            paddingLeft: '8px',
+                            justifyContent: 'flex-end',
+                            paddingRight: 10,
                             color: 'white',
-                            fontSize: '12px',
-                            fontWeight: 'bold'
+                            fontSize: 12,
+                            fontWeight: 700
                           }}>
-                            {percentage > 10 && `${percentage.toFixed(0)}%`}
+                            {percentage >= 18 && `${percentage.toFixed(0)}%`}
                           </div>
+                        </div>
+                        <div style={{ marginTop: 4, fontSize: 12, color: '#64748b' }}>
+                          Doanh thu: {(item.revenue || 0).toLocaleString('vi-VN')} ₫
                         </div>
                       </div>
                     );
@@ -1255,6 +1279,40 @@ const AdminDashboard = () => {
                             dataIndex: 'createdAt',
                             key: 'createdAt',
                             render: (date) => new Date(date).toLocaleDateString('vi-VN')
+                          },
+                          {
+                            title: 'Hành động',
+                            key: 'action',
+                            render: (_, record) => (
+                              <Space>
+                                <Button
+                                  type="primary"
+                                  size="small"
+                                  onClick={() => handleOpenEditRoleModal(record)}
+                                >
+                                  Đổi Role
+                                </Button>
+                                <Popconfirm
+                                  title="Xóa tài khoản"
+                                  description={`Bạn có chắc chắn muốn xóa tài khoản "${record.name || record.email}" không?`}
+                                  okText="Xóa"
+                                  cancelText="Hủy"
+                                  okButtonProps={{ danger: true }}
+                                  onConfirm={() => handleDeleteUser(record)}
+                                  disabled={Number(record.id) === Number(user?.id)}
+                                >
+                                  <Button
+                                    danger
+                                    size="small"
+                                    icon={<DeleteOutlined />}
+                                    disabled={Number(record.id) === Number(user?.id)}
+                                  >
+                                    Xóa
+                                  </Button>
+                                </Popconfirm>
+                              </Space>
+                            ),
+                            width: 190
                           }
                         ]}
                         dataSource={allUsers.map(user => ({ ...user, key: user.id }))}

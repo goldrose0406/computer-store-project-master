@@ -214,7 +214,7 @@ const ProductDetailPage = () => {
 
             <div className="promotional-offers">
               <p className="promo-title">
-                <strong style={{ color: '#c300ff' }}>ƯU ĐÃI KHI BUILD PC TẠI NHÓM 10 STORE</strong>
+                <strong style={{ color: '#c300ff' }}>ƯU ĐÃI KHI BUILD PC TẠI CYBERGEAR</strong>
               </p>
               <ul className="promo-list">
                 <li>Voucher giảm 200K khi mua kèm màn hình bất kỳ.</li>
@@ -249,7 +249,7 @@ const ProductDetailPage = () => {
 
           <Col xs={24} sm={24} md={6} className="product-sidebar">
             <div className="showroom-box">
-              <h4>📍 SHOWROOM NHÓM 10 STORE</h4>
+              <h4>📍 SHOWROOM CYBERGEAR</h4>
               <div className="showroom-details">
                 <p><strong>Địa chỉ showroom:</strong> Hà Thị Khiêm 123123</p>
                 <p>Liên hệ để được tư vấn cấu hình phù hợp với nhu cầu và ngân sách của bạn.</p>

@@ -5,7 +5,7 @@ function Header() {
   return (
     <header className="header">
       <div className="header-top">
-        <div className="store-name">Laptop Store</div>
+        <div className="store-name">CyberGear</div>
         <div className="header-info">
           <span>🏠 Trang chủ</span>
           <span className="divider">/</span>

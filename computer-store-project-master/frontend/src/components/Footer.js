@@ -54,9 +54,9 @@ const Footer = () => {
                     marginBottom: '16px'
                   }}
                 >
-                  <span style={{ color: '#fff', fontWeight: 'bold', fontSize: '20px' }}>Nhóm 10 Store</span>
+                  <span style={{ color: '#fff', fontWeight: 'bold', fontSize: '20px' }}>CyberGear</span>
                 </div>
-                <h4 style={{ margin: '0 0 12px 0', fontWeight: 'bold' }}>Nhóm 10 Store</h4>
+                <h4 style={{ margin: '0 0 12px 0', fontWeight: 'bold' }}>CyberGear</h4>
                 <p style={{ fontSize: '13px', color: '#666', lineHeight: '1.6', margin: 0 }}>
                   
                 </p>
